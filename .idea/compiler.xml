@@ -2,17 +2,26 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="picapica" />
+        <module name="pic-common" />
+        <module name="pic-user-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="p-misc-service" target="17" />
+      <module name="p-user-service" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="picapica" options="-parameters" />
+      <module name="p-misc-service" options="-parameters" />
+      <module name="p-user-service" options="-parameters" />
+      <module name="pic-common" options="" />
+      <module name="pic-user-service" options="" />
     </option>
   </component>
 </project>
