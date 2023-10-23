@@ -14,6 +14,7 @@
     <bytecodeTargetLevel>
       <module name="p-misc-service" target="17" />
       <module name="p-user-service" target="17" />
+      <module name="picapica" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
