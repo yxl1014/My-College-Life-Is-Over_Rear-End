@@ -1,5 +1,7 @@
 package org.example.Service;
 
+import org.example.domain.MathVerityBody;
+
 /**
  * @author yxl17
  * @Package : org.example.Service

@@ -57,6 +57,9 @@ public enum LogEnum {
 
     //---------------------MainServer---------------------
     //工具类报错
+
+    FILE_TO_BYTE_ERROR("文件转byte流","抛错了 瞅瞅"),
+
     //Task
     TASK_EXIST("添加任务", "任务已存在"),
     TASK_NOT_FOUND("查询任务", "任务不存在"),

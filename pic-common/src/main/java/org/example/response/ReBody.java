@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.domain.MathVerityBody;
 
 /**
  * @author yxl17
@@ -22,7 +23,7 @@ public class ReBody {
     private R_Code rCode;
 
     @ApiModelProperty("响应数据")
-    private Class<?> data;
+    private Object data;
 
     public ReBody(R_Code rCode) {
         this.rCode = rCode;
