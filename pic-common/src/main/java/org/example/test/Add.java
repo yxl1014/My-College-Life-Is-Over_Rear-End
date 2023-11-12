@@ -6,6 +6,6 @@ package org.example.test;
  */
 public class Add {
     public static String add(){
-        return "Hello Sheen!";
+        return "Hello LoadRunner X!";
     }
 }

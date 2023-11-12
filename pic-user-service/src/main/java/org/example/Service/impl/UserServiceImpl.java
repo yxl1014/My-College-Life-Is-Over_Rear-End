@@ -2,7 +2,6 @@ package org.example.Service.impl;
 
 import org.example.Service.IUserService;
 import org.example.comp.UserRoleComp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 /**
