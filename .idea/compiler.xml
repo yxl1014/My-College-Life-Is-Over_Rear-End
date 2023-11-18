@@ -8,6 +8,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="pic-common" />
+        <module name="pic-login-register" />
         <module name="pic-user-service" />
       </profile>
     </annotationProcessing>

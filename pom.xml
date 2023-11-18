@@ -13,6 +13,7 @@
     <modules>
         <module>pic-common</module>
         <module>pic-user-service</module>
+        <module>pic-login-register</module>
     </modules>
 
     <properties>
