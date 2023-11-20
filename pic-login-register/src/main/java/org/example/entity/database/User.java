@@ -56,5 +56,18 @@ public class User {
     private String userPersonalProfile;
     @JsonProperty("user_create_time")
     private Timestamp userCreateTime;
+
+    @JsonProperty("user_sec_problem_1")
+    private String userSecProblem1;
+    @JsonProperty("user_sec_answer_1")
+    private String userSecAnswer1;
+    @JsonProperty("user_sec_problem_2")
+    private String userSecProblem2;
+    @JsonProperty("user_sec_answer_2")
+    private String userSecAnswer2;
+    @JsonProperty("user_sec_problem_3")
+    private String userSecProblem3;
+    @JsonProperty("user_sec_answer_3")
+    private String userSecAnswer3;
 }
 

@@ -25,17 +25,28 @@
             <result column="user_flag" property="userFlag"/>
             <result column="user_personal_profile" property="userPersonalProfile"/>
             <result column="user_create_time" property="userCreateTime"/>
+
+            <result column="user_sec_problem_1" property="userSecProblem1"/>
+            <result column="user_sec_answer_1" property="userSecAnswer1"/>
+            <result column="user_sec_problem_2" property="userSecProblem2"/>
+            <result column="user_sec_answer_2" property="userSecAnswer2"/>
+            <result column="user_sec_problem_3" property="userSecProblem3"/>
+            <result column="user_sec_answer_3" property="userSecAnswer3"/>
         </resultMap>
 
     <insert id="insert" parameterType="org.example.entity.database.User" >
         insert into sys_user (user_id, user_name, user_telephone, user_sys_email,
                               user_password, user_nick_name, user_gender, user_born_day,
                               user_id_card, user_money, user_company, user_home,
-                              user_ip, user_flag, user_personal_profile, user_create_time)
+                              user_ip, user_flag, user_personal_profile, user_create_time,
+                              user_sec_problem_1,user_sec_answer_1,user_sec_problem_2,user_sec_answer_2,
+                              user_sec_problem_3,user_sec_answer_3)
         values (#{userId}, #{userName}, #{userTelephone}, #{userSysEmail},
                 #{userPassword}, #{userNickName}, #{userGender}, #{userBornDay},
                 #{userIdCard}, #{userMoney}, #{userCompany}, #{userHome},
-                #{userIp}, #{userFlag}, #{userPersonalProfile}, #{userCreateTime});
+                #{userIp}, #{userFlag}, #{userPersonalProfile}, #{userCreateTime},
+                #{userSecProblem1},#{userSecAnswer1},#{userSecProblem2},#{userSecAnswer2},
+                #{userSecProblem3},#{userSecAnswer3});
     </insert>
 
     <delete id="delete" parameterType="org.example.entity.database.User">
@@ -60,8 +71,16 @@
             user_ip=#{userIp},
             user_flag=#{userFlag},
             user_personal_profile=#{userPersonalProfile},
-            user_create_time=#{userCreateTime}
-        where user_name = #{userName}
+            user_create_time=#{userCreateTime},
+
+            user_sec_problem_1=#{userSecProblem1},
+            user_sec_answer_1=#{userSecAnswer1},
+            user_sec_problem_2=#{userSecProblem2},
+            user_sec_answer_2=#{userSecAnswer2},
+            user_sec_problem_3=#{userSecProblem3},
+            user_sec_answer_3=#{userSecAnswer3}
+
+            where user_name = #{userName}
            or user_telephone = #{userTelephone}
            or user_sys_email = #{userSysEmail};
     </update>
@@ -82,7 +101,13 @@
                user_ip,
                user_flag,
                user_personal_profile,
-               user_create_time
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
         from sys_user
         where user_name = #{userName}
            or user_telephone = #{userTelephone}
@@ -105,7 +130,13 @@
                user_ip,
                user_flag,
                user_personal_profile,
-               user_create_time
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
         from sys_user;
     </select>
 </mapper>
