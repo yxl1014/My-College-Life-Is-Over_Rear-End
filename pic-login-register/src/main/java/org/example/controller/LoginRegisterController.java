@@ -22,8 +22,7 @@ public class LoginRegisterController {
     Login login ;
     @Autowired
     Register register;
-    @PostMapping("/login")
-    @ResponseBody
+
     /**
      * $$考虑添加LoginRequest实体类，来对应前端传来的jsonBody中的各个属性  同理RegisterRequest
      * @paramType: [java.lang.Object]
@@ -33,6 +32,8 @@ public class LoginRegisterController {
      * @date: 2023-11-14 下午10:07
      * @version: v1.0
      */
+    @PostMapping("/login")
+    @ResponseBody
     public ModelAndView login(@RequestBody Object object){
 
         ModelAndView modelAndView = new ModelAndView();
