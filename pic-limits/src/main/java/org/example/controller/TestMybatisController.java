@@ -26,7 +26,6 @@ public class TestMybatisController {
      *
      * @return 单条数据
      */
-
     @RequestMapping("/selectOne")
     public TestMybatis selectOne(Integer id) {
         if(id==null) return null;

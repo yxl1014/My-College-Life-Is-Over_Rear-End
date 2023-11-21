@@ -3,8 +3,8 @@ package org.example.service.Impl;
 import org.example.model.dao.TestMybatisMapper;
 import org.example.model.entity.TestMybatis;
 import org.example.service.TestMybatisService;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
-
 import javax.annotation.Resource;
 
 /**
@@ -15,6 +15,7 @@ import javax.annotation.Resource;
 public class TestMybatisServiceImpl implements TestMybatisService {
     @Resource
     private TestMybatisMapper testMybatisMapper;
+
 
     /**
      * 通过ID查询单条数据

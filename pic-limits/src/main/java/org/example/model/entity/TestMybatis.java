@@ -1,7 +1,6 @@
 package org.example.model.entity;
 
 import lombok.Data;
-
 import java.io.Serializable;
 
 /**
@@ -29,24 +28,24 @@ public class TestMybatis implements Serializable {
         return id;
     }
 
-    public void setId(Integer user_id) {
-        this.id = user_id;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getName() {
         return name;
     }
 
-    public void setName(String user_Name) {
-        this.name = user_Name;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getGender() {
         return gender;
     }
 
-    public void setGender(String user_Gender) {
-        this.gender = user_Gender;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
 }

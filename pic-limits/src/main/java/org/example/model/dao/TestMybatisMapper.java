@@ -2,6 +2,7 @@ package org.example.model.dao;
 
 import org.example.model.entity.TestMybatis;
 import org.apache.ibatis.annotations.Mapper;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.apache.ibatis.annotations.Param;
 
@@ -10,6 +11,7 @@ import org.apache.ibatis.annotations.Param;
  * @CreateDate: 2023/11/20
  */
 @Mapper
+
 public interface TestMybatisMapper {
 
     /**
