@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTO Mapper 3.0 //EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.mapper.UserMapper">
+    <!--  This is one so inefficient way that writing this reflection one by one How could I design one auto-produce program. -->
+
+        <resultMap id="UserMapResult" type="org.example.entity.database.User">
+            <result column="user_id" property="userId"/>
+            <result column="user_name" property="userName"/>
+            <result column="user_telephone" property="userTelephone"/>
+            <result column="user_sys_email" property="userSysEmail"/>
+
+            <result column="user_password" property="userPassword"/>
+            <result column="user_nick_name" property="userNickName"/>
+            <result column="user_gender" property="userGender"/>
+            <result column="user_born_day" property="userBornDay"/>
+
+            <result column="user_id_card" property="userIdCard"/>
+            <result column="user_money" property="userMoney"/>
+            <result column="user_company" property="userCompany"/>
+            <result column="user_home" property="userHome"/>
+
+            <result column="user_ip" property="userIp"/>
+            <result column="user_flag" property="userFlag"/>
+            <result column="user_personal_profile" property="userPersonalProfile"/>
+            <result column="user_create_time" property="userCreateTime"/>
+
+            <result column="user_sec_problem_1" property="userSecProblem1"/>
+            <result column="user_sec_answer_1" property="userSecAnswer1"/>
+            <result column="user_sec_problem_2" property="userSecProblem2"/>
+            <result column="user_sec_answer_2" property="userSecAnswer2"/>
+            <result column="user_sec_problem_3" property="userSecProblem3"/>
+            <result column="user_sec_answer_3" property="userSecAnswer3"/>
+        </resultMap>
+
+    <insert id="insert" parameterType="org.example.entity.database.User" >
+        insert into sys_user (user_id, user_name, user_telephone, user_sys_email,
+                              user_password, user_nick_name, user_gender, user_born_day,
+                              user_id_card, user_money, user_company, user_home,
+                              user_ip, user_flag, user_personal_profile, user_create_time,
+                              user_sec_problem_1,user_sec_answer_1,user_sec_problem_2,user_sec_answer_2,
+                              user_sec_problem_3,user_sec_answer_3)
+        values (#{userId}, #{userName}, #{userTelephone}, #{userSysEmail},
+                #{userPassword}, #{userNickName}, #{userGender}, #{userBornDay},
+                #{userIdCard}, #{userMoney}, #{userCompany}, #{userHome},
+                #{userIp}, #{userFlag}, #{userPersonalProfile}, #{userCreateTime},
+                #{userSecProblem1},#{userSecAnswer1},#{userSecProblem2},#{userSecAnswer2},
+                #{userSecProblem3},#{userSecAnswer3});
+    </insert>
+
+    <delete id="delete" parameterType="org.example.entity.database.User">
+        delete
+        from sys_user
+        where user_id = #{userId};
+    </delete>
+
+    <update id="update" parameterType="org.example.entity.database.User" >
+        update sys_user
+        set user_name=#{userName},
+            user_telephone=#{userTelephone},
+            user_sys_email=#{userSysEmail},
+            user_password=#{userPassword},
+            user_nick_name=#{userNickName},
+            user_gender=#{userGender},
+            user_born_day=#{userBornDay},
+            user_id_card=#{userIdCard},
+            user_money=#{userMoney},
+            user_company=#{userCompany},
+            user_home=#{userHome},
+            user_ip=#{userIp},
+            user_flag=#{userFlag},
+            user_personal_profile=#{userPersonalProfile},
+            user_create_time=#{userCreateTime},
+
+            user_sec_problem_1=#{userSecProblem1},
+            user_sec_answer_1=#{userSecAnswer1},
+            user_sec_problem_2=#{userSecProblem2},
+            user_sec_answer_2=#{userSecAnswer2},
+            user_sec_problem_3=#{userSecProblem3},
+            user_sec_answer_3=#{userSecAnswer3}
+
+            where user_name = #{userName}
+           or user_telephone = #{userTelephone}
+           or user_sys_email = #{userSysEmail};
+    </update>
+
+    <select id="selectOne" resultType="org.example.entity.database.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_name = #{userName}
+           or user_telephone = #{userTelephone}
+           or user_sys_email = #{userSysEmail};
+    </select>
+
+    <select id="selectAll" resultType="org.example.entity.database.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user;
+    </select>
+</mapper>
+
