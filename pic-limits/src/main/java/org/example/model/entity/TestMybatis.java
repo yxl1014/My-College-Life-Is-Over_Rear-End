@@ -47,6 +47,13 @@ public class TestMybatis implements Serializable {
     public void setGender(String gender) {
         this.gender = gender;
     }
+    @Override
+    public String toString(){
+        return "SEARCH{" +
+                "id=" + id +
+                ", name='"+name+'\''+
+                ",gender"+gender+'}';
+    }
 
 }
 

@@ -28,8 +28,8 @@ public class TestMybatisController {
      */
     @RequestMapping("/selectOne")
     public TestMybatis selectOne(Integer id) {
-        if(id==null) return null;
-        return testMybatisService.queryById(1);
+        return this.testMybatisService.queryById(1);
     }
+
 
 }

@@ -1,23 +1,7 @@
-# 配置当前运行的环境（配置文件）
-
 spring:
-  profiles:
-    active: dev # 使用开发环境的配置文件
-
-
-# 配置 MyBatis 的 XML 的保存路径
-# 在resource底下新建一个文件夹，用来放 XML
-mybatis:
-  configuration:
-    # 实体类驼峰命名转成数据库中的下划线命名
-    map-underscore-to-camel-case: true
-    # 指定 MyBatis 所用日志的具体实现
-    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-    # 全局映射器启用缓存
-    cache-enabled: true
-    # 允许 JDBC 支持自动生成主键
-    use-generated-keys: true
-  # 声明 XxxMapper.xml文件路径
-  mapper-locations: classpath:mybatis/**Mapper.xml
-  # 扫描实体类路径
-  type-aliases-package: org.example.model.entity
+  devtools:
+    # 热部署生效
+    add-properties: true
+    # 设置重启的目录
+    restart:
+      additional-paths: src/main/java
