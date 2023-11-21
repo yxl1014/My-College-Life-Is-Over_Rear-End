@@ -1,0 +1,36 @@
+server:
+  port: 8411
+  spring:
+    datasource:
+      name: sheen
+      url: jdbc:mysql://localhost:3306/sheen?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      username: root
+      password: jiajiajia1.
+    devtools:
+      # 热部署生效
+      add-properties: true
+      # 设置重启的目录
+      restart:
+        additional-paths: src/main/java
+
+# 开启 MyBatis SQL 打印
+  logging:
+    level:
+      com:
+        example:
+          demo: debug
+mybatis:
+  configuration:
+    # 实体类驼峰命名转成数据库中的下划线命名
+    map-underscore-to-camel-case: true
+    # 指定 MyBatis 所用日志的具体实现
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    # 全局映射器启用缓存
+    cache-enabled: true
+    # 允许 JDBC 支持自动生成主键
+    use-generated-keys: true
+  # 声明 XxxMapper.xml文件路径
+  mapper-locations: classpath:mybatis/**Mapper.xml
+  # 扫描实体类路径
+  type-aliases-package: org.example.model.entity

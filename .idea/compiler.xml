@@ -8,21 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="pic-common" />
+        <module name="pic-limits" />
         <module name="pic-user-service" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="p-misc-service" target="17" />
-      <module name="p-user-service" target="17" />
-      <module name="picapica" target="17" />
-    </bytecodeTargetLevel>
-  </component>
-  <component name="JavacSettings">
-    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="p-misc-service" options="-parameters" />
-      <module name="p-user-service" options="-parameters" />
-      <module name="pic-common" options="" />
-      <module name="pic-user-service" options="" />
-    </option>
   </component>
 </project>

@@ -7,13 +7,15 @@
     <groupId>org.example</groupId>
     <artifactId>pic-product</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <packaging>pom</packaging>
 
 
     <modules>
         <module>pic-common</module>
         <module>pic-user-service</module>
+        <module>pic-limits</module>
+        <module>pic-limits</module>
     </modules>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -49,6 +51,21 @@
                 <scope>import</scope>
             </dependency>
 
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.4.4</version>
+            </dependency>
+
+            <!-- pagehelper 分页插件 begin-->
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+            <!-- pagehelper 分页插件 end-->
+
+
             <!--https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies/Hoxton.SR8-->
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
@@ -66,6 +83,14 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <scope>runtime</scope>
+                <optional>true</optional>
+            </dependency>
+
 
 
 
@@ -142,8 +167,44 @@
                 <artifactId>fastjson</artifactId>
                 <version>1.2.7</version>
             </dependency>
+
+            <!--获取当前线程-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>transmittable-thread-local</artifactId>
+                <version>2.11.1</version>
+            </dependency>
+
+
+            <!-- 接口参数校验 -->
+            <dependency>
+                <groupId>javax.validation</groupId>
+                <artifactId>validation-api</artifactId>
+                <version>2.0.1.Final</version>
+            </dependency>
+
+
+            <dependency>
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+            </dependency>
+            <dependency>
+                <!-- pagehelper 分页插件 begin-->
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper</artifactId>
+            </dependency>
+            <dependency>
+                <groupId>org.mybatis</groupId>
+                <artifactId>mybatis</artifactId>
+                <version>3.4.4</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
+
 
     <!-- 代码库 -->
     <repositories>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.example.model.dao.TestMybatisMapper">
+    <!--查询单个-->
+    <select id="queryById" resultType="org.example.model.entity.TestMybatis">
+        select * from `sys_user` where id = ${user_id}
+    </select>
+</mapper>
+
