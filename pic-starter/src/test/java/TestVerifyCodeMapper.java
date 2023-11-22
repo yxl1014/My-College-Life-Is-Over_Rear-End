@@ -1,4 +1,4 @@
-import example.LoginRegisterApplication;
+import example.StarterApplication;
 import example.mapper.VerifyCodeMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -13,7 +13,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @date: 2023/11/19 下午4:11
  */
 
-@SpringBootTest(classes= LoginRegisterApplication.class)
+@SpringBootTest(classes= StarterApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestVerifyCodeMapper {

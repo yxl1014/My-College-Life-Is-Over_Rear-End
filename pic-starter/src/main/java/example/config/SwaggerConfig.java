@@ -39,7 +39,7 @@ public class SwaggerConfig {
     }
 
     //方式一
-    private ApiInfo apiInfo1() {
+    private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
                 .title("LoadRunnerX")
                 .description("接口文档")
@@ -49,27 +49,27 @@ public class SwaggerConfig {
                 .build();
     }
 
-    //方式二
-    private ApiInfo apiInfo() {
-        Contact contact = new Contact("赵阳", "http://localhost:10086/#/", "xxx@163.com");
-        return new ApiInfo(
-                // 标题
-                "Swagger测试案例",
-                // 描述
-                "学习演示如何配置Swagger",
-                // 版本
-                "v1.0",
-                // 组织链接
-                "https://blog.csdn.net/m0_59278919?type=collect",
-                // 联系人信息
-                contact,
-                // 许可
-                "Apach 2.0",
-                // 许可连接
-                "https://blog.csdn.net/m0_59278919?type=collect",
-                // 扩展
-                new ArrayList<>()
-        );
-    }
+//    //方式二
+//    private ApiInfo apiInfo() {
+//        Contact contact = new Contact("赵阳", "http://localhost:10086/#/", "xxx@163.com");
+//        return new ApiInfo(
+//                // 标题
+//                "Swagger测试案例",
+//                // 描述
+//                "学习演示如何配置Swagger",
+//                // 版本
+//                "v1.0",
+//                // 组织链接
+//                "https://blog.csdn.net/m0_59278919?type=collect",
+//                // 联系人信息
+//                contact,
+//                // 许可
+//                "Apach 2.0",
+//                // 许可连接
+//                "https://blog.csdn.net/m0_59278919?type=collect",
+//                // 扩展
+//                new ArrayList<>()
+//        );
+//    }
 
 }

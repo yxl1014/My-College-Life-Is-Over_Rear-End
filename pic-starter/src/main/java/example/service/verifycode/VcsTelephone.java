@@ -1,7 +1,7 @@
 package example.service.verifycode;
 
-import org.example.tools.RegexValidator;
-import org.example.tools.VerifyCodeGenerator;
+import example.tools.RegexValidator;
+import example.tools.VerifyCodeGenerator;
 import org.springframework.stereotype.Service;
 
 /**

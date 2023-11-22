@@ -1,8 +1,8 @@
-import org.example.LoginRegisterApplication;
-import org.example.entity.database.User;
-import org.example.mapper.UserMapper;
-import org.example.tools.PasswordEncrypt;
-import org.example.tools.UuidGenerator;
+import example.StarterApplication;
+import example.entity.database.User;
+import example.mapper.UserMapper;
+import example.tools.PasswordEncrypt;
+import example.tools.UuidGenerator;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -24,7 +24,7 @@ import java.util.List;
  * @date: 2023/11/4
  */
 
-@SpringBootTest(classes=LoginRegisterApplication.class)
+@SpringBootTest(classes=StarterApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestUserMapper {

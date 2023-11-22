@@ -13,8 +13,8 @@
         <module name="pic-user-service" />
         <module name="pic-transaction-service" />
         <module name="pic-starter" />
-        <module name="pic-common" />
         <module name="pic-task-deal-service" />
+        <module name="pic-common" />
         <module name="pic-cache-service" />
         <module name="pic-privileges-service" />
         <module name="pic-controller" />

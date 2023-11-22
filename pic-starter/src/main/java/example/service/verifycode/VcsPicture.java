@@ -1,6 +1,6 @@
 package example.service.verifycode;
 
-import org.example.tools.VerifyCodeGenerator;
+import example.tools.VerifyCodeGenerator;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
