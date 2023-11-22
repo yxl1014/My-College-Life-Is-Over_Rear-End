@@ -8,167 +8,261 @@
     <artifactId>pic-product</artifactId>
     <version>1.0-SNAPSHOT</version>
 
+    <parent>
+    <!--   统一的管理所有的子模块共享这个配置,所有子模块按照统一的方式进行构建  比如都用同一个代码质量检查插件  -->
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.1.2</version>
+    </parent>
 
     <modules>
         <module>pic-common</module>
         <module>pic-user-service</module>
-        <module>pic-limits</module>
-        <module>pic-limits</module>
+        <module>pic-starter</module>
+        <module>pic-notice-service</module>
+        <module>pic-transaction-service</module>
+        <module>pic-asynchronous-task-service</module>
+        <module>pic-inner-mail-service</module>
+        <module>pic-network-comm-service</module>
+        <module>pic-privileges-service</module>
+        <module>pic-database-manage-service</module>
+        <module>pic-cache-service</module>
+        <module>pic-logs-service</module>
+        <module>pic-task-deal-service</module>
+        <module>pic-mq-connection-service</module>
+        <module>pic-controller</module>
     </modules>
     <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <!--        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>-->
         <java.version>8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <spring.boot.version>2.3.12.RELEASE</spring.boot.version>
-        <spring.cloud.version>Hoxton.SR12</spring.cloud.version>
-        <alibaba.cloud.version>2.2.9.RELEASE</alibaba.cloud.version>
-        <mybatisplus.boot.starter.version>3.4.2</mybatisplus.boot.starter.version>
 
-        <lombok.version>1.18.16</lombok.version>
-        <commons.lang3.version>3.9</commons.lang3.version>
+        <!--自动给类生成get set方法 和构造函数等 -->
+        <lombok.version>1.18.28</lombok.version>
+        <!--结构化数据序列化 用于存储或通信    -->
+        <protobuf-java.version>3.21.1</protobuf-java.version>
+        <!--单元测试   -->
+        <junit.version>4.13.2</junit.version>
+        <!--用于加密-->
         <commons.codec.version>1.15</commons.codec.version>
+        <!-- 字符串操作、集合操作、输入输出处理等 -->
+        <commons.lang3.version>3.9</commons.lang3.version>
+
+        <!--！！！！访问接口Controller！！！！   -->
+        <!-- Swagger dependencies -->
         <springfox.boot.starter.version>3.0.0</springfox.boot.starter.version>
-        <!--        镜像打包的时候-->
-        <!--        <docker.image.prefix>xdclass-cloud</docker.image.prefix>-->
+
+        <!-- ！！！！！数据库！！！！！   -->
+        <!--整合druid到springboot中 -->
+        <druid.springboot.starter>1.2.16</druid.springboot.starter>
+        <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+        <druid.version>1.1.23</druid.version>
+        <!-- 一些基本通用的数据访问功能 存储 查询 事务管理数据库 -->
+        <spring.data.commons.version>3.1.2</spring.data.commons.version>
+        <!--连接Mysql数据库驱动 -->
+        <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
+        <!--操作数据库CRUD   -->
+        <mybatis.version>3.4.4</mybatis.version>
+        <mybatisplus.boot.starter.version>3.4.2</mybatisplus.boot.starter.version>
+        <mybatis.spring.boot.starter.version>2.2.2</mybatis.spring.boot.starter.version>
+        <!-- 数据库查询分页插件 -->
+        <pagehelper.boot.version>1.4.6</pagehelper.boot.version>
+
+
+
         <!--跳过单元测试-->
         <skipTests>true</skipTests>
+
+        <!--        镜像打包的时候-->
+        <!--        <docker.image.prefix>xdclass-cloud</docker.image.prefix>-->
+
+        <!--在项目中集成阿里巴巴的云服务功能，例如使用云数据库、云存储-->
+<!--        <alibaba.cloud.version>2.2.9.RELEASE</alibaba.cloud.version>-->
+
     </properties>
 
-
-    <!--锁定版本-->
+    <!--子模块找父模块的这个management标签 获取依赖-->
     <dependencyManagement>
         <dependencies>
-            <!--https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-dependencies/2.3.3.RELEASE-->
+
+
             <dependency>
+                <!--entity 属性名与数据库列名的映射 -->
                 <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
+                <artifactId>spring-boot-starter-data-jpa</artifactId>
+                <version>3.1.2</version>
             </dependency>
 
             <dependency>
+                <!--单元测试-->
+                <groupId>junit</groupId>
+                <artifactId>junit</artifactId>
+                <version>${junit.version}</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <!--一些基本通用的数据访问功能 存储 查询 事务管理数据库 -->
+                <groupId>org.springframework.data</groupId>
+                <artifactId>spring-data-commons</artifactId>
+                <version>${spring.data.commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--连接Mysql数据库驱动 -->
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.java.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--整合druid到springboot中 -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.springboot.starter}</version>
+            </dependency>
+
+            <dependency>
+                <!--整合mybatis到springboot中 -->
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.starter.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--mybatis 一个便捷操作数据库的中间件-->
                 <groupId>org.mybatis</groupId>
                 <artifactId>mybatis</artifactId>
-                <version>3.4.4</version>
-            </dependency>
-
-            <!-- pagehelper 分页插件 begin-->
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-starter</artifactId>
-                <version>${pagehelper.boot.version}</version>
-            </dependency>
-            <!-- pagehelper 分页插件 end-->
-
-
-            <!--https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-dependencies/Hoxton.SR8-->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <!--https://mvnrepository.com/artifact/com.alibaba.cloud/spring-cloud-alibaba-dependencies/2.2.1.RELEASE-->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${alibaba.cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-devtools</artifactId>
-                <scope>runtime</scope>
-                <optional>true</optional>
+                <version>${mybatis.version}</version>
             </dependency>
 
 
-
-
-            <!--mybatis plus和springboot整合-->
             <dependency>
+                <!--mybatis plus和springboot整合-->
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-boot-starter</artifactId>
                 <version>${mybatisplus.boot.starter.version}</version>
             </dependency>
 
-            <!--https://mvnrepository.com/artifact/org.projectlombok/lombok/1.18.16-->
-            <!--scope=provided，说明它只在编译阶段生效，不需要打入包中, Lombok在编译期将带Lombok注解的Java文件正确编译为完整的Class文件-->
             <dependency>
-                <groupId>org.projectlombok</groupId>
-                <artifactId>lombok</artifactId>
-                <version>${lombok.version}</version>
-                <!--                如果设置了这个参数，打包就不能被传递，在common包中的lombok在product-service不能用-->
-                <!--                <scope>provided</scope>-->
+                <!-- 数据库查询分页插件 -->
+                <groupId>com.github.pagehelper</groupId>
+                <artifactId>pagehelper-spring-boot-starter</artifactId>
+                <version>${pagehelper.boot.version}</version>
+            </dependency>
+
+            <dependency>
+                <!-- 邮箱发送jar包-->
+                <groupId>com.sun.mail</groupId>
+                <artifactId>javax.mail</artifactId>
+                <version>1.6.2</version>
             </dependency>
 
 
 
-            <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
             <dependency>
+                <!--      代码热加载       -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-devtools</artifactId>
+                <version>3.1.2</version>
+                <scope>runtime</scope>
+                <!--表示这个依赖项是可选的，即使没有它，项目也可以编译和运行-->
+                <optional>true</optional>
+            </dependency>
+
+            <dependency>
+                <!-- @Runwith(SpringRunner.class) Spring框架通用的测试库，适用于所有Spring应用程序的测试-->
+                <groupId>org.springframework</groupId>
+                <artifactId>spring-test</artifactId>
+                <version>6.0.11</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <!--@SpringBootTest注解 专门用于Spring Boot应用程序的测试 -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-test</artifactId>
+                <version>3.1.2</version>
+                <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <!--自动集成了Spring Data REST 快速创建REST_ful API 将jpa库暴露为rest端点   -->
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-data-rest</artifactId>
+                <version>3.1.2</version>
+            </dependency>
+
+            <dependency>
+                <!--@Date @AllArgsConstructor自动生成getter setter -->
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+                <!--scope=provided，说明它只在编译阶段生效，不需要打入包中, Lombok在编译期将带Lombok注解的Java文件正确编译为完整的Class文件-->
+                <!--                如果设置了这个参数，打包就不能被传递，在common包中的lombok在product-service不能用-->
+                <!--                <scope>provided</scope>-->
+            </dependency>
+
+            <dependency>
+                <!-- 字符串操作、集合操作、输入输出处理等 -->
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons.lang3.version}</version>
             </dependency>
 
-            <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
-            <!--用于加密-->
             <dependency>
+                <!--用于加密-->
                 <groupId>commons-codec</groupId>
                 <artifactId>commons-codec</artifactId>
                 <version>${commons.codec.version}</version>
             </dependency>
 
-
-
-
-            <!--接口文档依赖-->
             <dependency>
+                <!--接口文档依赖 Swagger-->
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-boot-starter</artifactId>
                 <version>${springfox.boot.starter.version}</version>
             </dependency>
 
-
-
-            <!--        google 验证码-->
+            <!-- 验证码 生成器-->
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>kaptcha-spring-boot-starter</artifactId>
                 <version>1.1.0</version>
             </dependency>
 
-            <!--阿里云OSS-->
+            <!--连接操作阿里云OSS 对象存储服务-->
             <dependency>
                 <groupId>com.aliyun.oss</groupId>
                 <artifactId>aliyun-sdk-oss</artifactId>
                 <version>3.8.0</version>
             </dependency>
 
-            <!--分布式锁-->
+            <!-- java中实现的Redis客户端 操作redis-->
             <dependency>
                 <groupId>org.redisson</groupId>
                 <artifactId>redisson</artifactId>
                 <version>3.10.1</version>
             </dependency>
 
-            <!-- fastJson -->
+            <!-- fastJson 快速将Java对象序列化为JSON格式或从JSON格式反序列化为Java对象-->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>fastjson</artifactId>
                 <version>1.2.7</version>
             </dependency>
 
-            <!--获取当前线程-->
+            <!-- 在分布式系统中传递线程本地变量 -->
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
@@ -176,7 +270,7 @@
             </dependency>
 
 
-            <!-- 接口参数校验 -->
+            <!-- 接口参数校验 @NotNull @Min -->
             <dependency>
                 <groupId>javax.validation</groupId>
                 <artifactId>validation-api</artifactId>
@@ -184,24 +278,22 @@
             </dependency>
 
 
-            <dependency>
-                <groupId>org.mybatis.spring.boot</groupId>
-                <artifactId>mybatis-spring-boot-starter</artifactId>
-            </dependency>
-            <dependency>
-                <!-- pagehelper 分页插件 begin-->
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper-spring-boot-autoconfigure</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>com.github.pagehelper</groupId>
-                <artifactId>pagehelper</artifactId>
-            </dependency>
-            <dependency>
-                <groupId>org.mybatis</groupId>
-                <artifactId>mybatis</artifactId>
-                <version>3.4.4</version>
-            </dependency>
+<!--            <dependency>-->
+<!--                <groupId>org.springframework.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-dependencies</artifactId>-->
+<!--                <version>${spring.cloud.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+
+<!--            <dependency>-->
+<!--                <groupId>com.alibaba.cloud</groupId>-->
+<!--                <artifactId>spring-cloud-alibaba-dependencies</artifactId>-->
+<!--                <version>${alibaba.cloud.version}</version>-->
+<!--                <type>pom</type>-->
+<!--                <scope>import</scope>-->
+<!--            </dependency>-->
+
         </dependencies>
     </dependencyManagement>
 
@@ -209,11 +301,14 @@
     <!-- 代码库 -->
     <repositories>
         <repository>
-            <id>maven-ali</id>
-            <url>http://maven.aliyun.com/nexus/content/groups/public//</url>
+            <id>ali-code-repo</id>
+            <name>ali-code-repo</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public//</url>
+<!-- 允许取得发布版本-->
             <releases>
                 <enabled>true</enabled>
             </releases>
+<!-- 允许取得快照版本-->
             <snapshots>
                 <enabled>true</enabled>
                 <updatePolicy>always</updatePolicy>
@@ -222,12 +317,12 @@
         </repository>
     </repositories>
 
-
+    <!--插件库-->
     <pluginRepositories>
         <pluginRepository>
-            <id>public</id>
-            <name>aliyun nexus</name>
-            <url>http://maven.aliyun.com/nexus/content/groups/public/</url>
+            <id>ali-plugin-repo</id>
+            <name>ali-plugin-repo</name>
+            <url>https://maven.aliyun.com/nexus/content/groups/public/</url>
             <releases>
                 <enabled>true</enabled>
             </releases>
@@ -244,9 +339,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
-                <version>${spring.boot.version}</version>
                 <configuration>
-                    <fork>true</fork>
+<!--   使用一个单独的Java进程，允许独立地控制应用的内存和JVM参数-->
+<!--                    <fork>true</fork>-->
+<!--   将resources文件夹加到构建路径当中去                  -->
                     <addResources>true</addResources>
                 </configuration>
             </plugin>

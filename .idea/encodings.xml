@@ -1,10 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/pic-asynchronous-task-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-asynchronous-tasks/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-cache-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-common/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-controller/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-database-manage-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-inner-mail-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-limits/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-limits/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-login-register/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-login-register/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-logs-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-mq-connection-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-network-comm-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-notice-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-notice/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-privileges-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-starter/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-starter/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-task-deal-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-transaction-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-transaction/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-user-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-user-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/java" charset="UTF-8" />

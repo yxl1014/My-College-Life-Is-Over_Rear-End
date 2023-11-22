@@ -1,7 +1,0 @@
-spring:
-  devtools:
-    # 热部署生效
-    add-properties: true
-    # 设置重启的目录
-    restart:
-      additional-paths: src/main/java

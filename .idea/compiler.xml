@@ -7,10 +7,53 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="pic-common" />
-        <module name="pic-limits" />
+        <module name="pic-logs-service" />
+        <module name="pic-notice-service" />
+        <module name="pic-database-manage-service" />
         <module name="pic-user-service" />
+        <module name="pic-transaction-service" />
+        <module name="pic-starter" />
+        <module name="pic-common" />
+        <module name="pic-task-deal-service" />
+        <module name="pic-cache-service" />
+        <module name="pic-privileges-service" />
+        <module name="pic-controller" />
+        <module name="pic-network-comm-service" />
+        <module name="pic-mq-connection-service" />
+        <module name="pic-asynchronous-task-service" />
+        <module name="pic-inner-mail-service" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="pic-asynchronous-tasks" target="1.8" />
+      <module name="pic-limits" target="1.8" />
+      <module name="pic-login-register" target="1.8" />
+      <module name="pic-notice" target="1.8" />
+      <module name="pic-transaction" target="1.8" />
+    </bytecodeTargetLevel>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="pic-asynchronous-task-service" options="-parameters" />
+      <module name="pic-asynchronous-tasks" options="-parameters" />
+      <module name="pic-cache-service" options="-parameters" />
+      <module name="pic-common" options="-parameters" />
+      <module name="pic-controller" options="-parameters" />
+      <module name="pic-database-manage-service" options="-parameters" />
+      <module name="pic-inner-mail-service" options="-parameters" />
+      <module name="pic-limits" options="-parameters" />
+      <module name="pic-login-register" options="-parameters" />
+      <module name="pic-logs-service" options="-parameters" />
+      <module name="pic-mq-connection-service" options="-parameters" />
+      <module name="pic-network-comm-service" options="-parameters" />
+      <module name="pic-notice" options="-parameters" />
+      <module name="pic-notice-service" options="-parameters" />
+      <module name="pic-privileges-service" options="-parameters" />
+      <module name="pic-starter" options="-parameters" />
+      <module name="pic-task-deal-service" options="-parameters" />
+      <module name="pic-transaction" options="-parameters" />
+      <module name="pic-transaction-service" options="-parameters" />
+      <module name="pic-user-service" options="-parameters" />
+    </option>
   </component>
 </project>
