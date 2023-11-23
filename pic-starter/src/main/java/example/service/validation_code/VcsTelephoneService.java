@@ -1,4 +1,4 @@
-package example.service.verifycode;
+package example.service.validation_code;
 
 import example.tools.RegexValidator;
 import example.tools.VerifyCodeGenerator;
@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
  * @date: 2023/11/17 下午11:37
  */
 @Service
-public class VcsTelephone {
+public class VcsTelephoneService {
 
 
 

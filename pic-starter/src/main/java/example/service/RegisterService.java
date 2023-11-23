@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
  */
 
 @Service
-public class Register {
+public class RegisterService {
     @Autowired
     UserMapper userMapper;
     public User register(User user) {

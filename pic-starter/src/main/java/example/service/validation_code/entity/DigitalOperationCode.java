@@ -1,9 +1,9 @@
-package example.service.verifycode;
+package example.service.validation_code.entity;
 
 import lombok.Data;
 
 /**
- * @description:
+ * @description: 用于数字相加的验证码实体类
  * @author: HammerRay
  * @date: 2023/11/18 下午5:38
  */

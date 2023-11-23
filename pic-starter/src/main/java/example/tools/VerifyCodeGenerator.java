@@ -1,6 +1,6 @@
 package example.tools;
 
-import example.service.verifycode.DigitalOperationCode;
+import example.service.validation_code.entity.DigitalOperationCode;
 
 import java.util.Random;
 

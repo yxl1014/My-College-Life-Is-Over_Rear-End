@@ -15,7 +15,7 @@ import java.util.Objects;
  * @date: 2023/11/4 下午11:19
  */
 @Service
-public class Login {
+public class LoginService {
 
     @Autowired
     UserMapper userMapper;

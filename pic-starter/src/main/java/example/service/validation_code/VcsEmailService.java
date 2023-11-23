@@ -1,4 +1,4 @@
-package example.service.verifycode;
+package example.service.validation_code;
 
 
 import example.tools.RegexValidator;
@@ -21,7 +21,7 @@ import java.util.Properties;
  */
 
 @Service
-public class VcsEmail{
+public class VcsEmailService {
 
     public static String codeSend(String recipientAdd) throws MessagingException {
         if(!RegexValidator.regexEmail(recipientAdd)){

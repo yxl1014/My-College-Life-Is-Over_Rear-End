@@ -33,7 +33,7 @@ public class SwaggerConfig {
                 .select()
                 // 替换成你的控制器包名
                 //扫描的路径包,设置basePackage会将包下的所有被@Api标记类的所有方法作为api
-                .apis(RequestHandlerSelectors.basePackage("org.example.controller"))
+                .apis(RequestHandlerSelectors.basePackage("example.controller"))
                 .paths(PathSelectors.any())
                 .build();
     }

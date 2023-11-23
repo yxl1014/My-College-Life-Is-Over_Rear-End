@@ -1,5 +1,6 @@
-package example.service.verifycode;
+package example.service.validation_code;
 
+import example.service.validation_code.entity.DigitalOperationCode;
 import example.tools.VerifyCodeGenerator;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Random;
  * @date: 2023/11/17 下午11:38
  */
 @Service
-public class VcsPicture {
+public class VcsPictureService {
 
 
     /**
