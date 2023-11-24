@@ -10,7 +10,6 @@
         <module name="pic-logs-service" />
         <module name="pic-database-manage-service" />
         <module name="pic-notice-service" />
-        <module name="pic-user-service" />
         <module name="pic-transaction-service" />
         <module name="pic-starter" />
         <module name="pic-task-deal-service" />
@@ -30,6 +29,7 @@
       <module name="pic-login-register" target="1.8" />
       <module name="pic-notice" target="1.8" />
       <module name="pic-transaction" target="1.8" />
+      <module name="pic-user-service" target="1.8" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
