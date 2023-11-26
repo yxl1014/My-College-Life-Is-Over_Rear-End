@@ -69,12 +69,6 @@
         </dependency>
 
 
-        <!-- Swagger dependencies api接口测试 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-        </dependency>
-
         <!--        springboot测试模块依赖 开始。。。。。-->
         <dependency>
             <groupId>org.springframework.boot</groupId>   <!--@SpringBootTest注解 -->
@@ -94,6 +88,7 @@
             <scope>test</scope>
         </dependency>
         <!--        springboot测试模块依赖 结束。。。。。-->
+
 <!--    数据库连接操作模块依赖 开始。。。。-->
         <dependency>
             <!--连接Mysql数据库驱动 -->

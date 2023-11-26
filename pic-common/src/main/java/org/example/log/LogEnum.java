@@ -35,9 +35,11 @@ public enum LogEnum {
     //登录
     LOGIN_OK("登录", "登录成功"),
     UPDATE_IP("登录", "Ip地址发生变化"),
-    LOGIN_TEL_PWD_ERROR("登陆", "电话或密码错误"),
-    LOGIN_EMAIL_PWD_ERROR("登陆", "邮箱或密码错误"),
+    LOGIN_TEL_PWD_ERROR("登录", "电话或密码错误"),
+    LOGIN_EMAIL_PWD_ERROR("登录", "邮箱或密码错误"),
+    LOGIN_USERNAME_PWD_ERROR("登录","用户名或密码错误"),
     LOGIN_TOKEN_ERROR("登录", "token验证失败"),
+    LOGIN_VERIFY_ERROR("登录验证码","验证码错误"),
 
 
     //注册
