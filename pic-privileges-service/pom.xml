@@ -15,6 +15,137 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- ！！！！！数据库！！！！！   开始   -->
+        <!--整合druid到springboot中 -->
+        <druid.springboot.starter>1.2.16</druid.springboot.starter>
+        <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+        <druid.version>1.1.23</druid.version>
+        <!--连接Mysql数据库驱动 -->
+        <mysql.connector.java.version>8.0.26</mysql.connector.java.version>
+        <!--操作数据库CRUD   -->
+        <mybatisplus.boot.starter.version>3.4.2</mybatisplus.boot.starter.version>
+        <mybatis.spring.boot.starter.version>2.2.2</mybatis.spring.boot.starter.version>
+        <!-- 数据库查询分页插件 -->
+        <pagehelper.boot.version>1.4.6</pagehelper.boot.version>
+        <!-- ！！！！！数据库！！！！！   结束   -->
     </properties>
 
+    <dependencies>
+        <dependency>
+
+            <groupId>org.example</groupId>
+            <artifactId>pic-common</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>spring-boot-starter-web</artifactId>
+                    <groupId>org.springframework.boot</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <!--entity 属性名与数据库列名的映射 @Entity @Id-->
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <!-- spring-boot-starter-web  spring-data-rest-webmvc   -->
+            <artifactId>spring-boot-starter-data-rest</artifactId>
+        </dependency>
+
+        <dependency>
+            <!--鱼龙混杂 -->
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-commons</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+
+        <!-- Swagger dependencies api接口测试 -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+        </dependency>
+
+        <!--        springboot测试模块依赖 开始。。。。。-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>   <!--@SpringBootTest注解 -->
+            <artifactId>spring-boot-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>   <!-- @Runwith(SpringRunner.class) -->
+            <artifactId>spring-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>junit</groupId>    <!--单元测试 没写版本都跟随父配置 的版本自动匹配-->
+            <artifactId>junit</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--        springboot测试模块依赖 结束。。。。。-->
+        <!--    数据库连接操作模块依赖 开始。。。。-->
+        <dependency>
+            <!--连接Mysql数据库驱动 -->
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>${mysql.connector.java.version}</version>
+        </dependency>
+
+        <dependency>
+            <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid</artifactId>
+            <version>${druid.version}</version>
+        </dependency>
+
+        <dependency>
+            <!--整合druid到springboot中 -->
+            <groupId>com.alibaba</groupId>
+            <artifactId>druid-spring-boot-starter</artifactId>
+            <version>${druid.springboot.starter}</version>
+        </dependency>
+
+        <dependency>
+            <!--整合mybatis到springboot中 -->
+            <groupId>org.mybatis.spring.boot</groupId>
+            <artifactId>mybatis-spring-boot-starter</artifactId>
+            <version>${mybatis.spring.boot.starter.version}</version>
+        </dependency>
+
+
+        <dependency>
+            <!--mybatis plus和springboot整合-->
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatisplus.boot.starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- 数据库查询分页插件 -->
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.boot.version}</version>
+        </dependency>
+        <!--    数据库连接操作模块依赖 结束。。。。-->
+
+        <dependency>
+            <!-- 邮箱发送jar包-->
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version>
+        </dependency>
+
+
+    </dependencies>
 </project>
