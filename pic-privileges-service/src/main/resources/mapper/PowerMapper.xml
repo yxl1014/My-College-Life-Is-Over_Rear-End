@@ -2,33 +2,33 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTO Mapper 3.0 //EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="org.example.model.dao.LimitsMapper">
+<mapper namespace="org.example.model.dao.PowerMapper">
     <resultMap id="PowerMapResult" type="org.example.model.entity.Power">
-        <result column="power_id" property="pId"/>
-        <result column="power_name" property="pName"/>
-        <result column="power_type" property="pType"/>
-        <result column="power_create_time" property="pDate"/>
-        <result column="power_notes" property="pNote"/>
+        <result column="power_id" property="powerId"/>
+        <result column="power_name" property="powerName"/>
+        <result column="power_type" property="powerType"/>
+        <result column="power_create_time" property="powerDate"/>
+        <result column="power_notes" property="powerNote"/>
     </resultMap>
     <insert id="insert" parameterType="org.example.model.entity.Power" >
         insert into sys_power (power_id, power_name, power_type,power_create_time,power_notes)
-        values (#{pId}, #{pName}, #{pType}, #{pDate},#{pNote},);
+        values (#{powerId}, #{powerName}, #{powerType}, #{powerDate},#{powerNote},);
     </insert>
 
     <delete id="delete" parameterType="org.example.model.entity.Power">
         delete
         from sys_power
-        where power_id = #{pId};
+        where power_id = #{powerId};
     </delete>
 
     <update id="update" parameterType="org.example.model.entity.Power" >
         update sys_power
-        set power_name=#{pName},
-            power_type=#{pType},
-            power_create_time=#{pDate},
-            power_notes=#{pNote},
+        set power_name=#{powerName},
+            power_type=#{powerType},
+            power_create_time=#{powerDate},
+            power_notes=#{powerNote},
 
-        where power_name = #{pName}
+        where power_name = #{powerName}
     </update>
 
     <select id="selectOne" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
@@ -38,7 +38,7 @@
                power_create_time,
                power_notes
         from sys_power
-        where power_id = #{pId}
+        where power_id = #{powerId}
     </select>
 
     <select id="selectAll" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">

@@ -1,13 +1,20 @@
 package org.example.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.List;
 
+
 @Entity
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "sys_user")
 public class User {
     @Id
@@ -69,7 +76,7 @@ public class User {
     @JoinTable(
             name="sys_user_power_ref",
             joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="powe_id")
+            inverseJoinColumns = @JoinColumn(name="power_id")
     )
     private List<Power> powers;
 

@@ -17,7 +17,7 @@
 
     <modules>
         <module>pic-common</module>
-        <module>pic-user-service</module>
+        <!--<module>pic-user-service</module>-->
         <module>pic-starter</module>
         <module>pic-notice-service</module>
         <module>pic-transaction-service</module>

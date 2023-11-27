@@ -5,10 +5,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -23,16 +21,17 @@ import java.util.List;
 @Table(name = "sys_power")
 public class Power {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty("power_id")
-    private Integer pId;
+    private Integer powerId;
     @JsonProperty("power_name")
-    private String pName;
+    private String powerName;
     @JsonProperty("power_type")
-    private String pType;
+    private String powerType;
     @JsonProperty("power_create_time")
-    private String pDate;
+    private LocalDateTime powerDate;
     @JsonProperty("power_notes")
-    private String pNote;
+    private String powerNote;
     //和用户表的关系
     @ManyToMany(mappedBy = "sys_power")
     private List<User> users;

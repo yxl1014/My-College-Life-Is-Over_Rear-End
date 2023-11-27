@@ -1,7 +1,7 @@
 package org.example.controller;
 
 import io.swagger.annotations.ApiOperation;
-import org.example.model.dao.LimitsMapper;
+import org.example.model.dao.PowerMapper;
 import org.example.model.entity.Power;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,7 +19,7 @@ public class LimitsController {
     @ApiOperation("测试联通")
     public String get(){return "hello sheen!";}
 @Resource
-private LimitsMapper limitsMapper;
+private PowerMapper limitsMapper;
     @GetMapping("/getOne")
     @ApiOperation("测试查询数据库")
     public Power selectOne(){

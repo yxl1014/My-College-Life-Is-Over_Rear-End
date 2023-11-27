@@ -10,11 +10,11 @@ import java.util.List;
  * @CreateDate: 2023/11/26
  */
 @Mapper
-public interface LimitsMapper {
+public interface PowerMapper {
 
-    int insert (Power power);
-    int  delete (Power power);
-    int update (Power power);
-    Power selectOne(Integer pType);
+    void insert (Power power);
+    void  delete (Power power);
+    void update (Power power);
+    Power selectOne(Integer powerId);
     List<Power> selectAll();
 }
