@@ -12,9 +12,9 @@ import java.util.List;
 @Mapper
 public interface PowerMapper {
 
-    void insert (Power power);
-    void  delete (Power power);
-    void update (Power power);
-    Power selectOne(Integer powerId);
-    List<Power> selectAll();
+    void insertPower (Power power);
+    void deletePower (Integer powerId);
+    void updatePower (Power power);
+    Power selectOnePower(Integer powerId);
+    List<Power> selectAllPower();
 }

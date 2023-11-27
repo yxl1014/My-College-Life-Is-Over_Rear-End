@@ -1,8 +1,10 @@
 package org.example.service.impl;
 
 import org.apache.ibatis.session.SqlSession;
+import org.example.model.dao.PowerMapper;
 import org.example.model.dao.UserMapper;
 import org.example.model.entity.User;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,32 +14,34 @@ import java.util.List;
  * @CreateDate: 2023/11/27
  */
 
-@Service("UserMapper")
-public class UserMapperImpl implements UserMapper {
-    private SqlSession sqlSession;
-    public void RoleMapperImpl(SqlSession sqlSession){
-        this.sqlSession=sqlSession;
+@Service
+public class UserMapperImpl{
+    private final UserMapper userMapper;
+
+    @Autowired
+    public UserMapperImpl(UserMapper userMapper){
+        this.userMapper=userMapper;
     }
 
-    @Override
-    public void insert(User user){sqlSession.insert("AddUser",user);
-    }
-    @Override
-    public void delete(User user) {
-        sqlSession.delete("DeleteUserById", user);
-    }
-    @Override
-    public void update(User user) {
-        sqlSession.update("UpdateUser", user);
+    public void insertUser(User user){
+        userMapper.insertUser(user);
     }
 
-    @Override
-    public User selectOne(Integer userId) {
-        return sqlSession.selectOne("GetUserById", userId);
+    public void deleteUser(Integer userId){
+        userMapper.deleteUser(userId);
     }
 
-    @Override
-    public List<User> selectAll() {
-        return sqlSession.selectList("SelectAll");
+    public void updateUser(User user){
+        userMapper.updateUser(user);
     }
+
+    public User selectOneUser(Integer userId){
+        return userMapper.selectOneUser(userId);
+    }
+
+    public List<User> selectAllUser(){
+        return userMapper.selectAllUser();
+    }
+
+
 }

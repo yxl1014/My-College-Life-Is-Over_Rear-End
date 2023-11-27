@@ -24,19 +24,24 @@ import java.util.List;
 public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @JsonProperty("role_id")
     private Integer roleId;
+
     @JsonProperty("role_name")
     private String roleName;
+
     @JsonProperty("role_create_time")
     private LocalDateTime roleDate;
+
     @JsonProperty("role_status_flag")
     private String roleFlag;
+
     @JsonProperty("role_remark")
     private String roleMark;
 
     //一个角色下可以有多个用户，一个用户只能有一种角色
-    @OneToMany(mappedBy = "sys_role", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "role")
     private List<User> users;
 
 }

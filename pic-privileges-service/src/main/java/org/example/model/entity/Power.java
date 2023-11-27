@@ -22,20 +22,28 @@ import java.util.List;
 public class Power {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+
     @JsonProperty("power_id")
     private Integer powerId;
+
     @JsonProperty("power_name")
     private String powerName;
+
     @JsonProperty("power_type")
     private String powerType;
+
     @JsonProperty("power_create_time")
     private LocalDateTime powerDate;
+
     @JsonProperty("power_notes")
     private String powerNote;
+
     //和用户表的关系
-    @ManyToMany(mappedBy = "sys_power")
+    @ManyToMany(mappedBy = "powers")
     private List<User> users;
-    }
+}
+
+
 
 
 

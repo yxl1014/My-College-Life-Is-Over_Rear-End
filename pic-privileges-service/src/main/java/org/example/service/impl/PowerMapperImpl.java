@@ -3,6 +3,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.example.model.dao.PowerMapper;
 import org.example.model.entity.Power;
 import org.example.model.entity.Role;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,35 +12,25 @@ import java.util.List;
  * @Author: eensh
  * @CreateDate: 2023/11/26
  */
-@Service("PowerMapper")
-public class PowerMapperImpl implements PowerMapper {
-    private SqlSession sqlSession;
-
-    public PowerMapperImpl(SqlSession sqlSession) {
-        this.sqlSession = sqlSession;
+@Service
+public class PowerMapperImpl {
+    private final PowerMapper powerMapper;
+    @Autowired
+    public PowerMapperImpl(PowerMapper powerMapper){
+        this.powerMapper=powerMapper;
+    }
+    public void insertPower(Power power){
+        powerMapper.insertPower(power);
+    }
+    public void deletePower(Integer powerId){
+        powerMapper.deletePower(powerId);
+    }
+    public void updatePower(Power power){powerMapper.updatePower(power);}
+    public Power selectOnePower(Integer powerId){
+        return powerMapper.selectOnePower(powerId);
+    }
+    public List<Power> selectAllPower(){
+        return powerMapper.selectAllPower();
     }
 
-    @Override
-    public void insert(Power power) {
-        sqlSession.insert("AddPower", power);
-    }
-
-    @Override
-    public void delete(Power power) {
-        sqlSession.delete("DeletePowerById", power);
-    }
-
-    @Override
-    public void update(Power power) {
-        sqlSession.update("UpdatePower", power);
-    }
-
-    @Override
-    public Power selectOne(Integer powerId) {
-        return sqlSession.selectOne("selectOne", powerId);
-    }
-    @Override
-    public List<Power> selectAll() {
-        return sqlSession.selectList("SelectAll");
-    }
 }

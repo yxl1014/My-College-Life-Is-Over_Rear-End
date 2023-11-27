@@ -10,18 +10,18 @@
         <result column="role_status_flag" property="roleFlag"/>
         <result column="role_remark" property="roleMark"/>
     </resultMap>
-    <insert id="insert" parameterType="org.example.model.entity.Role" >
+    <insert id="insertRole" parameterType="org.example.model.entity.Role" >
         insert into sys_role (role_id, role_name, role_create_time,role_status_flag,role_remark)
         values (#{roleId}, #{roleName}, #{roleDate}, #{roleFlag},#{roleMark},);
     </insert>
 
-    <delete id="delete" parameterType="org.example.model.entity.Role">
+    <delete id="deleteRole" parameterType="org.example.model.entity.Role">
         delete
         from sys_role
         where role_id = #{roleId};
     </delete>
 
-    <update id="update" parameterType="org.example.model.entity.Role" >
+    <update id="updateRole" parameterType="org.example.model.entity.Role" >
         update sys_role
         set role_name=#{roleName},
             role_create_time=#{roleDate},
@@ -31,7 +31,7 @@
             where role_name = #{roleName}
     </update>
 
-    <select id="selectOne" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+    <select id="selectOneRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         select role_id,
                role_name,
                role_create_time,
@@ -41,7 +41,7 @@
         where role_id = #{roleId}
     </select>
 
-    <select id="selectAll" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+    <select id="selectAllRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         select role_id,
                role_name,
                role_create_time,

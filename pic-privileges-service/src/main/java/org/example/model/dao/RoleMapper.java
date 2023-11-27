@@ -13,13 +13,9 @@ import java.util.List;
 @Mapper
 // UserMapper.java
 public interface RoleMapper {
-
-    void insert (Role role);
-
-    void  delete (Role role);
-
-    void update (Role role);
-    Role selectOne(Integer roleId);
-
-    List<Role> selectAll();
+    void insertRole (Role role);
+    void deleteRole (Integer roleId);
+    void updateRole (Role role);
+    Role selectOneRole(Integer roleId);
+    List<Role> selectAllRole();
 }

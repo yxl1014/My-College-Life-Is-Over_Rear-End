@@ -13,13 +13,9 @@ import java.util.List;
 @Mapper
 // UserMapper.java
 public interface UserMapper {
-
-    void insert (User user);
-
-    void  delete (User user);
-
-    void update (User user);
-    User selectOne(Integer userId);
-
-    List<User> selectAll();
+    void insertUser (User user);
+    void deleteUser (Integer userId);
+    void updateUser (User user);
+    User selectOneUser(Integer userId);
+    List<User> selectAllUser();
 }
