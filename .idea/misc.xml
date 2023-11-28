@@ -8,6 +8,7 @@
         <option value="$PROJECT_DIR$/pic-login-register/pom.xml" />
         <option value="$PROJECT_DIR$/pic-starter/pom.xml" />
         <option value="$PROJECT_DIR$/pic-common/pom.xml" />
+        <option value="$PROJECT_DIR$/pic-common-tools/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

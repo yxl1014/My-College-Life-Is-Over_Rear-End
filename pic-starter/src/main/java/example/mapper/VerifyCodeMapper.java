@@ -49,7 +49,7 @@ public interface VerifyCodeMapper {
      * @author: GodHammer
      * @date: 2023-11-19 下午2:55
      */
-    List<VerifyCode> selectOne(VerifyCode verifyCode);
+    VerifyCode selectOne(VerifyCode verifyCode);
     /**
      * description: 查询数据库中所有的验证码记录
      * @paramType []

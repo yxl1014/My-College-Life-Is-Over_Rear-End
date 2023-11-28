@@ -1,71 +1,55 @@
 package example.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import example.entity.database.User;
+import example.entity.request.RegisterRequest;
+import example.entity.response.UuidResponse;
 import example.service.RegisterService;
-import example.tools.RegexValidator;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @description:
  * @author: HammerRay
- * @date: 2023/11/23 下午9:11
+ * @date: 2023/11/26 上午7:45
  */
 @RestController
+@Api(tags =  "注册接口")
 public class RegisterController {
     @Autowired
     RegisterService registerService;
 
     @PostMapping("/register")
-    @ApiOperation("注册")
-    @ResponseBody
-    public ModelAndView register(@RequestBody Object object)  {
-        ModelAndView modelAndView = new ModelAndView();
-        if(object instanceof User){
-
-            User user = (User)object;
-            if(!RegexValidator.regexEmail(user.getUserSysEmail())){
-                modelAndView.addObject("errorMsg","errorMsg: 邮箱格式错误,正确：" +RegexValidator.EMAIL_FM);
-                modelAndView.setViewName("/401");
-                return modelAndView;
-            }
-            if(!RegexValidator.regexTelephone(user.getUserTelephone())){
-                modelAndView.addObject("errorMsg","errorMsg: 手机号码格式错误,正确："+RegexValidator.TELEPHONE_FM);
-                modelAndView.setViewName("/401");
-                return modelAndView;
-            }
-            if(!RegexValidator.regexUsername(user.getUserName()) && (!RegexValidator.regexUsernameChinese(user.getUserName()))){
-                modelAndView.addObject("errorMsg","errorMsg: 用户名格式错误,正确："+RegexValidator.USERNAME_FM);
-                modelAndView.setViewName("/401");
-                return modelAndView;
-            }
-
-            if(RegexValidator.isMediumPasswd(user.getUserPassword())){
-                RegexValidator.isStrongPasswd(user.getUserPassword());
-            }else {
-                if(RegexValidator.isLowPasswd(user.getUserPassword())){
-
-                }else {
-                    modelAndView.addObject("errorMsg","errorMsg: 注册密码格式错误,正确："+RegexValidator.PASSWD_LFM);
-                    modelAndView.setViewName("/401");
-                    return modelAndView;
-                }
-            }
+    @ApiOperation("注册 不返回注册好的账户的uuid")
+    @ApiResponse(code = 200,message = "注册成功",response = UuidResponse.class)
+    public UuidResponse register(@RequestBody RegisterRequest request) throws IOException {
 
 
-            User user1 = registerService.register(user);
-
-            modelAndView.addObject("user",user1);
-            modelAndView.setViewName("/login_html");
-            return modelAndView;
-        }
-        modelAndView.addObject("errorMsg","errorMsg: 找不到User类");
-        modelAndView.setViewName("/404");
-        return modelAndView;
+        return registerService.register(request);
     }
+
+    @PostMapping("/register_return_uuid")
+    @ApiOperation("注册 返回注册好的账户的uuid，做注册后即自动登录")
+    @ApiResponse(code = 200,message = "注册成功",response = UuidResponse.class)
+    public UuidResponse registerReturnUuid(@RequestBody RegisterRequest request, HttpServletResponse response) throws IOException {
+        Map<String,String > dataMap = new HashMap<>();
+        dataMap.put("success","注册成功");
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(dataMap);
+        response.getWriter().write(json);
+
+
+        return new UuidResponse();
+    }
+
 }

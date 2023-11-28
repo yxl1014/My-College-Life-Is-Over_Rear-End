@@ -33,7 +33,7 @@
     <select id="selectOne" resultType="example.entity.database.VerifyCode">
         select vc_id,vc_create_time,vc_operation_type,vc_user_name,
                vc_password,vc_picture_code,vc_telephone,vc_telephone_code,
-               vc_email,vc_email_code from sys_verify_code where where vc_user_name = #{vcUserName} or vc_telephone = #{vcTelephone} or vc_email = #{vcEmail};
+               vc_email,vc_email_code from sys_verify_code  where vc_id = #{vcId};
     </select>
 
     <select id="selectAll" resultType="example.entity.database.VerifyCode">
@@ -47,10 +47,6 @@
                vc_telephone_code,
                vc_email,
                vc_email_code
-        from sys_verify_code
-        where
-        where vc_user_name = #{vcUserName}
-           or vc_telephone = #{vcTelephone}
-           or vc_email = #{vcEmail};
+        from sys_verify_code;
     </select>
 </mapper>

@@ -1,100 +1,57 @@
 package example.controller;
 
-import example.entity.database.User;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import example.entity.request.LoginRequest;
+import example.entity.response.UuidResponse;
 import example.service.LoginService;
-import example.tools.RegexValidator;
-import io.swagger.annotations.ApiOperation;
+import example.service.LogoffService;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
+
+
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * 登录注册的Controller接口
+ * @description:
  * @author: HammerRay
- * @date: 2023/11/4 下午11:20
+ * @date: 2023/11/26 上午7:45
  */
 @RestController
+@Api(tags = "登录接口")
 public class LoginController {
     @Autowired
     LoginService loginService;
+    @Autowired
+    LogoffService logoffService;
     /**
      * $$考虑添加LoginRequest实体类，来对应前端传来的jsonBody中的各个属性  同理RegisterRequest
+     *
+     * @param loginRequest:
      * @paramType: [java.lang.Object]
-     * @param object:
      * @returnType: org.springframework.web.servlet.ModelAndView
      * @author: GodHammer
-     * @date: 2023-11-14 下午10:07
+     * @date: 2023-11-26 下午9:07
      * @version: v1.0
      */
     @PostMapping("/login")
-    @ApiOperation("登录")
-    @ResponseBody
-    public ModelAndView login(@RequestBody Object object){
+    @ApiOperation("登录---通过各种方式的登录，成功后返回Token UUID 这个UUID存储于redis中")
+    @ApiResponse(code = 200, message = "登录成功", response = UuidResponse.class)
+    public UuidResponse login(@RequestBody LoginRequest loginRequest) throws IOException {
 
-        ModelAndView modelAndView = new ModelAndView();
-        if(object instanceof User) {
-            User user = (User) object;
-            if(RegexValidator.isMediumPasswd(user.getUserPassword())){
-                RegexValidator.isStrongPasswd(user.getUserPassword());
-            }else {
-                if(RegexValidator.isLowPasswd(user.getUserPassword())){
+        return loginService.login(loginRequest);
 
-                }else {
-                    modelAndView.addObject("errorMsg","errorMsg: 登录密码格式错误,正确："+RegexValidator.PASSWD_LFM);
-                    modelAndView.setViewName("/401");
-                    return modelAndView;
-                }
-            }
-
-            Object o = loginService.login(user);
-
-            if (o instanceof User) {
-                //验证成功
-                modelAndView.addObject("user", (User) o);
-                modelAndView.setViewName("/main_page");
-                return modelAndView;
-            }
-            //账号或密码不过关
-            modelAndView.addObject("errorMsg",(String) o);
-            modelAndView.setViewName("/login_html");
-            return modelAndView;
-        }
-
-            //可以在此添加一些错误的提示信息   没有找到对应的User类
-            modelAndView.addObject("errorMsg","errorMsg: 找不到User类");
-            modelAndView.setViewName("/401");
-            return modelAndView;
-        }
-
-
-
-
-    /**
-     * description: 验证字符串的正确性通过比较每一个字符
-     * @paramType [java.lang.String, java.lang.String]
-     * @param var1:
-     * @param var2:
-     * @returnType: boolean
-     * @author: GodHammer
-     * @date: 2023-11-23 下午8:49
-     */
-    public boolean stringValidationVerify(String var1, String var2){
-        return true;
-    }
-    /**
-     * description: 验证数字运算的验证码的正确性，通过运算的结果
-     * @paramType [java.lang.Integer, java.lang.Integer]
-     * @param var1:
-     * @param var2:
-     * @returnType: boolean
-     * @author: GodHammer
-     * @date: 2023-11-23 下午8:49
-     */
-    public boolean integerValidationVerify(Integer var1,Integer var2){
-        return true;
     }
 
+    @PostMapping("/logout")
+    @ApiOperation("登出---redis中删除相关UUID")
+    @ApiResponse(code = 200, message = "登出成功", response = UuidResponse.class)
+    public UuidResponse logout(@RequestBody @ApiParam("用户的uuid") String uuid) throws IOException {
 
+        return logoffService.logOff(uuid);
+
+    }
 }
-
-

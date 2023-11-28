@@ -1,0 +1,12 @@
+common/verify/MathVerifyCodeComp.class
+domain/MathVerityBody.class
+common/random/RandomComp.class
+response/R_Code.class
+log/LogEnum.class
+log/LogType.class
+log/LogComp$1.class
+test/Add.class
+common/uuid/SystemUuidComp.class
+response/ReBody.class
+log/LogComp$LogMessage.class
+log/LogComp.class

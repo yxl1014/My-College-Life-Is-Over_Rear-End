@@ -12,8 +12,8 @@
         <module name="pic-notice-service" />
         <module name="pic-transaction-service" />
         <module name="pic-starter" />
+        <module name="pic-common-tools" />
         <module name="pic-task-deal-service" />
-        <module name="pic-common" />
         <module name="pic-cache-service" />
         <module name="pic-privileges-service" />
         <module name="pic-controller" />
@@ -25,6 +25,7 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="pic-asynchronous-tasks" target="1.8" />
+      <module name="pic-common" target="1.8" />
       <module name="pic-limits" target="1.8" />
       <module name="pic-login-register" target="1.8" />
       <module name="pic-notice" target="1.8" />
@@ -38,6 +39,7 @@
       <module name="pic-asynchronous-tasks" options="-parameters" />
       <module name="pic-cache-service" options="-parameters" />
       <module name="pic-common" options="-parameters" />
+      <module name="pic-common-tools" options="-parameters" />
       <module name="pic-controller" options="-parameters" />
       <module name="pic-database-manage-service" options="-parameters" />
       <module name="pic-inner-mail-service" options="-parameters" />
