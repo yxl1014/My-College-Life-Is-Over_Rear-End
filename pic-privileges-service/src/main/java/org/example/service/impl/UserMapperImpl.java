@@ -27,16 +27,16 @@ public class UserMapperImpl{
         userMapper.insertUser(user);
     }
 
-    public void deleteUser(Integer userId){
-        userMapper.deleteUser(userId);
+    public void deleteUser(User user){
+        userMapper.deleteUser(user);
     }
 
     public void updateUser(User user){
         userMapper.updateUser(user);
     }
 
-    public User selectOneUser(Integer userId){
-        return userMapper.selectOneUser(userId);
+    public User selectOneUser(User user){
+        return userMapper.selectOneUser(user);
     }
 
     public List<User> selectAllUser(){

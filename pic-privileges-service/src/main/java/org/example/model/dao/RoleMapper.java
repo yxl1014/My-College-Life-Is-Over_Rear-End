@@ -1,6 +1,7 @@
 package org.example.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.model.entity.Role;
 import org.example.model.entity.User;
 
@@ -18,4 +19,11 @@ public interface RoleMapper {
     void updateRole (Role role);
     Role selectOneRole(Integer roleId);
     List<Role> selectAllRole();
+
+    //不同角色赋予不同权限
+    void grantPowerToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    int isPowerGrantedToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+
+
+
 }

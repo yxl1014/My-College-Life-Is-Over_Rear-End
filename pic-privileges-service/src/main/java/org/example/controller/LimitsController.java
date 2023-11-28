@@ -22,13 +22,6 @@ import java.util.List;
  */
 @RestController
 public class LimitsController {
-    //测试sheen
-    @GetMapping("/sheen")
-    @ApiOperation("测试联通")
-    public String get() {
-        return "hello sheen!";
-    }
-
     private final UserMapperImpl userMapperImpl;
     private final RoleMapperImpl roleMapperImpl;
     private final PowerMapperImpl powerMapperImpl;
@@ -40,9 +33,19 @@ public class LimitsController {
         this.powerMapperImpl = powerMapperImpl;
     }
 
-        @GetMapping("/users")
-        public ResponseEntity<?> getUser(){
-        List<User> users=userMapperImpl.selectAllUser();
-        return ResponseEntity.ok(users);
-        }
+    //测试sheen
+    @GetMapping("/sheen")
+    @ApiOperation("测试联通")
+    public String get() {
+        return "hello sheen!";
     }
+
+    @GetMapping("/users")
+    public ResponseEntity<?> getUser() {
+        List<User> users = userMapperImpl.selectAllUser();
+        return ResponseEntity.ok(users);
+    }
+    
+}
+
+

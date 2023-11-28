@@ -37,4 +37,12 @@ public class RoleMapperImpl {
         return roleMapper.selectAllRole();
     }
 
+    public void grantPowerToRole(Integer roleId,Integer powerId){
+        roleMapper.grantPowerToRole(roleId,powerId);
+    }
+    public boolean isPowerGrantedToRole(Integer roleId,Integer powerId) {
+    int count=roleMapper.isPowerGrantedToRole(roleId,powerId);
+    return count>0;
+    }
+
 }

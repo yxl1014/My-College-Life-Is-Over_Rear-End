@@ -14,8 +14,12 @@ import java.util.List;
 // UserMapper.java
 public interface UserMapper {
     void insertUser (User user);
-    void deleteUser (Integer userId);
+    void deleteUser (User user);
     void updateUser (User user);
-    User selectOneUser(Integer userId);
+    User selectOneUser(User user);
     List<User> selectAllUser();
+
+    void findByUsername(String userName);
+
+
 }

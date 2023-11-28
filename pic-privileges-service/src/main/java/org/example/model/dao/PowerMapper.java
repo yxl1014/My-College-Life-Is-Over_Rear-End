@@ -1,6 +1,7 @@
 package org.example.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.model.entity.Power;
 
 import java.util.List;
@@ -17,4 +18,7 @@ public interface PowerMapper {
     void updatePower (Power power);
     Power selectOnePower(Integer powerId);
     List<Power> selectAllPower();
+    Power findByPowerName(String powerName);
+
+
 }

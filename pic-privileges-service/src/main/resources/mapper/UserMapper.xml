@@ -134,4 +134,33 @@
                user_sec_answer_3
         from sys_user;
     </select>
+
+    <select id="findByUsername" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_name = #{userName}
+
+    </select>
+
 </mapper>
