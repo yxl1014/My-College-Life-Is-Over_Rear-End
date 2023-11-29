@@ -3,6 +3,7 @@ import example.tools.UuidGenerator;
 import org.example.PrivilegeApplication;
 import org.example.model.dao.UserMapper;
 import org.example.model.entity.User;
+import org.example.service.impl.UserMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,59 +26,59 @@ import java.util.List;
 public class TestUserMapper {
 
     @Autowired
-    private UserMapper userMapper;
+    private UserMapperImpl userMapperimpl;
     @Test
-    public void insert() throws ParseException {
+    public void insertUser() throws ParseException {
 
         SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         User user1 = new User();
         user1.setUserId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         user1.setUserName("Coco");
-        user1.setUserTelephone("2586380036");
-        user1.setUserSysEmail("Coco@example.com");
-        user1.setUserPassword(PasswordEncrypt.hashPassword("password123"));
+        user1.setUserTelephone("15600001234");
+        user1.setUserSysEmail("Coco@yeah.com");
+        user1.setUserPassword(PasswordEncrypt.hashPassword("IAmCoco"));
         user1.setUserNickName("Mood");
         user1.setUserGender("女");
         user1.setUserBornDay(new Date(sdf1.parse("2010-09-21").getTime()));
         user1.setUserIdCard("1234567890");
         user1.setUserMoney(1000.0);
-        user1.setUserCompany("ABC Inc.");
-        user1.setUserHome("123 Main St");
+        user1.setUserCompany("ABC.company");
+        user1.setUserHome("BeiJin");
         user1.setUserIp("192.168.1.1");
-        user1.setUserFlag(1);
+        user1.setUserFlag(101);
         user1.setUserPersonalProfile("I am COCO");
         user1.setUserCreateTime(new java.sql.Timestamp(System.currentTimeMillis()));
 
-        userMapper.insertUser(user1);
+        userMapperimpl.insertUser(user1);
     }
 
     @Test
-    public void delete(){
+    public void deleteUser(){
         User user = new User();
-        user.setUserTelephone("22345657890");
-        User user1 = userMapper.selectOneUser(user);
-        userMapper.deleteUser(user1);
+        user.setUserTelephone("15600002200");
+        User user1 = userMapperimpl.selectOneUser(user);
+        userMapperimpl.deleteUser(user1);
 
     }
     @Test
-    public void update(){
+    public void updateUser(){
         User user = new User();
-        user.setUserTelephone("22345657890");
-        User user1 = userMapper.selectOneUser(user);
-        user1.setUserNickName("Hammer");
-        userMapper.updateUser(user1);
+        user.setUserTelephone("15600002200");
+        User user1 = userMapperimpl.selectOneUser(user);
+        user1.setUserNickName("Sheer");
+        userMapperimpl.updateUser(user1);
     }
     @Test
     public void select(){
         User user = new User();
         user.setUserSysEmail("john@example.com");
-        User user1 = userMapper.selectOneUser(user);
+        User user1 = userMapperimpl.selectOneUser(user);
         System.out.println(user1);
 
         System.out.println("############################################################");
         System.out.println("以下是查询所有的用户得到信息:");
-        List<User> userList = userMapper.selectAllUser();
+        List<User> userList = userMapperimpl.selectAllUser();
         for (User u: userList) {
             System.out.println(u);
         }
