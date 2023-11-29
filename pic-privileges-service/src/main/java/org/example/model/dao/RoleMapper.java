@@ -15,14 +15,24 @@ import java.util.List;
 // UserMapper.java
 public interface RoleMapper {
     void insertRole (Role role);
-    void deleteRole (Integer roleId);
+    //增加角色
+    void deleteRole (Role role);
+    //删除角色
     void updateRole (Role role);
-    Role selectOneRole(Integer roleId);
+    //更新列表
+    Role selectOneRole(Role role);
+    //选择角色
     List<Role> selectAllRole();
-
-    //不同角色赋予不同权限
+    //查看所有角色
     void grantPowerToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    //不同角色赋予不同权限
     int isPowerGrantedToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    //判断不同角色赋予不同权限是否成功
+
+    void grantUserToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+    //不同用户赋予不同角色
+    int isUserGrantedToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+    //判断不同用户赋予角色是否成功
 
 
 

@@ -19,28 +19,27 @@ public class PowerMapperImpl {
     private final PowerMapper powerMapper;
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
-
     @Autowired
     public PowerMapperImpl(PowerMapper powerMapper, UserMapper userMapper,RoleMapper roleMapper) {
         this.powerMapper = powerMapper;
         this.userMapper = userMapper;
-        this.roleMapper=roleMapper;
+        this.roleMapper = roleMapper;
     }
 
     public void insertPower(Power power) {
         powerMapper.insertPower(power);
     }
 
-    public void deletePower(Integer powerId) {
-        powerMapper.deletePower(powerId);
+    public void deletePower(Power power) {
+        powerMapper.deletePower(power);
     }
 
     public void updatePower(Power power) {
         powerMapper.updatePower(power);
     }
 
-    public Power selectOnePower(Integer powerId) {
-        return powerMapper.selectOnePower(powerId);
+    public Power selectOnePower(Power power) {
+        return powerMapper.selectOnePower(power);
     }
 
     public List<Power> selectAllPower() {

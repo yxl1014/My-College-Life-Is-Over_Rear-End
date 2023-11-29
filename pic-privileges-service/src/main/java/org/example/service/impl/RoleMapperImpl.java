@@ -1,6 +1,7 @@
 package org.example.service.impl;
 
 import com.baomidou.mybatisplus.extension.api.R;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
@@ -26,23 +27,32 @@ public class RoleMapperImpl {
     public void insertRole(Role role){
         roleMapper.insertRole(role);
     }
-    public void deleteRole(Integer roleId){
-        roleMapper.deleteRole(roleId);
+    public void deleteRole(Role role){
+        roleMapper.deleteRole(role);
     }
-    public void updateRole(Role role){roleMapper.updateRole(role);}
-    public Role selectOneRole(Integer roleId){
-        return roleMapper.selectOneRole(roleId);
+    public void updateRole(Role role){ roleMapper.updateRole(role);}
+    public Role selectOneRole(Role role){ return roleMapper.selectOneRole(role);
     }
-    public List<Role> selectAllRole(){
-        return roleMapper.selectAllRole();
+    public List<Role> selectAllRole(){ return roleMapper.selectAllRole();
     }
 
+    //角色分配权限
     public void grantPowerToRole(Integer roleId,Integer powerId){
         roleMapper.grantPowerToRole(roleId,powerId);
     }
+    //判断是否分配成功
     public boolean isPowerGrantedToRole(Integer roleId,Integer powerId) {
     int count=roleMapper.isPowerGrantedToRole(roleId,powerId);
     return count>0;
+    }
+
+    public void grantUserToRole(String userId, Integer powerId){
+        roleMapper.grantUserToRole(userId,powerId);
+    }
+    //判断是否分配成功
+    public boolean isUserGrantedToRole(String userId,  Integer roleId){
+        int count=roleMapper.isUserGrantedToRole(userId,roleId);
+        return count>0;
     }
 
 }

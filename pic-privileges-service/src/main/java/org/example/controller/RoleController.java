@@ -20,7 +20,7 @@ public class RoleController {
     public RoleController(RoleMapperImpl roleMapperImpl) {
         this.roleMapperImpl = roleMapperImpl;
     }
-    @PostMapping
+    @PostMapping("/grantPowerToRole")
     public ResponseEntity<String> grantPowerToRole(
             @RequestParam("roleId") Integer roleId,
             @RequestParam("powerId") Integer powerId) {
@@ -35,4 +35,21 @@ public class RoleController {
             return ResponseEntity.badRequest().body("授权失败");
         }
     }
+
+    @PostMapping("/grantUserToRole")
+    public ResponseEntity<String> grantUserToRole(
+            @RequestParam("userId") String  userId,
+            @RequestParam("roleId") Integer roleId) {
+
+        //执行授权操作
+        roleMapperImpl.grantUserToRole(userId,roleId);
+        // 验证是否成功
+        boolean isGranted=roleMapperImpl.isUserGrantedToRole(userId,roleId);
+        if(isGranted){
+            return ResponseEntity.ok("用户已成功授予角色");
+        }else {
+            return ResponseEntity.badRequest().body("授权失败");
+        }
+    }
+
 }

@@ -13,7 +13,7 @@
     </resultMap>
     <insert id="insertRole" parameterType="org.example.model.entity.Role" >
         insert into sys_role (role_id, role_name, role_create_time,role_status_flag,role_remark)
-        values (#{roleId}, #{roleName}, #{roleDate}, #{roleFlag},#{roleMark},);
+        values (#{roleId}, #{roleName}, #{roleDate}, #{roleFlag},#{roleMark});
     </insert>
 
     <delete id="deleteRole" parameterType="org.example.model.entity.Role">
@@ -27,9 +27,11 @@
         set role_name=#{roleName},
             role_create_time=#{roleDate},
             role_status_flag=#{roleFlag},
-            role_remark=#{roleMark},
+            role_remark=#{roleMark}
 
-            where role_name = #{roleName}
+            where role_id = #{roleId}
+              or role_name = #{roleName};
+
     </update>
 
     <select id="selectOneRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
@@ -40,6 +42,7 @@
                role_remark
         from sys_role
         where role_id = #{roleId}
+        or role_name = #{roleName};
     </select>
 
     <select id="selectAllRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
@@ -60,6 +63,15 @@
     <select id="isPowerGrantedToRole" resultType="java.lang.Integer">
             SELECT COUNT(*) FROM sys_role_power_ref WHERE ref_role_id = #{roleId} AND ref_power_id = #{powerId}
         </select>
+
+    <select id="grantUserToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        INSERT INTO sys_user_role_ref (ref_user_id,ref_role_id)
+        VALUES (#{userId},#{roleId})
+    </select>
+
+    <select id="isUserGrantedToRole" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM sys_user_role_ref WHERE ref_user_id = #{userId} AND ref_role_id = #{roleId}
+    </select>
 
 </mapper>
 

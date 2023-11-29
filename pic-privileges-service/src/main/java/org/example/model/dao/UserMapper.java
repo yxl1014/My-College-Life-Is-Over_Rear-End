@@ -6,6 +6,7 @@ package org.example.model.dao;
  */
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.example.model.entity.User;
 
 import java.util.List;
@@ -19,7 +20,6 @@ public interface UserMapper {
     User selectOneUser(User user);
     List<User> selectAllUser();
 
-    void findByUsername(String userName);
 
 
 }
