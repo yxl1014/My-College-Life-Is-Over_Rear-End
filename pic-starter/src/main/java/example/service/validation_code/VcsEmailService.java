@@ -1,17 +1,26 @@
 package example.service.validation_code;
 
 
+import example.entity.database.VerifyCode;
+import example.mapper.VerifyCodeMapper;
+import example.service.validation_code.entity.StringCode;
 import example.tools.RegexValidator;
+import example.tools.UuidGenerator;
 import example.tools.VerifyCodeGenerator;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Properties;
+import java.util.UUID;
 
 /**
  * 邮箱验证码 还需要配置 发送方的 账号 邮箱授权码   使用的哪个邮箱，端口号
@@ -22,37 +31,58 @@ import java.util.Properties;
 
 @Service
 public class VcsEmailService {
+    @Autowired
+    VerifyCodeMapper verifyCodeMapper;
 
-    public static String codeSend(String recipientAdd) throws MessagingException {
-        if(!RegexValidator.regexEmail(recipientAdd)){
+    public StringCode codeSend(String recipientAddr) throws MessagingException, IOException {
+        if (recipientAddr.startsWith("\"") && recipientAddr.endsWith("\"")) {
+            recipientAddr = recipientAddr.substring(1, recipientAddr.length() - 1);
+        }
+        
+        if(!RegexValidator.regexEmail(recipientAddr)){
             throw new RuntimeException("目标邮箱格式错误");
         }
 
         Session session = emailSessionGenerator();
-        String code = VerifyCodeGenerator.pureDigitCode();
-        MimeMessage message = new MimeMessage(session);
-        try {
-            message.setSubject("我们是LoadRunnerX平台，请接收您的邮箱登录验证码:");
-            message.setText("这是您的邮箱登录验证码"+ code +"时间："+new Date());
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
-            message.setRecipient(Message.RecipientType.TO,new InternetAddress(recipientAdd));
+        StringCode code = VerifyCodeGenerator.pureDigitCode();
+        codeInsert(code,recipientAddr, (short) 1);
 
+        MimeMessage message = new MimeMessage(session);
+
+        message.setSubject("我们是LoadRunnerX平台，请接收您的邮箱登录验证码:");
+        message.setText("这是您的邮箱登录验证码: "+ code.getValidation() +"\n时间："+new Date());
+
+        message.setFrom(new InternetAddress("2624773733@qq.com","LoadRunnerX"));
+        message.setRecipient(Message.RecipientType.TO,new InternetAddress(recipientAddr));
+
+        Transport.send(message);
 
         return code;
     }
 
+    private int codeInsert(StringCode stringCode,String emailAddr, short flag){
+        VerifyCode verifyCode = new VerifyCode();
+        verifyCode.setVcId(stringCode.getVcId());
+        verifyCode.setVcCreateTime(new Timestamp(System.currentTimeMillis()));
+        verifyCode.setVcOperationType(flag);
+        verifyCode.setVcEmailCode(stringCode.getValidation());
+        verifyCode.setVcEmail(emailAddr);
+        return verifyCodeMapper.insert(verifyCode);
+    }
 
-    private static Session emailSessionGenerator()  {
+    private Properties loadProperties(String fileName) throws IOException {
         Properties properties = new Properties();
-        try {
-            FileInputStream fileInputStream = new FileInputStream("email_config.properties");
-            properties.load(fileInputStream);
-            fileInputStream.close();
-        }catch (IOException ioException){
-            ioException.getStackTrace();
+        try (InputStream input = VcsEmailService.class.getClassLoader().getResourceAsStream(fileName)) {
+            if (input == null) {
+                throw new IOException("Sorry, unable to find " + fileName);
+            }
+            properties.load(input);
         }
+        return properties;
+    }
+
+    private Session emailSessionGenerator() throws IOException {
+        Properties properties = loadProperties("email_config.properties");;
 
         //	账号信息
         //	邮箱发送账号

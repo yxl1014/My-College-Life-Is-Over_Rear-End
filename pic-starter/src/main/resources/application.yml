@@ -5,9 +5,9 @@ spring:
       #这里配置的这个参数是为了解决spring boot和swagger版本不兼容的问题
       matching-strategy: ant_path_matcher
   datasource:
-    url: jdbc:mysql://localhost:3306/sheen
-    username: root
-    password: jiajiajia1.
+    url: jdbc:mysql://localhost:3306/LoadRunnerX
+    username: yxl
+    password: "yxl"
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 使用Druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
@@ -23,17 +23,22 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-        login-username: root
-        login-password: jiajiajia1.
+        login-username: yxl
+        login-password: "yxl"
+
 
 #mapper.xml配置
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 
 server:
-  port: 8080
-  
-  
+  port: 18080
 
-
-
+smtp_hostname_163 : smtp.163.com
+smtp_port_163 : 465
+smtp_hostname_126 : smtp.126.com
+smtp_port_126 : 25
+smtp_hostname_qq : smtp.qq.com
+smtp_port_qq : 587
+email_username_zy : 2624773733@qq.com
+email_password_zy : rgxfiootentddjch

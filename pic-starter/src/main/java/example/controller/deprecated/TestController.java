@@ -1,29 +1,27 @@
-/*
 package example.controller.deprecated;
 
 import io.swagger.annotations.*;
-import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import response.R_Code;
+import response.ReBody;
+import org.springframework.web.bind.annotation.*;
 import test.Add;
 
 
-*/
 /**
  *
  * @description: 一个测试各个如何使用的Controller 各位可以再次任意测试
  * @author: HammerRay
  * @date: 2023/11/22 下午7:40
- *//*
-
+ */
 @RestController
 @Api(tags = "Swagger注解学习", description = "测试接口：测试请求是否成功、测试各种处理方法、各种注解使用效果")
 @RequestMapping("/test")
-public class TestController<ReBody> {
+public class TestController {
     @GetMapping("/get")
     @ApiOperation("测试 返回hello world!")
     public String get(){
-     //   System.out.println(Add.add());
+        System.out.println(Add.add());
         return "hello world!";
     }
 
@@ -55,4 +53,3 @@ public class TestController<ReBody> {
         return new ModelAndView();
     }
 }
-*/

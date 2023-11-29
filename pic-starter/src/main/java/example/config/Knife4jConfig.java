@@ -1,5 +1,6 @@
 package example.config;
 
+import com.github.xiaoymin.knife4j.annotations.ApiOperationSort;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;

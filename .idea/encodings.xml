@@ -3,6 +3,7 @@
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/pic-asynchronous-task-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-cache-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/pic-common-tools/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-controller/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/pic-database-manage-service/src/main/java" charset="UTF-8" />

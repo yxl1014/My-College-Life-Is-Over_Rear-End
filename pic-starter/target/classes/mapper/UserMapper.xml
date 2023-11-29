@@ -109,9 +109,11 @@
                user_sec_problem_3,
                user_sec_answer_3
         from sys_user
-        where user_name = #{userName}
+        where user_id = #{userId}
+           or user_name = #{userName}
            or user_telephone = #{userTelephone}
-           or user_sys_email = #{userSysEmail};
+           or user_sys_email = #{userSysEmail}
+        ;
     </select>
 
     <select id="selectAll" resultType="example.entity.database.User" resultMap="UserMapResult">

@@ -1,6 +1,13 @@
 package example.tools;
 
+import cn.hutool.captcha.CaptchaUtil;
+import cn.hutool.captcha.LineCaptcha;
+import cn.hutool.core.codec.Base64;
+import cn.hutool.core.img.ImgUtil;
+import cn.hutool.core.io.FastByteArrayOutputStream;
+
 import example.service.validation_code.entity.DigitalOperationCode;
+import example.service.validation_code.entity.StringCode;
 
 import java.util.Random;
 
@@ -23,14 +30,16 @@ public class VerifyCodeGenerator {
     /**
      * 要求result传参必须为100以内0以上的整数
      * @paramType: int
-     * @param result:
      * @returnType: String
      * @author: GodHammer
      * @date: 2023-11-18 上午6:49
      * @version: v1.0
      */
-    public static DigitalOperationCode digitalOperationCode(int result){
+    public static DigitalOperationCode digitalOperationCode(){
+        int result = new Random().nextInt(100)+1;
         DigitalOperationCode res = new DigitalOperationCode();
+        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
+
         res.setResult(result);
         //这个结果可以等于多少-多少  也可以等于多少＋多少  不考虑后两个：也可以等于多少*多少  也可以等于多少/多少  这个验证码的作用是检查是否真人在操作，乘除可能有人不会。
         StringBuilder code = new StringBuilder();
@@ -43,12 +52,36 @@ public class VerifyCodeGenerator {
         code.append(result);
         code.append('=');
         code.append('?');
+
         res.setOperationFormula(code.toString());
+        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200,100);
+        FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+        ImgUtil.writePng(lineCaptcha.createImage(code.toString()), os);
+
+        res.setBase64Img(Base64.encode(os.toByteArray()));
+
+//        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
+//        String verify = IdUtil.simpleUUID();
+//        //图形验证码写出，可以写出到文件，也可以写出到流
+//        FastByteArrayOutputStream os = new FastByteArrayOutputStream();
+//        lineCaptcha.write(os);
+//        String code = lineCaptcha.getCode();
+////        缓存一分钟的验证码
+//        redisTemplate.opsForValue().set(verify, code, Duration.ofMinutes(1));
+//        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(5);
+//        //验证码对应的redis上的uuid
+//        map.put("uuid", verify);
+//        //图片上的验证码
+//        map.put("code", code);
+//        //将图片转换成输出流传到前端上
+//        map.put("img",Base64.encode(os.toByteArray()));
 
         return res;
     }
 
-    public static String digitLetterCode(){
+    public static StringCode digitLetterCode(){
+        StringCode res = new StringCode();
+        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //数字字母混合六位验证码
         StringBuilder code = new StringBuilder();
 
@@ -74,13 +107,15 @@ public class VerifyCodeGenerator {
                     code.append(tmp);
                 }
             }
-
-
         }
-        return code.toString();
+
+        res.setValidation(code.toString());
+        return res;
     }
 
-    public static String pureDigitCode(){
+    public static StringCode pureDigitCode(){
+        StringCode res = new StringCode();
+        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //纯数字6位验证码
         StringBuilder code = new StringBuilder();
 
@@ -88,10 +123,13 @@ public class VerifyCodeGenerator {
             int tmp = new Random().nextInt(90)+10;
             code.append(tmp);
         }
-        return code.toString();
+        res.setValidation(code.toString());
+        return res;
     }
 
-    public static String pureLetterCode(){
+    public static StringCode pureLetterCode(){
+        StringCode res = new StringCode();
+        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //纯字母6位验证码
         StringBuilder code = new StringBuilder();
 
@@ -109,7 +147,8 @@ public class VerifyCodeGenerator {
 
             code.append(tmp);
         }
-        return code.toString();
+        res.setValidation(code.toString());
+        return res;
     }
 
 

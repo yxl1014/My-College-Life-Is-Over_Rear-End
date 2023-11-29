@@ -1,6 +1,11 @@
 package example.service.validation_code.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @description: 用于数字相加的验证码实体类
@@ -8,18 +13,37 @@ import lombok.Data;
  * @date: 2023/11/18 下午5:38
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ApiModel("数字验证码")
 public class DigitalOperationCode {
+    /**
+     *验证码的uuid
+     */
+    @ApiModelProperty("验证码的uuid")
+    @JsonProperty("vc_id")
+     private String vcId;
     /**
      * 运算的结果
      */
+    @ApiModelProperty("运算的结果")
+    @JsonProperty("result")
     private int result;
     /**
-     * 运算的式子 比如 5 + 6 = ？
+     * 运算的式子
      */
+    @ApiModelProperty("运算的式子 比如 5 + 6 = ？")
+    @JsonProperty("operation_formula")
     private String operationFormula;
+    /**
+     * operationFormula＋上图片 之和的base64编码
+     */
+    @ApiModelProperty("base64编码的图片的字符串")
+    @JsonProperty("base64_img")
+    private String base64Img;
 
     @Override
     public String toString() {
-        return operationFormula+" res:"+result;
+        return operationFormula+result;
     }
 }

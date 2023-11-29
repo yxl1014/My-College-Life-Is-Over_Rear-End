@@ -83,16 +83,16 @@ public class RegexValidator {
     }
 
     public static boolean isLowPasswd(String passwd){
-        String regex = "^{6,16}$";
+        String regex = "^.{6,16}$";
         // 该正则表达式要求包含6到16个字符长度的 字符串就行
-        Pattern patten = Pattern . compile(regex);
+        Pattern patten = Pattern.compile(regex);
         Matcher matcher = patten.matcher(passwd);
         return matcher.matches();
     }
 
     public static void main(String[] args) {
         String password = "SecureP@ss1"; // 替换成你要检验的密码
-        boolean isStrong = isStrongPasswd(password);
+        boolean isStrong = isLowPasswd(password);
 
         if (isStrong) {
             System.out.println("密码强度合格！");
