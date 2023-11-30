@@ -1,7 +1,5 @@
 import org.example.PrivilegeApplication;
-import org.example.model.dao.RoleMapper;
 import org.example.model.entity.Role;
-import org.example.model.entity.User;
 import org.example.service.impl.RoleMapperImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -9,19 +7,16 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.List;
 
 @SpringBootTest(classes = PrivilegeApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
-public class RoleServiceTest {
+public class TestRoleMapper {
 
     @Autowired
     private RoleMapperImpl roleMapperImpl;
@@ -86,7 +81,7 @@ public class RoleServiceTest {
         }
     }
 
-    //分配权限
+    //分配权限给角色
     @Test
     public void testGrantPowerToRole() {
         // 模拟角色ID和权限ID
@@ -94,27 +89,55 @@ public class RoleServiceTest {
         Integer powerId = 1004;
         // 执行授权操作
         roleMapperImpl.grantPowerToRole(roleId, powerId);
-        System.out.println("授权成功！");
 
         // 验证授权结果
         boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
-        Assertions.assertEquals(true, isGranted, "权限授权失败");
+        if (isGranted) {
+            System.out.println("权限成功授权给角色！");
+        } else {
+            Assertions.fail("权限授予角色失败！");
+        }
     }
-    //测试把不同权限赋予不同角色
 
+    //分配角色给用户
     @Test
     public void testGrantUserToRole() {
         // 模拟角色ID和用户ID
         String userId = "0000018b-e2b0-57f4-8ad0-aefad80d6a4e";
-        Integer roleId = 101;
+        Integer roleId = 100;
         // 执行授权操作
         roleMapperImpl.grantUserToRole(userId, roleId);
-        System.out.println("授权成功！");
 
         // 验证授权结果
         boolean isGranted = roleMapperImpl.isUserGrantedToRole(userId, roleId);
-        Assertions.assertEquals(true, isGranted, "权限授权失败");
+        if (isGranted) {
+            System.out.println("分配角色给用户成功！");
+        } else {
+            Assertions.fail("分配角色给用户失败！");
+        }
     }
-    //测试把不同用户赋予不同角色
+
+
+    //测试角色撤销已有权限
+    @Test
+    public void revokePowerFromRole() {
+        //模拟角色Id和权限Id
+        Integer roleId = 101;
+        Integer powerId = 1004;
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted) {
+            roleMapperImpl.revokePowerFromRole(roleId, powerId);
+            //验证是否撤销成功
+            boolean isRevoked = !roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+            if (isRevoked) {
+                System.out.println("权限已成功撤销！");
+            } else {
+                Assertions.fail("权限撤销失败！");
+            }
+        } else {
+            System.out.println("该角色无此权限，无需删除！");
+        }
+    }
+
 
 }

@@ -66,4 +66,13 @@ public class RoleMapperImpl {
         return count > 0;
     }
 
+    //撤销已分配给角色的权限
+    public void revokePowerFromRole(Integer roleId, Integer powerId) {
+        roleMapper.revokePowerFromRole(roleId, powerId);
+    }
+
+    //查询角色对应的权限列表
+
+
+
 }

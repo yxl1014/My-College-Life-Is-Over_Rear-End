@@ -22,6 +22,7 @@ import java.util.List;
  * @CreateDate: 2023/11/26
  */
 @RestController
+@RequestMapping("/Limits")
 public class LimitsController {
     private final UserMapperImpl userMapperImpl;
     private final RoleMapperImpl roleMapperImpl;
@@ -41,12 +42,101 @@ public class LimitsController {
         return "hello sheen!";
     }
 
+    //测试查询所有用户信息
     @GetMapping("/users")
     public ResponseEntity<?> getUser() {
         List<User> users = userMapperImpl.selectAllUser();
         return ResponseEntity.ok(users);
     }
 
+    //测试查询用户
+    @GetMapping("/selectOneRole/{roleId}")
+    public ResponseEntity<Role> getRoleById(@PathVariable("roleId") Integer roleId) {
+        Role role = new Role();
+        role.setRoleId(roleId);
+        Role role1 = roleMapperImpl.selectOneRole(role);
+        if (role1 != null) {
+            return ResponseEntity.ok(role1);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
+    //测试角色赋予权限
+    @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerId}")
+    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerId") Integer powerId) {
+        Role role = new Role();
+        Power power = new Power();
+        role.setRoleId(roleId);
+        power.setPowerId(powerId);
+        //执行授权操作
+        roleMapperImpl.grantPowerToRole(roleId, powerId);
+        // 验证是否成功
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted) {
+            return ResponseEntity.ok("权限已成功授予角色");
+        } else {
+            return ResponseEntity.badRequest().body("授权失败");
+        }
+
+    }
+
+    //测试用户赋予角色
+    @GetMapping("/testGrantUserToRole/users/{userId}/roles/{roleId}")
+    public ResponseEntity<String> getUserToRole(@PathVariable("userId") String userId, @PathVariable("roleId") Integer roleId) {
+        Role role = new Role();
+        User user = new User();
+        role.setRoleId(roleId);
+        user.setUserId(userId);
+        //执行授权操作
+        roleMapperImpl.grantUserToRole(userId, roleId);
+        // 验证是否成功
+        boolean isGranted = roleMapperImpl.isUserGrantedToRole(userId, roleId);
+        if (isGranted) {
+            return ResponseEntity.ok("用户已成功授予角色");
+        } else {
+            return ResponseEntity.badRequest().body("授权失败");
+        }
+
+    }
+
+    //测试角色撤销已有权限
+    @GetMapping("/revokePowerFromRole/roleId/{roleId}/powers/{powerId}")
+    public ResponseEntity<String> checkPowerRevoked(@PathVariable("roleId") Integer roleId, @PathVariable("powerId") Integer powerId) {
+        // 验证权限是否已成功撤销
+        Role role = new Role();
+        Power power = new Power();
+        role.setRoleId(roleId);
+        power.setPowerId(powerId);
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted) {
+            // 执行撤销权限操作
+            roleMapperImpl.revokePowerFromRole(roleId, powerId);
+            // 验证是否成功撤销
+            boolean isRevoked = !roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+            if (isRevoked) {
+                return ResponseEntity.ok("权限已成功撤销");
+            } else {
+                return ResponseEntity.ok("权限未撤销");
+            }
+        } else {
+            return ResponseEntity.ok("该角色无此权限，无需删除！");
+        }
+    }
+
+    //查询角色拥有的权限列表
+    @GetMapping("/getRolePowers/{roleId}/powers")
+    public ResponseEntity<List<Power>> getRolePowers(@PathVariable("roleId") Integer roleId) {
+        Role role = new Role();
+        role.setRoleId(roleId);
+        List<Power> powers = powerMapperImpl.getRolePowers(roleId);
+        if (powers != null && !powers.isEmpty()) {
+            return ResponseEntity.ok(powers);
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
 }
+
 
 

@@ -57,27 +57,35 @@
 
     <select id="grantPowerToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         INSERT INTO sys_role_power_ref (ref_role_id, ref_power_id)
-        VALUES (#{roleId}, #{powerId})
+        VALUES (#{roleId}, #{powerId});
     </select>
 
     <select id="isPowerGrantedToRole" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM sys_role_power_ref
         WHERE ref_role_id = #{roleId}
-          AND ref_power_id = #{powerId}
+          AND ref_power_id = #{powerId};
     </select>
 
     <select id="grantUserToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         INSERT INTO sys_user_role_ref (ref_user_id, ref_role_id)
-        VALUES (#{userId}, #{roleId})
+        VALUES (#{userId}, #{roleId});
     </select>
 
     <select id="isUserGrantedToRole" resultType="java.lang.Integer">
         SELECT COUNT(*)
         FROM sys_user_role_ref
         WHERE ref_user_id = #{userId}
-          AND ref_role_id = #{roleId}
+          AND ref_role_id = #{roleId};
     </select>
+
+    <select id="revokePowerFromRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        DELETE
+        FROM sys_role_power_ref
+        WHERE ref_role_id = #{roleId}
+          And ref_power_id = #{powerId};
+    </select>
+
 
 </mapper>
 

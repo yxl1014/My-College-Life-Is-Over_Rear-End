@@ -2,6 +2,7 @@ package org.example.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
+import org.example.model.entity.Power;
 import org.example.model.entity.Role;
 import org.example.model.entity.User;
 
@@ -40,6 +41,10 @@ public interface RoleMapper {
 
     //判断不同用户赋予角色是否成功
     int isUserGrantedToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+
+    //撤销已分配给角色的权限
+    void revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+
 
 
 }

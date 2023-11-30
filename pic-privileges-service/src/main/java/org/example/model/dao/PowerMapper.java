@@ -28,5 +28,8 @@ public interface PowerMapper {
     //查看所有权限
     List<Power> selectAllPower();
 
+    //查询角色对应的权限列表
+    List<Power> getRolePowers(Integer roleId);
+
 
 }

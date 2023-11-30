@@ -21,7 +21,6 @@ import java.util.List;
 @Table(name = "sys_power")
 public class Power {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @JsonProperty("power_id")
     private Integer powerId;
@@ -38,9 +37,9 @@ public class Power {
     @JsonProperty("power_notes")
     private String powerNote;
 
-    //和用户表的关系
+    //和角色表的关系
     @ManyToMany(mappedBy = "powers")
-    private List<User> users;
+    private List<Role> roles;
 }
 
 

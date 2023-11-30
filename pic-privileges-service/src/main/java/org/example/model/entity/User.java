@@ -21,7 +21,6 @@ import java.util.List;
 @Table(name = "sys_user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @JsonProperty("user_id")
     private String userId;
@@ -91,12 +90,12 @@ public class User {
 
     //一个角色下可有多个用户
     @ManyToOne
-    @JoinColumn(name = "role_id")
+    @JoinTable(name = "sys_user_role_ref",
+            joinColumns = @JoinColumn(name = "ref_user_id"),
+            inverseJoinColumns = @JoinColumn(name = "ref_role_id"))
     private Role role;
 
-    //一个用户可有多种权限，且一个权限可被多个用户使用
-    @ManyToMany
-    @JoinTable(name = "sys_user_power_ref", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
-    private List<Power> powers;
 
 }
+
+

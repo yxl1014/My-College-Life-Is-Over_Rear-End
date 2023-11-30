@@ -48,5 +48,8 @@ public class PowerMapperImpl {
         return powerMapper.selectAllPower();
     }
 
+    public List<Power> getRolePowers(Integer roleId){
+        return powerMapper.getRolePowers(roleId);
+    }
 
 }

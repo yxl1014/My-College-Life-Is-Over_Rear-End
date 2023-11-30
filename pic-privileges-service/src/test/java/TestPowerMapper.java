@@ -69,7 +69,7 @@ public class TestPowerMapper {
     @Test
     public void selectPower() {
         Power power = new Power();
-        power.setPowerName("日志管理");
+        power.setPowerId(1005);
         Power power1 = powerMapperImpl.selectOnePower(power);
         if (power1 != null) {
             System.out.println("权限信息查询成功");
@@ -83,6 +83,26 @@ public class TestPowerMapper {
         for (Power p : powerList) {
             System.out.println(p);
         }
+    }
+
+    //查询角色对应的权限列表
+    @Test
+    public void getRolePowers() {
+        Integer roleId = 101;
+        // 执行授权操作
+        List<Power> powers = powerMapperImpl.getRolePowers(roleId);
+        if (powers != null) {
+            System.out.println("角色所属权限查询成功");
+        } else {
+            System.out.println("此角色无权限");
+        }
+        System.out.println("############################################################");
+        System.out.println("以下是查询到的角色所属权限列表:");
+
+        for (Power p : powers) {
+            System.out.println(p);
+        }
+
     }
 }
 

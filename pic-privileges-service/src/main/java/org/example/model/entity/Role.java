@@ -23,7 +23,6 @@ import java.util.List;
 @Table(name = "sys_role")
 public class Role {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     @JsonProperty("role_id")
     private Integer roleId;
@@ -43,5 +42,13 @@ public class Role {
     //一个角色下可以有多个用户，一个用户只能有一种角色
     @OneToMany(mappedBy = "role")
     private List<User> users;
+
+    //一个角色可有多种权限，且一个权限可被多个角色使用
+    @ManyToMany
+    @JoinTable(name = "sys_role_power_ref",
+            joinColumns = @JoinColumn(name = "ref_role_id"),
+            inverseJoinColumns = @JoinColumn(name = "ref_power_id"))
+    private List<Power> powers;
+
 
 }

@@ -9,6 +9,7 @@
         <result column="power_type" property="powerType"/>
         <result column="power_create_time" property="powerDate"/>
         <result column="power_notes" property="powerNote"/>
+
     </resultMap>
 
     <insert id="insertPower" parameterType="org.example.model.entity.Power">
@@ -48,6 +49,13 @@
                power_create_time,
                power_notes
         from sys_power;
+    </select>
+
+    <select id="getRolePowers" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
+        SELECT p.*
+        FROM sys_power p
+                 INNER JOIN sys_role_power_ref rp ON p.power_id = rp.ref_power_id
+        WHERE ref_role_id = #{roleId};
     </select>
 
 
