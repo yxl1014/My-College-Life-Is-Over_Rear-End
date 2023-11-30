@@ -13,16 +13,20 @@ import java.util.List;
 @Mapper
 public interface PowerMapper {
 
-    void insertPower (Power power);
     //增加权限
-    void deletePower (Power power);
+    void insertPower(Power power);
+
     //删除权限
-    void updatePower (Power power);
+    void deletePower(Power power);
+
     //更新列表
-    Power selectOnePower(Power power);
+    void updatePower(Power power);
+
     //选择权限
-    List<Power> selectAllPower();
+    Power selectOnePower(Power power);
+
     //查看所有权限
+    List<Power> selectAllPower();
 
 
 }

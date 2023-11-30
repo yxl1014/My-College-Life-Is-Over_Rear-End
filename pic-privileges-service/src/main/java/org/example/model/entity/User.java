@@ -96,11 +96,7 @@ public class User {
 
     //一个用户可有多种权限，且一个权限可被多个用户使用
     @ManyToMany
-    @JoinTable(
-            name="sys_user_power_ref",
-            joinColumns = @JoinColumn(name="user_id"),
-            inverseJoinColumns = @JoinColumn(name="power_id")
-    )
+    @JoinTable(name = "sys_user_power_ref", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "power_id"))
     private List<Power> powers;
 
 }

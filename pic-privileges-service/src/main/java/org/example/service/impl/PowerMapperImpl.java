@@ -1,4 +1,5 @@
 package org.example.service.impl;
+
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
 import org.example.model.dao.UserMapper;
@@ -19,8 +20,9 @@ public class PowerMapperImpl {
     private final PowerMapper powerMapper;
     private final UserMapper userMapper;
     private final RoleMapper roleMapper;
+
     @Autowired
-    public PowerMapperImpl(PowerMapper powerMapper, UserMapper userMapper,RoleMapper roleMapper) {
+    public PowerMapperImpl(PowerMapper powerMapper, UserMapper userMapper, RoleMapper roleMapper) {
         this.powerMapper = powerMapper;
         this.userMapper = userMapper;
         this.roleMapper = roleMapper;

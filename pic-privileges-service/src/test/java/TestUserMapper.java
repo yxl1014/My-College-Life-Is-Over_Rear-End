@@ -20,13 +20,14 @@ import java.util.List;
  * @Author: eensh
  * @CreateDate: 2023/11/28
  */
-@SpringBootTest(classes= PrivilegeApplication.class)
+@SpringBootTest(classes = PrivilegeApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestUserMapper {
 
     @Autowired
     private UserMapperImpl userMapperimpl;
+
     @Test
     public void insertUser() throws ParseException {
 
@@ -55,15 +56,16 @@ public class TestUserMapper {
     }
 
     @Test
-    public void deleteUser(){
+    public void deleteUser() {
         User user = new User();
         user.setUserTelephone("16666666666");
         User user1 = userMapperimpl.selectOneUser(user);
         userMapperimpl.deleteUser(user1);
         System.out.println("用户注销成功！");
     }
+
     @Test
-    public void updateUser(){
+    public void updateUser() {
         User user = new User();
         user.setUserTelephone("15600001234");
         User user1 = userMapperimpl.selectOneUser(user);
@@ -71,28 +73,27 @@ public class TestUserMapper {
         userMapperimpl.updateUser(user1);
         System.out.println("用户信息更新成功！");
     }
+
     @Test
-    public void selectUser(){
+    public void selectUser() {
         User user = new User();
         user.setUserSysEmail("Sheen@yeah.com");
         User user1 = userMapperimpl.selectOneUser(user);
-        if(user1 != null){
-        System.out.println( "用户信息查询成功");
-        System.out.println(user1);
-        }else {
-            System.out.println( "用户不存在！");
+        if (user1 != null) {
+            System.out.println("用户信息查询成功");
+            System.out.println(user1);
+        } else {
+            System.out.println("用户不存在！");
         }
-
 
 
         System.out.println("############################################################");
         System.out.println("以下是查询所有的用户得到信息:");
         List<User> userList = userMapperimpl.selectAllUser();
-        for (User u: userList) {
+        for (User u : userList) {
             System.out.println(u);
         }
     }
-
 
 
 }

@@ -14,12 +14,20 @@ import java.util.List;
 @Mapper
 // UserMapper.java
 public interface UserMapper {
-    void insertUser (User user);
-    void deleteUser (User user);
-    void updateUser (User user);
-    User selectOneUser(User user);
-    List<User> selectAllUser();
+    //新增用户
+    void insertUser(User user);
 
+    //注销用户
+    void deleteUser(User user);
+
+    //更新用户
+    void updateUser(User user);
+
+    //选择用户
+    User selectOneUser(User user);
+
+    //查看所有有用户
+    List<User> selectAllUser();
 
 
 }

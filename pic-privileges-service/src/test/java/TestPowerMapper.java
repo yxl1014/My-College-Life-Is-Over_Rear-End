@@ -18,7 +18,7 @@ import java.util.List;
  * @CreateDate: 2023/11/28
  */
 
-@SpringBootTest(classes= PrivilegeApplication.class)
+@SpringBootTest(classes = PrivilegeApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestPowerMapper {
@@ -26,9 +26,10 @@ public class TestPowerMapper {
     @Autowired
     private PowerMapperImpl powerMapperImpl;
 
+    //增加权限
     @Test
     public void insertRole() throws ParseException {
-        Power power1=new Power();
+        Power power1 = new Power();
         power1.setPowerId(1029);
         power1.setPowerName("日志管理");
         power1.setPowerType("1");
@@ -38,9 +39,10 @@ public class TestPowerMapper {
         System.out.println("权限创建成功！");
     }
 
+    //删除权限
     @Test
     public void deletePower() {
-        Power power=new Power();
+        Power power = new Power();
         power.setPowerId(1029);
         Power power1 = powerMapperImpl.selectOnePower(power);
         if (power1 != null) {
@@ -52,32 +54,33 @@ public class TestPowerMapper {
         }
     }
 
+    //修改权限内容
     @Test
-    public void updatePower(){
+    public void updatePower() {
         Power power = new Power();
-        power.setPowerId( 1028 );
-        Power power1 = powerMapperImpl.selectOnePower( power );
-        power1.setPowerNote( "可访问" );
-        powerMapperImpl.updatePower( power1 );
-        System.out.println( "权限状态已更新！");
+        power.setPowerId(1028);
+        Power power1 = powerMapperImpl.selectOnePower(power);
+        power1.setPowerNote("可访问");
+        powerMapperImpl.updatePower(power1);
+        System.out.println("权限状态已更新！");
 
     }
 
     @Test
-    public void selectPower(){
+    public void selectPower() {
         Power power = new Power();
         power.setPowerName("日志管理");
-        Power power1=powerMapperImpl.selectOnePower(power);
-        if(power1 != null){
-            System.out.println( "权限信息查询成功");
+        Power power1 = powerMapperImpl.selectOnePower(power);
+        if (power1 != null) {
+            System.out.println("权限信息查询成功");
             System.out.println(power1);
-        }else{
-            System.out.println( "权限不存在！" );
+        } else {
+            System.out.println("权限不存在！");
         }
         System.out.println("############################################################");
         System.out.println("以下是查询所有的权限得到信息:");
         List<Power> powerList = powerMapperImpl.selectAllPower();
-        for (Power p:powerList) {
+        for (Power p : powerList) {
             System.out.println(p);
         }
     }

@@ -13,10 +13,9 @@ import org.springframework.context.annotation.ComponentScan;
 @SpringBootConfiguration
 
 public class PrivilegeApplication {
-        public static void main(String[] args)
-        {
+    public static void main(String[] args) {
 
-            SpringApplication.run(PrivilegeApplication.class, args);
-        }
+        SpringApplication.run(PrivilegeApplication.class, args);
+    }
 }
 

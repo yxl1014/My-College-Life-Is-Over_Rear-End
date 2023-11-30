@@ -15,31 +15,31 @@ import java.util.List;
  */
 
 @Service
-public class UserMapperImpl{
+public class UserMapperImpl {
     private final UserMapper userMapper;
 
     @Autowired
-    public UserMapperImpl(UserMapper userMapper){
-        this.userMapper=userMapper;
+    public UserMapperImpl(UserMapper userMapper) {
+        this.userMapper = userMapper;
     }
 
-    public void insertUser(User user){
+    public void insertUser(User user) {
         userMapper.insertUser(user);
     }
 
-    public void deleteUser(User user){
+    public void deleteUser(User user) {
         userMapper.deleteUser(user);
     }
 
-    public void updateUser(User user){
+    public void updateUser(User user) {
         userMapper.updateUser(user);
     }
 
-    public User selectOneUser(User user){
+    public User selectOneUser(User user) {
         return userMapper.selectOneUser(user);
     }
 
-    public List<User> selectAllUser(){
+    public List<User> selectAllUser() {
         return userMapper.selectAllUser();
     }
 

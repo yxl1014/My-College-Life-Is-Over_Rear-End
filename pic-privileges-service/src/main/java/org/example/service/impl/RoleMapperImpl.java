@@ -21,38 +21,49 @@ public class RoleMapperImpl {
     private final RoleMapper roleMapper;
 
     @Autowired
-    public RoleMapperImpl(RoleMapper roleMapper){
-        this.roleMapper=roleMapper;
+    public RoleMapperImpl(RoleMapper roleMapper) {
+        this.roleMapper = roleMapper;
     }
-    public void insertRole(Role role){
+
+    public void insertRole(Role role) {
         roleMapper.insertRole(role);
     }
-    public void deleteRole(Role role){
+
+    public void deleteRole(Role role) {
         roleMapper.deleteRole(role);
     }
-    public void updateRole(Role role){ roleMapper.updateRole(role);}
-    public Role selectOneRole(Role role){ return roleMapper.selectOneRole(role);
+
+    public void updateRole(Role role) {
+        roleMapper.updateRole(role);
     }
-    public List<Role> selectAllRole(){ return roleMapper.selectAllRole();
+
+    public Role selectOneRole(Role role) {
+        return roleMapper.selectOneRole(role);
+    }
+
+    public List<Role> selectAllRole() {
+        return roleMapper.selectAllRole();
     }
 
     //角色分配权限
-    public void grantPowerToRole(Integer roleId,Integer powerId){
-        roleMapper.grantPowerToRole(roleId,powerId);
-    }
-    //判断是否分配成功
-    public boolean isPowerGrantedToRole(Integer roleId,Integer powerId) {
-    int count=roleMapper.isPowerGrantedToRole(roleId,powerId);
-    return count>0;
+    public void grantPowerToRole(Integer roleId, Integer powerId) {
+        roleMapper.grantPowerToRole(roleId, powerId);
     }
 
-    public void grantUserToRole(String userId, Integer powerId){
-        roleMapper.grantUserToRole(userId,powerId);
-    }
     //判断是否分配成功
-    public boolean isUserGrantedToRole(String userId,  Integer roleId){
-        int count=roleMapper.isUserGrantedToRole(userId,roleId);
-        return count>0;
+    public boolean isPowerGrantedToRole(Integer roleId, Integer powerId) {
+        int count = roleMapper.isPowerGrantedToRole(roleId, powerId);
+        return count > 0;
+    }
+
+    public void grantUserToRole(String userId, Integer powerId) {
+        roleMapper.grantUserToRole(userId, powerId);
+    }
+
+    //判断是否分配成功
+    public boolean isUserGrantedToRole(String userId, Integer roleId) {
+        int count = roleMapper.isUserGrantedToRole(userId, roleId);
+        return count > 0;
     }
 
 }

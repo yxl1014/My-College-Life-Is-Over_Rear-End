@@ -29,19 +29,19 @@
         <result column="user_sec_answer_3" property="userSecAnswer3"/>
     </resultMap>
 
-    <insert id="insertUser" parameterType="org.example.model.entity.User" >
+    <insert id="insertUser" parameterType="org.example.model.entity.User">
         insert into sys_user (user_id, user_name, user_telephone, user_sys_email,
                               user_password, user_nick_name, user_gender, user_born_day,
                               user_id_card, user_money, user_company, user_home,
                               user_ip, user_flag, user_personal_profile, user_create_time,
-                              user_sec_problem_1,user_sec_answer_1,user_sec_problem_2,user_sec_answer_2,
-                              user_sec_problem_3,user_sec_answer_3)
+                              user_sec_problem_1, user_sec_answer_1, user_sec_problem_2, user_sec_answer_2,
+                              user_sec_problem_3, user_sec_answer_3)
         values (#{userId}, #{userName}, #{userTelephone}, #{userSysEmail},
                 #{userPassword}, #{userNickName}, #{userGender}, #{userBornDay},
                 #{userIdCard}, #{userMoney}, #{userCompany}, #{userHome},
                 #{userIp}, #{userFlag}, #{userPersonalProfile}, #{userCreateTime},
-                #{userSecProblem1},#{userSecAnswer1},#{userSecProblem2},#{userSecAnswer2},
-                #{userSecProblem3},#{userSecAnswer3});
+                #{userSecProblem1}, #{userSecAnswer1}, #{userSecProblem2}, #{userSecAnswer2},
+                #{userSecProblem3}, #{userSecAnswer3});
     </insert>
 
     <delete id="deleteUser" parameterType="org.example.model.entity.User">
@@ -50,7 +50,7 @@
         where user_id = #{userId};
     </delete>
 
-    <update id="updateUser" parameterType="org.example.model.entity.User" >
+    <update id="updateUser" parameterType="org.example.model.entity.User">
         update sys_user
         set user_name=#{userName},
             user_telephone=#{userTelephone},
@@ -162,7 +162,6 @@
         where user_name = #{userName}
 
     </select>
-
 
 
 </mapper>

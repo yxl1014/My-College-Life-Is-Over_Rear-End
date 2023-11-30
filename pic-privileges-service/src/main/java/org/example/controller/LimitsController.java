@@ -1,4 +1,5 @@
 package org.example.controller;
+
 import io.swagger.annotations.ApiOperation;
 import org.example.model.dao.PowerMapper;
 import org.example.model.entity.Power;
@@ -45,7 +46,7 @@ public class LimitsController {
         List<User> users = userMapperImpl.selectAllUser();
         return ResponseEntity.ok(users);
     }
-    
+
 }
 
 

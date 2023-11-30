@@ -11,11 +11,9 @@
         <result column="power_notes" property="powerNote"/>
     </resultMap>
 
-    <insert id="insertPower" parameterType="org.example.model.entity.Power" >
-        insert into
-            sys_power (power_id, power_name, power_type,power_create_time,power_notes)
-        values
-            (#{powerId}, #{powerName}, #{powerType}, #{powerDate},#{powerNote});
+    <insert id="insertPower" parameterType="org.example.model.entity.Power">
+        insert into sys_power (power_id, power_name, power_type, power_create_time, power_notes)
+        values (#{powerId}, #{powerName}, #{powerType}, #{powerDate}, #{powerNote});
     </insert>
 
     <delete id="deletePower" parameterType="org.example.model.entity.Power">
@@ -24,7 +22,7 @@
         where power_id = #{powerId};
     </delete>
 
-    <update id="updatePower" parameterType="org.example.model.entity.Power" >
+    <update id="updatePower" parameterType="org.example.model.entity.Power">
         update sys_power
         set power_name=#{powerName},
             power_type=#{powerType},
@@ -51,7 +49,6 @@
                power_notes
         from sys_power;
     </select>
-
 
 
 </mapper>
