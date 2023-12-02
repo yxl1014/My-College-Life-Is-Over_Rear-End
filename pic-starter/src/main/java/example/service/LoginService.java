@@ -1,16 +1,15 @@
 package example.service;
 
+import common.encrypt.PasswordEncrypt;
+import common.verify.RegexValidator;
 import example.entity.database.User;
 import example.entity.database.VerifyCode;
 import example.entity.request.LoginRequest;
 import example.entity.response.UuidResponse;
 import example.mapper.UserMapper;
 import example.mapper.VerifyCodeMapper;
-import example.tools.PasswordEncrypt;
-import example.tools.RegexValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Objects;
 
@@ -42,7 +41,7 @@ public class LoginService {
                 user.setUserSysEmail(loginRequest.getUserSysEmail());
 
                 if(loginRequest.getVcEmailCode().isEmpty()){
-                    uuidResponse.setCode(401);
+                    uuidResponse.setCode(500);
                     uuidResponse.setMsg("请输入邮箱里收到的验证码");
                     return uuidResponse;
                 }
@@ -70,7 +69,7 @@ public class LoginService {
                 user.setUserTelephone(loginRequest.getUserTelephone());
 
                 if(loginRequest.getVcTelephoneCode().isEmpty()){
-                    uuidResponse.setCode(401);
+                    uuidResponse.setCode(500);
                     uuidResponse.setMsg("请输入手机上收到的验证码");
                     return uuidResponse;
                 }
@@ -88,15 +87,15 @@ public class LoginService {
             user.setUserPassword(loginRequest.getUserPassword());
 
             if(loginRequest.getVcPictureCode().isEmpty()){
-                uuidResponse.setCode(401);
+                uuidResponse.setCode(500);
                 uuidResponse.setMsg("请输入图片上的验证码");
                 return uuidResponse;
             }
             verifyCode.setVcId(loginRequest.getVcPictureCode().getVcId());
-            verifyCode.setVcPictureCode(loginRequest.getVcPictureCode().getValidation());
+            verifyCode.setVcPictureCode(String.valueOf(loginRequest.getVcPictureCode().getResult()));
 
             if(!RegexValidator.isLowPasswd(user.getUserPassword())){
-                uuidResponse.setCode(401);
+                uuidResponse.setCode(500);
                 uuidResponse.setMsg("errorMsg: 登录密码格式错误,正确："+RegexValidator.PASSWD_LFM);
                 return uuidResponse;
             }
@@ -104,7 +103,7 @@ public class LoginService {
             User user1 =userMapper.selectOne(user);
 
             if(user1 == null){
-                uuidResponse.setCode(401);
+                uuidResponse.setCode(500);
                 uuidResponse.setMsg("用户不存在，请检查账号是否正确");
                 return uuidResponse;
             }else {
@@ -113,20 +112,20 @@ public class LoginService {
                 if(Objects.equals(PasswordEncrypt.hashPassword(user.getUserPassword()), user1.getUserPassword())){
 
                     VerifyCode tmp = verifyCodeMapper.selectOne(verifyCode);
-                    if(tmp.getVcPictureCode().equals(loginRequest.getVcPictureCode().getValidation())){
+                    if(tmp.getVcPictureCode().equals(String.valueOf(loginRequest.getVcPictureCode().getResult()))){
                         uuidResponse.setCode(200);
                         uuidResponse.setMsg("登录成功");
                         uuidResponse.setUuid(user1.getUserId());
                         return uuidResponse;
                     }else {
-                        uuidResponse.setCode(200);
+                        uuidResponse.setCode(500);
                         uuidResponse.setMsg("登录失败,验证码出错");
                         return uuidResponse;
                     }
 
 
                 }else {
-                    uuidResponse.setCode(401);
+                    uuidResponse.setCode(500);
                     uuidResponse.setMsg("密码错误，请检查密码是否正确");
                     return uuidResponse;
                 }

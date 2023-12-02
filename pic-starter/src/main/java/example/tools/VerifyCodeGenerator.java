@@ -6,8 +6,9 @@ import cn.hutool.core.codec.Base64;
 import cn.hutool.core.img.ImgUtil;
 import cn.hutool.core.io.FastByteArrayOutputStream;
 
-import example.service.validation_code.entity.DigitalOperationCode;
-import example.service.validation_code.entity.StringCode;
+import common.uuid.UuidGenerator;
+import example.entity.inner.DigitOperaCode;
+import example.entity.response.StringCodeResponse;
 
 import java.util.Random;
 
@@ -35,9 +36,9 @@ public class VerifyCodeGenerator {
      * @date: 2023-11-18 上午6:49
      * @version: v1.0
      */
-    public static DigitalOperationCode digitalOperationCode(){
+    public static DigitOperaCode digitalOperationCode(){
         int result = new Random().nextInt(100)+1;
-        DigitalOperationCode res = new DigitalOperationCode();
+        DigitOperaCode res = new DigitOperaCode();
         res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
 
         res.setResult(result);
@@ -79,8 +80,8 @@ public class VerifyCodeGenerator {
         return res;
     }
 
-    public static StringCode digitLetterCode(){
-        StringCode res = new StringCode();
+    public static StringCodeResponse digitLetterCode(){
+        StringCodeResponse res = new StringCodeResponse();
         res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //数字字母混合六位验证码
         StringBuilder code = new StringBuilder();
@@ -113,8 +114,8 @@ public class VerifyCodeGenerator {
         return res;
     }
 
-    public static StringCode pureDigitCode(){
-        StringCode res = new StringCode();
+    public static StringCodeResponse pureDigitCode(){
+        StringCodeResponse res = new StringCodeResponse();
         res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //纯数字6位验证码
         StringBuilder code = new StringBuilder();
@@ -127,8 +128,8 @@ public class VerifyCodeGenerator {
         return res;
     }
 
-    public static StringCode pureLetterCode(){
-        StringCode res = new StringCode();
+    public static StringCodeResponse pureLetterCode(){
+        StringCodeResponse res = new StringCodeResponse();
         res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         //纯字母6位验证码
         StringBuilder code = new StringBuilder();

@@ -1,4 +1,4 @@
-package example.entity.response;
+package example.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import example.entity.response.father.Response;
@@ -12,24 +12,24 @@ import lombok.NoArgsConstructor;
 /**
  * @description:
  * @author: HammerRay
- * @date: 2023/11/27 下午9:14
+ * @date: 2023/12/1 上午12:08
  */
 
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("UUID响应")
-public class UuidResponse extends Response {
+@ApiModel("字符串类型的验证码请求")
+public class StringCodeRequest {
 
-    @ApiModelProperty("UUID")
-    @JsonProperty("uuid")
-    private String uuid;
+    @ApiModelProperty("验证码的uuid")
+    @JsonProperty("vcId")
+    private String vcId;
 
-    public UuidResponse (int code,String msg,String uuid){
-        this.setMsg(msg);
-        this.setCode(code);
-        this.uuid=uuid;
+    @ApiModelProperty("验证码")
+    @JsonProperty("validation")
+    private String validation;
 
+    public boolean isEmpty(){
+        return this.validation.isEmpty();
     }
 }

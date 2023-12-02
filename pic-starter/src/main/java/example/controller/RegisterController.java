@@ -15,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -30,26 +31,12 @@ public class RegisterController {
     RegisterService registerService;
 
     @PostMapping("/register")
-    @ApiOperation("注册 不返回注册好的账户的uuid")
+    @ApiOperation("注册 返回注册好的账户的uuid，可做注册后自动登录")
     @ApiResponse(code = 200,message = "注册成功",response = UuidResponse.class)
-    public UuidResponse register(@RequestBody RegisterRequest request) throws IOException {
+    public UuidResponse register(@RequestBody RegisterRequest request) throws  ParseException {
 
 
         return registerService.register(request);
-    }
-
-    @PostMapping("/register_return_uuid")
-    @ApiOperation("注册 返回注册好的账户的uuid，做注册后即自动登录")
-    @ApiResponse(code = 200,message = "注册成功",response = UuidResponse.class)
-    public UuidResponse registerReturnUuid(@RequestBody RegisterRequest request, HttpServletResponse response) throws IOException {
-        Map<String,String > dataMap = new HashMap<>();
-        dataMap.put("success","注册成功");
-        ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(dataMap);
-        response.getWriter().write(json);
-
-
-        return new UuidResponse();
     }
 
 }

@@ -1,7 +1,7 @@
 package example.entity.request;//package org.example.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import example.service.validation_code.entity.StringCode;
+import example.entity.response.StringCodeResponse;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,27 +19,27 @@ import lombok.NoArgsConstructor;
 @ApiModel(description = "登录实体")
 public class LoginRequest {
 
-    @JsonProperty("user_name")
+    @JsonProperty("userName")
     @ApiModelProperty(value = "用户名")
     private String userName;
-    @JsonProperty("user_password")
+    @JsonProperty("userPassword")
     @ApiModelProperty(value = "密码")
     private String userPassword;
-    @JsonProperty("vc_picture_code")
+    @JsonProperty("vcPictureCode")
     @ApiModelProperty(value = "图形验证码")
-    private StringCode vcPictureCode;
+    private DigitOperaCodeRequest vcPictureCode;
 
-    @JsonProperty("user_telephone")
+    @JsonProperty("userTelephone")
     @ApiModelProperty(value = "电话")
     private String userTelephone;
-    @JsonProperty("vc_telephone_code")
+    @JsonProperty("vcTelephoneCode")
     @ApiModelProperty(value = "手机短信验证码")
-    private StringCode vcTelephoneCode;
+    private StringCodeRequest vcTelephoneCode;
 
-    @JsonProperty("user_sys_email")
+    @JsonProperty("userSysEmail")
     @ApiModelProperty(value = "邮箱")
     private String userSysEmail;
-    @JsonProperty("vc_email_code")
+    @JsonProperty("vcEmailCode")
     @ApiModelProperty(value = "邮箱验证码")
-    private StringCode vcEmailCode;
+    private StringCodeRequest vcEmailCode;
 }

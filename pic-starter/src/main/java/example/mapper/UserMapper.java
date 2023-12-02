@@ -1,6 +1,7 @@
 package example.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Mapper;
 import example.entity.database.User;
 
@@ -16,7 +17,7 @@ import java.util.List;
 @Mapper
 
 public interface UserMapper {
-    /**
+    /** m
      * 插入一条新的用户信息记录
      * @paramType: User
      * @param user 整个一个新的用户实例对象

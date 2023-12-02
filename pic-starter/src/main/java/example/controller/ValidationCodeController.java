@@ -1,21 +1,16 @@
 package example.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import example.service.validation_code.VcsEmailService;
-import example.service.validation_code.VcsPictureService;
-import example.service.validation_code.VcsTelephoneService;
-import example.service.validation_code.entity.DigitalOperationCode;
-import example.service.validation_code.entity.StringCode;
+import example.service.validationCode.VcsEmailService;
+import example.service.validationCode.VcsPictureService;
+import example.service.validationCode.VcsTelephoneService;
+import example.entity.response.DigitOperaCodeResponse;
+import example.entity.response.StringCodeResponse;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.mail.MessagingException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @description: 三种验证码的获取验证
@@ -41,8 +36,8 @@ public class ValidationCodeController {
      */
     @GetMapping("get_picture")
     @ApiOperation("获取图形验证码")
-    @ApiResponse(code = 200,message = "获取图形验证码成功",response = DigitalOperationCode.class)
-    public DigitalOperationCode picture ()  {
+    @ApiResponse(code = 200,message = "获取图形验证码成功",response = DigitOperaCodeResponse.class)
+    public DigitOperaCodeResponse picture ()  {
 
         return vcsPictureService.codeSendDigitOpera();
 
@@ -50,16 +45,16 @@ public class ValidationCodeController {
 
     @PostMapping("get_phone")
     @ApiOperation("获取手机验证码")
-    @ApiResponse(code = 200,message = "获取手机验证码成功" , response = StringCode.class)
-    public StringCode phone (@RequestBody @ApiParam("电话号码") String phoneNum)  {
+    @ApiResponse(code = 200,message = "获取手机验证码成功" , response = StringCodeResponse.class)
+    public StringCodeResponse phone (@RequestBody @ApiParam("电话号码") String phoneNum)  {
 
         return vcsTelephoneService.codeSend(phoneNum);
     }
 
     @PostMapping("get_email")
     @ApiOperation("获取邮箱验证码")
-    @ApiResponse(code = 200,message = "获取邮箱验证码成功" , response = StringCode.class)
-    public StringCode email (@RequestBody @ApiParam("邮箱地址") String emailAddr) throws MessagingException, IOException {
+    @ApiResponse(code = 200,message = "获取邮箱验证码成功" , response = StringCodeResponse.class)
+    public StringCodeResponse email (@RequestBody @ApiParam("邮箱地址") String emailAddr) throws MessagingException, IOException {
 
 
         return vcsEmailService.codeSend(emailAddr);

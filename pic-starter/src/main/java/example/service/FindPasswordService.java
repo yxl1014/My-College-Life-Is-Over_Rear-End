@@ -32,7 +32,7 @@ public class FindPasswordService {
             case 3:return emailSecProblem3(request);
             case 4:return phoneValidation4(request);
             case 5:return emailValidation5(request);
-            default: return new UuidResponse(400,"找不到匹配的处理方法，flag错误",null);
+            default: return new UuidResponse(500,"找不到匹配的处理方法，flag错误",null);
         }
     }
 

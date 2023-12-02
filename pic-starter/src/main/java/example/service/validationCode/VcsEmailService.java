@@ -1,11 +1,11 @@
-package example.service.validation_code;
+package example.service.validationCode;
 
 
+import common.verify.RegexValidator;
+import example.entity.database.User;
 import example.entity.database.VerifyCode;
 import example.mapper.VerifyCodeMapper;
-import example.service.validation_code.entity.StringCode;
-import example.tools.RegexValidator;
-import example.tools.UuidGenerator;
+import example.entity.response.StringCodeResponse;
 import example.tools.VerifyCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,14 +13,11 @@ import org.springframework.stereotype.Service;
 import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 
 /**
  * 邮箱验证码 还需要配置 发送方的 账号 邮箱授权码   使用的哪个邮箱，端口号
@@ -34,7 +31,7 @@ public class VcsEmailService {
     @Autowired
     VerifyCodeMapper verifyCodeMapper;
 
-    public StringCode codeSend(String recipientAddr) throws MessagingException, IOException {
+    public StringCodeResponse codeSend(String recipientAddr) throws MessagingException, IOException {
         if (recipientAddr.startsWith("\"") && recipientAddr.endsWith("\"")) {
             recipientAddr = recipientAddr.substring(1, recipientAddr.length() - 1);
         }
@@ -44,7 +41,7 @@ public class VcsEmailService {
         }
 
         Session session = emailSessionGenerator();
-        StringCode code = VerifyCodeGenerator.pureDigitCode();
+        StringCodeResponse code = VerifyCodeGenerator.pureDigitCode();
         codeInsert(code,recipientAddr, (short) 1);
 
         MimeMessage message = new MimeMessage(session);
@@ -57,15 +54,21 @@ public class VcsEmailService {
 
         Transport.send(message);
 
+        User user = new User();
+        user.setUserSysEmail(recipientAddr);
+
+        code.setCode(200);
+        code.setMsg("发送成功！");
+
         return code;
     }
 
-    private int codeInsert(StringCode stringCode,String emailAddr, short flag){
+    private int codeInsert(StringCodeResponse stringCodeResponse, String emailAddr, short flag){
         VerifyCode verifyCode = new VerifyCode();
-        verifyCode.setVcId(stringCode.getVcId());
+        verifyCode.setVcId(stringCodeResponse.getVcId());
         verifyCode.setVcCreateTime(new Timestamp(System.currentTimeMillis()));
         verifyCode.setVcOperationType(flag);
-        verifyCode.setVcEmailCode(stringCode.getValidation());
+        verifyCode.setVcEmailCode(stringCodeResponse.getValidation());
         verifyCode.setVcEmail(emailAddr);
         return verifyCodeMapper.insert(verifyCode);
     }

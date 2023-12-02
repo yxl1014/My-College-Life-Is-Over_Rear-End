@@ -1,10 +1,10 @@
-package example.tools;
+package common.verify;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @description:
+ * @description: 正则表达式验证
  * @author: HammerRay
  * @date: 2023/11/14 上午9:22
  */

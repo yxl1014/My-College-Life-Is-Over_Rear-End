@@ -1,15 +1,15 @@
-package example.service.validation_code;
+package example.service.validationCode;
 
 import example.entity.database.VerifyCode;
+import example.entity.inner.DigitOperaCode;
 import example.mapper.VerifyCodeMapper;
-import example.service.validation_code.entity.DigitalOperationCode;
-import example.service.validation_code.entity.StringCode;
+import example.entity.response.DigitOperaCodeResponse;
+import example.entity.response.StringCodeResponse;
 import example.tools.VerifyCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
-import java.util.Random;
 
 /**
  * @description: 图片验证码
@@ -27,7 +27,7 @@ public class VcsPictureService {
      * @author: GodHammer
      * @date: 2023-11-18 下午8:52
      * @version: v1.0
-     */public StringCode codeSendPureDigit() {
+     */public StringCodeResponse codeSendPureDigit() {
         //在此可自定义发送什么类型的验证码  可以是 可以是数字字母混合验证码  通过VerifyCodeGenerator可以自动生成
 
         //默认的 图片是6位数字的验证码
@@ -41,7 +41,7 @@ public class VcsPictureService {
      * @date: 2023-11-18 下午8:53
      * @version: v1.0
      */
-    public StringCode codeSendPureLetter(){
+    public StringCodeResponse codeSendPureLetter(){
         return VerifyCodeGenerator.pureLetterCode();
     }
 
@@ -52,7 +52,7 @@ public class VcsPictureService {
      * @date: 2023-11-18 下午8:53
      * @version: v1.0
      */
-    public StringCode codeSendDigitLetter(){
+    public StringCodeResponse codeSendDigitLetter(){
         return VerifyCodeGenerator.digitLetterCode();
     }
 
@@ -63,14 +63,20 @@ public class VcsPictureService {
      * @date: 2023-11-18 下午8:54
      * @version: v1.0
      */
-    public DigitalOperationCode codeSendDigitOpera(){
-        //TODO 写入数据库中
-        DigitalOperationCode digitalOperationCode = VerifyCodeGenerator.digitalOperationCode();
+    public DigitOperaCodeResponse codeSendDigitOpera(){
+
+        DigitOperaCode digitOperaCode= VerifyCodeGenerator.digitalOperationCode();
         VerifyCode verifyCode = new VerifyCode();
-        verifyCode.setVcId(digitalOperationCode.getVcId());
-        verifyCode.setVcPictureCode(digitalOperationCode.toString());
+        verifyCode.setVcId(digitOperaCode.getVcId());
+        verifyCode.setVcPictureCode(String.valueOf(digitOperaCode.getResult()));
         verifyCode.setVcCreateTime(new Timestamp(System.currentTimeMillis()));
+
         verifyCodeMapper.insert(verifyCode);
-        return digitalOperationCode;
+        DigitOperaCodeResponse digitOperaCodeResponse = new DigitOperaCodeResponse();
+        digitOperaCodeResponse.setBase64Img(digitOperaCode.getBase64Img());
+        digitOperaCodeResponse.setVcId(digitOperaCode.getVcId());
+        digitOperaCodeResponse.setCode(200);
+        digitOperaCodeResponse.setMsg("返回成功");
+        return digitOperaCodeResponse;
     }
 }

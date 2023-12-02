@@ -1,8 +1,6 @@
 import example.StarterApplication;
 import example.entity.database.User;
 import example.mapper.UserMapper;
-import example.tools.PasswordEncrypt;
-import example.tools.UuidGenerator;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;
@@ -40,24 +38,25 @@ public class TestUserMapper {
 
         user1.setUserId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
         user1.setUserName("John");
-        user1.setUserTelephone("22345657890");
-        user1.setUserSysEmail("john@example.com");
+//        user1.setUserTelephone("22345657890");
+        user1.setUserTelephone(null);
+//        user1.setUserSysEmail("john@example.com");
 
         user1.setUserPassword(PasswordEncrypt.hashPassword("password123"));
-        user1.setUserNickName("Johnny");
-        user1.setUserGender("男");
+//        user1.setUserNickName("Johnny");
+//        user1.setUserGender("男");
         user1.setUserBornDay(new Date(sdf1.parse("2003-09-10").getTime()));
 
-        user1.setUserIdCard("1234567890");
-        user1.setUserMoney(1000.0);
-        user1.setUserCompany("ABC Inc.");
-        user1.setUserHome("123 Main St");
+//        user1.setUserIdCard("1234567890");
+//        user1.setUserMoney(1000.0);
+//        user1.setUserCompany("ABC Inc.");
+//        user1.setUserHome("123 Main St");
 
-        user1.setUserIp("192.168.1.1");
-        user1.setUserFlag(1);
-        user1.setUserPersonalProfile("I am John");
+//        user1.setUserIp("192.168.1.1");
+//        user1.setUserFlag();
+//        user1.setUserPersonalProfile("I am John");
         user1.setUserCreateTime(new java.sql.Timestamp(System.currentTimeMillis()));
-
+        System.out.println(user1);
         userMapper.insert(user1);
     }
 

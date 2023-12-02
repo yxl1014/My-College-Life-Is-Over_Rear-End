@@ -1,4 +1,4 @@
-package example.tools;
+package common.encrypt;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -9,7 +9,7 @@ import java.security.SecureRandom;
 import java.util.Base64;
 
 /**
- * @description:
+ * @description: 给密码加密 不可逆
  * @author: HammerRay
  * @date: 2023/11/13 下午9:14
  */

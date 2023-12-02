@@ -1,7 +1,4 @@
-import example.tools.PasswordEncrypt;
-import example.tools.UuidGenerator;
 import org.example.PrivilegeApplication;
-import org.example.model.dao.UserMapper;
 import org.example.model.entity.User;
 import org.example.service.impl.UserMapperImpl;
 import org.junit.Test;

@@ -17,22 +17,22 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SecProblemResponse extends UuidResponse{
-    @JsonProperty("user_sec_problem_1")
+    @JsonProperty("userSecProblem1")
     @ApiModelProperty(value = "密保1")
     private String userSecProblem1;
-    @JsonProperty("user_sec_answer_1")
+    @JsonProperty("userSecAnswer1")
     @ApiModelProperty(value = "密保答案1")
     private String userSecAnswer1;
-    @JsonProperty("user_sec_problem_2")
+    @JsonProperty("userSecProblem2")
     @ApiModelProperty(value = "密保2")
     private String userSecProblem2;
-    @JsonProperty("user_sec_answer_2")
+    @JsonProperty("userSecAnswer2")
     @ApiModelProperty(value = "密保答案2")
     private String userSecAnswer2;
-    @JsonProperty("user_sec_problem_3")
+    @JsonProperty("userSecProblem3")
     @ApiModelProperty(value = "密保3")
     private String userSecProblem3;
-    @JsonProperty("user_sec_answer_3")
+    @JsonProperty("userSecAnswer3")
     @ApiModelProperty(value = "密保答案3")
     private String userSecAnswer3;
 }
