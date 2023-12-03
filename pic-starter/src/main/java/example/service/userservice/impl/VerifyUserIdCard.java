@@ -5,8 +5,8 @@ import example.entity.database.User;
 import example.mapper.UserDao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import response.R_Code;
 import response.ReBody;
+import response.RepCode;
 
 
 @Service
@@ -20,10 +20,10 @@ public class VerifyUserIdCard {
 
         User user1 = userDao.selectById(userId);
         if (user1 != null){
-            reBody.setRCode(R_Code.R_Ok);
+            reBody.setRepCode(RepCode.R_Ok);
             return reBody;
         }else {
-            reBody.setRCode(R_Code.R_Error);
+            reBody.setRepCode(RepCode.R_Error);
             reBody.setData("查无此人");
             return reBody;
         }

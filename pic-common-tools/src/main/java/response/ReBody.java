@@ -19,13 +19,12 @@ import lombok.NoArgsConstructor;
 public class ReBody {
 
     @ApiModelProperty("响应码")
-    private R_Code rCode;
+    private RepCode repCode;
 
     @ApiModelProperty("响应数据")
     private Object data;
 
-    public ReBody(R_Code rCode) {
-        this.rCode = rCode;
-    }
 
+    public ReBody(RepCode repCode) {
+    }
 }

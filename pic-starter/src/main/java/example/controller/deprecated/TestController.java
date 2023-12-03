@@ -2,9 +2,9 @@ package example.controller.deprecated;
 
 import io.swagger.annotations.*;
 import org.springframework.web.servlet.ModelAndView;
-import response.R_Code;
 import response.ReBody;
 import org.springframework.web.bind.annotation.*;
+import response.RepCode;
 import test.Add;
 
 
@@ -37,13 +37,13 @@ public class TestController {
     public ReBody testCondtent(@RequestParam(name = "code") int code) {
         switch (code) {
             case 1:
-                return new ReBody(R_Code.R_Ok);
+                return new ReBody(RepCode.R_Ok);
             case 2:
-                return new ReBody(R_Code.R_Fail);
+                return new ReBody(RepCode.R_Fail);
             case 3:
-                return new ReBody(R_Code.R_Error);
+                return new ReBody(RepCode.R_Error);
             default:
-                return new ReBody(R_Code.R_ParamError);
+                return new ReBody(RepCode.R_ParamError);
         }
     }
     @GetMapping("/testMv")
