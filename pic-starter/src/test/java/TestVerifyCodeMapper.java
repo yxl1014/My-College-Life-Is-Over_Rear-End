@@ -1,3 +1,4 @@
+import common.uuid.UuidGenerator;
 import example.StarterApplication;
 import example.entity.database.VerifyCode;
 import example.mapper.VerifyCodeMapper;

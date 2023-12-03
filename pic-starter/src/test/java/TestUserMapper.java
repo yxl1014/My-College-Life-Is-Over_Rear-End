@@ -1,4 +1,5 @@
 import common.encrypt.PasswordEncrypt;
+import common.uuid.UuidGenerator;
 import example.StarterApplication;
 import example.entity.database.User;
 import example.mapper.UserMapper;
