@@ -1,6 +1,8 @@
+import common.encrypt.PasswordEncrypt;
 import example.StarterApplication;
 import example.entity.database.User;
 import example.mapper.UserMapper;
+import example.tools.UuidGenerator;
 import org.junit.Test;
 
 import org.junit.runner.RunWith;

@@ -1,6 +1,7 @@
 import example.StarterApplication;
 import example.entity.database.VerifyCode;
 import example.mapper.VerifyCodeMapper;
+import example.tools.UuidGenerator;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
