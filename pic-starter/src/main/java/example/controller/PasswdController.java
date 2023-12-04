@@ -1,15 +1,21 @@
 package example.controller;
 
-import example.entity.request.FindPasswdRequest;
 import example.entity.request.ModifyPasswdRequest;
+import example.entity.request.findPasswd.FindPasswdRequest;
+import example.entity.request.findPasswd.SecAnswerRequest;
+import example.entity.response.SecProblemResponse;
 import example.entity.response.UuidResponse;
 import example.service.FindPasswordService;
 import example.service.ModifyPasswordService;
+import example.service.UserInfoQueryService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import response.ReBody;
+
 import java.io.IOException;
 
 
@@ -26,16 +32,48 @@ public class PasswdController {
     FindPasswordService findPasswordService;
     @Autowired
     ModifyPasswordService modifyPasswordService;
+    @Autowired
+    UserInfoQueryService queryService;
+
+    // 检验用户是否存在 ---> 存在true --->查询密保--->跳转到输入密保页面或输入验证码页面 -->处理正确失败 -->充值密码页面
+    @GetMapping("/checkExist")
+    @ApiOperation("检查用户是否存在")
+    @ApiResponse(code = 200, message = "请求成功", response = SecProblemResponse.class)
+    public ReBody checkExist(@ApiParam("用户名/邮箱地址/手机号") @RequestParam("string")String string){
+        return findPasswordService.checkExist(string);
+    }
+
+    @GetMapping("/passwdSecQuery")
+    @ApiOperation("查询密保")
+    @ApiResponse(code = 200, message = "请求成功", response = SecProblemResponse.class)
+    public SecProblemResponse passwdSecQuery(@ApiParam("用户名/邮箱地址/手机号") @RequestParam("string")String request) {
+
+        return queryService.passwdSecQuery(request);
+
+    }
+    @PostMapping("/checkProperSec")
+    @ApiOperation("检查密保正确性")
+    public boolean checkProper(SecAnswerRequest request){
+
+        return findPasswordService.checkProperSec(request);
+
+    }
+
+    @GetMapping("/checkProperVal")
+    @ApiOperation("检查验证码正确性")
+    public boolean checkProper(@ApiParam("验证码uuid") @RequestParam("vcId")String vcId,@ApiParam("验证码") @RequestParam("validation")String validation){
+
+        return findPasswordService.checkProperVal(vcId,validation);
+    }
 
     @PostMapping("/findPasswd")
-    @ApiOperation("找回密码 " )
+    @ApiOperation("找回密码" )
     @ResponseBody
     @ApiResponse(code = 200,message = "找回密码成功",response = UuidResponse.class)
-    public UuidResponse findPasswd(@RequestBody FindPasswdRequest findPasswdRequest) {
+    public UuidResponse findPasswd(FindPasswdRequest findPasswdRequest) {
 
-        UuidResponse uuidResponse = findPasswordService.findPasswd(findPasswdRequest);;
+        return  findPasswordService.findPasswd(findPasswdRequest);
 
-        return uuidResponse;
     }
 
     @PostMapping("/modify_passwd")

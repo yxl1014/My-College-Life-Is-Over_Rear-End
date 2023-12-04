@@ -43,18 +43,18 @@ public class ValidationCodeController {
 
     }
 
-    @PostMapping("get_phone")
+    @GetMapping("get_phone")
     @ApiOperation("获取手机验证码")
     @ApiResponse(code = 200,message = "获取手机验证码成功" , response = StringCodeResponse.class)
-    public StringCodeResponse phone (@RequestBody @ApiParam("电话号码") String phoneNum)  {
+    public StringCodeResponse phone (@ApiParam("电话号码") @RequestParam("phoneNum") String phoneNum)  {
 
         return vcsTelephoneService.codeSend(phoneNum);
     }
 
-    @PostMapping("get_email")
+    @GetMapping("get_email")
     @ApiOperation("获取邮箱验证码")
     @ApiResponse(code = 200,message = "获取邮箱验证码成功" , response = StringCodeResponse.class)
-    public StringCodeResponse email (@RequestBody @ApiParam("邮箱地址") String emailAddr) throws MessagingException, IOException {
+    public StringCodeResponse email (@ApiParam("邮箱地址") @RequestParam("emailAddr") String emailAddr) throws MessagingException, IOException {
 
 
         return vcsEmailService.codeSend(emailAddr);

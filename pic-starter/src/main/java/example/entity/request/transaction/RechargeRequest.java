@@ -17,9 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @ApiModel(value = "充值请求")
 public class RechargeRequest {
-    @JsonProperty("uuid")
-    @ApiModelProperty(value = "用户uuid")
-    private String uuid;
+
+    @ApiModelProperty(value = "打款人uuid")
+    @JsonProperty("senderId")
+    private String senderId;
+    @ApiModelProperty(value = "收款人uuid")
+    @JsonProperty("receiverId")
+    private String receiverId;
     @JsonProperty("homMuch")
     @ApiModelProperty(value = "充值多少钱")
     private double howMuch;

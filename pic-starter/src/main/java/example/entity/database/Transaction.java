@@ -43,7 +43,10 @@ public class Transaction {
     @JsonProperty("transPayWay")
     private String transPayWay;
 
-    @JsonProperty("transType")
+    /**
+     * enum('processing','success','failure')
+     */
+     @JsonProperty("transType")
     private String transType;
 
     @JsonProperty("transState")

@@ -38,8 +38,10 @@ public enum RepCode {
     //异常
     R_Error(500),
     //参数异常
-    R_ParamError(400),
-
-    ;
-    RepCode(int code) {};
+    R_ParamError(400);
+    private int code ;
+    RepCode(int code) {this.code = code;}
+    public int getCode(){
+        return code;
+    }
 }
