@@ -176,6 +176,31 @@ public class LimitsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //测试角色赋予可操作权限
+    @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerName}/powerType/{powerType}")
+    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerName") String powerName ,@PathVariable("powerType") int powerType) {
+        Role role = new Role();
+        Power power = new Power();
+        role.setRoleId(roleId);
+        power.setPowerName(powerName);
+        power.setPowerType(powerType);
+        //执行权限的可操作或可访问的选择
+        Integer powerId = roleMapperImpl.grantPowerToRoleOperate(powerName, powerType);
+        //授权
+        roleMapperImpl.grantPowerToRole(roleId, powerId);
+        // 验证是否成功
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted && powerType == 1) {
+            return ResponseEntity.ok("可操作权限已成功授予角色");
+        } else if (isGranted && powerType == 2) {
+            return ResponseEntity.ok("可访问权限已成功授予角色");
+        } else {
+            return ResponseEntity.badRequest().body("授权失败");
+        }
+    }
+
+
 }
 
 

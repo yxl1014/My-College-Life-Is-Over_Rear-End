@@ -45,6 +45,11 @@ public class RoleMapperImpl {
         return roleMapper.selectAllRole();
     }
 
+    //不同角色赋予权限不同操作（可访问or可操作）
+    public Integer grantPowerToRoleOperate(String powerName, int powerType) {
+        return roleMapper.grantPowerToRoleOperate(powerName, powerType);
+    }
+
     //角色分配权限
     public void grantPowerToRole(Integer roleId, Integer powerId) {
         roleMapper.grantPowerToRole(roleId, powerId);
@@ -70,9 +75,6 @@ public class RoleMapperImpl {
     public void revokePowerFromRole(Integer roleId, Integer powerId) {
         roleMapper.revokePowerFromRole(roleId, powerId);
     }
-
-    //查询角色对应的权限列表
-
 
 
 }

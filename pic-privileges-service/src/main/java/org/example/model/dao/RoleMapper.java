@@ -30,6 +30,9 @@ public interface RoleMapper {
     //查看所有角色
     List<Role> selectAllRole();
 
+    //不同角色赋予权限不同操作（可访问or可操作）
+    Integer grantPowerToRoleOperate(@Param("powerName") String powerName, @Param("powerType") int powerType);
+
     //不同角色赋予不同权限
     void grantPowerToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
 
@@ -44,7 +47,6 @@ public interface RoleMapper {
 
     //撤销已分配给角色的权限
     void revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
-
 
 
 }

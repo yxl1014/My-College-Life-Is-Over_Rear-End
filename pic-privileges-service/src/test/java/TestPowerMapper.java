@@ -30,9 +30,9 @@ public class TestPowerMapper {
     @Test
     public void insertRole() throws ParseException {
         Power power1 = new Power();
-        power1.setPowerId(1029);
-        power1.setPowerName("日志管理");
-        power1.setPowerType("1");
+        power1.setPowerId(1031);
+        power1.setPowerName("邮件系统");
+        power1.setPowerType(1);
         power1.setPowerDate(LocalDateTime.now());
         power1.setPowerNote("可访问");
         powerMapperImpl.insertPower(power1);
@@ -43,7 +43,7 @@ public class TestPowerMapper {
     @Test
     public void deletePower() {
         Power power = new Power();
-        power.setPowerId(1029);
+        power.setPowerId(1031);
         Power power1 = powerMapperImpl.selectOnePower(power);
         if (power1 != null) {
             powerMapperImpl.deletePower(power1);
@@ -99,11 +99,16 @@ public class TestPowerMapper {
         System.out.println("############################################################");
         System.out.println("以下是查询到的角色所属权限列表:");
 
+        assert powers != null;
         for (Power p : powers) {
             System.out.println(p);
         }
 
     }
+
+
+
+
 }
 
 

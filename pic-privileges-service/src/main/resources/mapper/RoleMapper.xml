@@ -86,6 +86,14 @@
           And ref_power_id = #{powerId};
     </select>
 
+    <select id="grantPowerToRoleOperate" resultType="java.lang.Integer">
+        SELECT power_id
+        FROM sys_power
+        WHERE power_name=#{powerName}
+        AND power_type = #{powerType};
+    </select>
+
+
 
 </mapper>
 
