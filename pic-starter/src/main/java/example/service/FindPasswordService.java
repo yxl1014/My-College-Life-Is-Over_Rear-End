@@ -1,15 +1,20 @@
 package example.service;
 
+import common.encrypt.PasswordEncrypt;
+import common.verify.RegexValidator;
 import example.entity.database.User;
 import example.entity.database.VerifyCode;
-import example.entity.request.FindPasswdRequest;
+import example.entity.inner.UniqueTypes;
+import example.entity.request.findPasswd.FindPasswdRequest;
+import example.entity.request.findPasswd.SecAnswerRequest;
+import example.entity.response.CheckExistResponse;
 import example.entity.response.UuidResponse;
 import example.mapper.UserMapper;
 import example.mapper.VerifyCodeMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import static net.sf.jsqlparser.util.validation.metadata.NamedObject.user;
+import response.ReBody;
+import response.RepCode;
 
 /**
  * @description: 找回密码服务
@@ -23,150 +28,155 @@ public class FindPasswordService {
     @Autowired
     VerifyCodeMapper verifyCodeMapper;
 
-    public UuidResponse findPasswd(FindPasswdRequest request){
-        short flag = request.getFlag();
-
-        switch (flag){
-            case 1:return usernameSecProblem1(request);
-            case 2:return phoneSecProblem2(request);
-            case 3:return emailSecProblem3(request);
-            case 4:return phoneValidation4(request);
-            case 5:return emailValidation5(request);
-            default: return new UuidResponse(500,"找不到匹配的处理方法，flag错误",null);
-        }
-    }
-
-
-    private UuidResponse usernameSecProblem1(FindPasswdRequest request){
-        UuidResponse uuidResponse = new UuidResponse();
+    public ReBody checkExist(String string) {
         User user = new User();
-        user.setUserName(request.getUserName());
+        ReBody reBody =new ReBody();
+        CheckExistResponse response = new CheckExistResponse();
+        if (RegexValidator.regexEmail(string)) {
+            user.setUserSysEmail(string);
+            user = userMapper.selectOne(user);
+            if(user == null){
+                    reBody.setCode(RepCode.R_Error.getCode());
+                    reBody.setMsg("邮箱未注册！请检查邮箱是否正确");
+                    return reBody;
+            }
+            return getReBody(user, reBody, response);
+        }
+        if (RegexValidator.regexTelephone(string)) {
+            user.setUserTelephone(string);
+            user = userMapper.selectOne(user);
+            if(user == null){
+                reBody.setCode(RepCode.R_Error.getCode());
+                reBody.setMsg("电话号码未注册！请检查电话号码是否正确");
+                return reBody;
+            }
+            return getReBody(user, reBody, response);
+        }
 
-        user =userMapper.selectOne(user);
-        if(!request.getUserSecAnswer1().equals(user.getUserSecAnswer1())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
+        user.setUserName(string);
+        user = userMapper.selectOne(user);
+        if(user == null){
+            reBody.setCode(RepCode.R_Error.getCode());
+            reBody.setMsg("用户名不存在！请检查用户名是否正确");
+            return reBody;
         }
-        if(!request.getUserSecAnswer2().equals(user.getUserSecAnswer2())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-        if(!request.getUserSecAnswer3().equals(user.getUserSecAnswer3())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-
-        user.setUserPassword(request.getNewPasswd());
-        userMapper.update(user);
-        uuidResponse.setCode(200);
-        uuidResponse.setUuid(user.getUserId());
-        uuidResponse.setMsg("找回密码成功");
-        return uuidResponse;
+        return getReBody(user, reBody, response);
     }
-    private UuidResponse phoneSecProblem2(FindPasswdRequest request){
-        UuidResponse uuidResponse = new UuidResponse();
+
+    private ReBody getReBody(User user, ReBody reBody, CheckExistResponse response) {
+        response.setUserTelephone(user.getUserTelephone());
+        response.setUserName(user.getUserName());
+        response.setUserSysEmail(user.getUserSysEmail());
+        reBody.setData(response);
+        reBody.setMsg("请求成功");
+        reBody.setCode(RepCode.R_Ok.getCode());
+
+        return reBody;
+    }
+
+    public UniqueTypes checkWhichOne(String string) {
+
+        if (RegexValidator.regexEmail(string)) {
+            return UniqueTypes.EMAIL;
+        }
+        if (RegexValidator.regexTelephone(string)) {
+
+            return UniqueTypes.TELEPHONE;
+        }
+        return UniqueTypes.USERNAME;
+    }
+
+    public boolean checkProperSec(SecAnswerRequest request) {
+        UniqueTypes uniqueTypes = checkWhichOne(request.getString());
         User user = new User();
-        user.setUserTelephone(request.getUserTelephone());
+        switch (uniqueTypes) {
+            case EMAIL:
+                user.setUserSysEmail(request.getString());
+                break;
+            case USERNAME:
+                user.setUserName(request.getString());
+                break;
+            case TELEPHONE:
+                user.setUserTelephone(request.getString());
+                break;
+            default:
+                return false;
+        }
+        user = userMapper.selectOne(user);
+        if (user == null) {
+            return false;
+        }
+        if(user.getUserSecAnswer1() == null){
+            if(user.getUserSecAnswer2() == null){
+                if (user.getUserSecAnswer3() == null) {
+                    return false;
+                }else {
+                    return  user.getUserSecAnswer3().equals(request.getUserSecAnswer3());
+                }
+            }else {
+                if (user.getUserSecAnswer3() == null) {
+                    return user.getUserSecAnswer2().equals(request.getUserSecAnswer2());
+                }else {
+                    return  user.getUserSecAnswer2().equals(request.getUserSecAnswer2()) &&
+                            user.getUserSecAnswer3().equals(request.getUserSecAnswer3());
+                }
+            }
+        }else {
+            if(user.getUserSecAnswer2() == null){
+                if (user.getUserSecAnswer3() == null) {
+                    return user.getUserSecAnswer1().equals(request.getUserSecAnswer1());
+                }else {
+                    return  user.getUserSecAnswer1().equals(request.getUserSecAnswer1()) &&
+                            user.getUserSecAnswer3().equals(request.getUserSecAnswer3());
+                }
+            }else {
+                if (user.getUserSecAnswer3() == null) {
+                    return user.getUserSecAnswer1().equals(request.getUserSecAnswer1()) &&
+                            user.getUserSecAnswer2().equals(request.getUserSecAnswer2());
+                }else {
+                    return  user.getUserSecAnswer1().equals(request.getUserSecAnswer1()) &&
+                            user.getUserSecAnswer2().equals(request.getUserSecAnswer2()) &&
+                            user.getUserSecAnswer3().equals(request.getUserSecAnswer3());
+                }
+            }
+        }
 
-        user =userMapper.selectOne(user);
-        if(!request.getUserSecAnswer1().equals(user.getUserSecAnswer1())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-        if(!request.getUserSecAnswer2().equals(user.getUserSecAnswer2())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-        if(!request.getUserSecAnswer3().equals(user.getUserSecAnswer3())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
 
-        user.setUserPassword(request.getNewPasswd());
-        userMapper.update(user);
-        uuidResponse.setCode(200);
-        uuidResponse.setUuid(user.getUserId());
-        uuidResponse.setMsg("找回密码成功");
-        return uuidResponse;
     }
-    private UuidResponse emailSecProblem3(FindPasswdRequest request){
-        UuidResponse uuidResponse = new UuidResponse();
-        User user = new User();
-        user.setUserSysEmail(request.getUserSysEmail());
-        user =userMapper.selectOne(user);
-        if(!request.getUserSecAnswer1().equals(user.getUserSecAnswer1())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-        if(!request.getUserSecAnswer2().equals(user.getUserSecAnswer2())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
-        if(!request.getUserSecAnswer3().equals(user.getUserSecAnswer3())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("密保答案错误");
-            return uuidResponse;
-        }
 
-        user.setUserPassword(request.getNewPasswd());
-        userMapper.update(user);
-        uuidResponse.setCode(200);
-        uuidResponse.setUuid(user.getUserId());
-        uuidResponse.setMsg("找回密码成功");
-        return uuidResponse;
-    }
-    private UuidResponse phoneValidation4(FindPasswdRequest request){
-        UuidResponse uuidResponse = new UuidResponse();
-        ;
+    public boolean checkProperVal(String vcId, String validation) {
         VerifyCode verifyCode = new VerifyCode();
-        verifyCode.setVcId(request.getVcTelephoneCode().getVcId());
+        verifyCode.setVcId(vcId);
         verifyCode = verifyCodeMapper.selectOne(verifyCode);
 
-
-        if(!verifyCode.getVcTelephoneCode().equals(request.getVcTelephoneCode().getValidation())){
-            uuidResponse.setCode(200);
-            uuidResponse.setMsg("验证码错误");
-            return uuidResponse;
+        if(verifyCode.getVcTelephoneCode() == null){
+            if(verifyCode.getVcEmailCode() == null){
+                return false;
+            }else {
+                return verifyCode.getVcEmailCode().equals(validation);
+            }
         }
-
-        User user = new User();
-        user.setUserTelephone(request.getUserTelephone());
-        user =userMapper.selectOne(user);
-        user.setUserPassword(request.getNewPasswd());
-        userMapper.update(user);
-        uuidResponse.setCode(200);
-        uuidResponse.setUuid(user.getUserId());
-        uuidResponse.setMsg("找回密码成功");
-        return uuidResponse;
+        return verifyCode.getVcEmailCode().equals(validation);
     }
-    private UuidResponse emailValidation5(FindPasswdRequest request){
+
+    public UuidResponse findPasswd(FindPasswdRequest request) {
+        User user = new User();
         UuidResponse uuidResponse = new UuidResponse();
-        String vcEmailCodeId = request.getVcEmailCode().getVcId();
-        VerifyCode verifyCode = new VerifyCode();
-        verifyCode.setVcId(vcEmailCodeId);
-        verifyCode = verifyCodeMapper.selectOne(verifyCode);
-
-        if(!(verifyCode.getVcEmailCode().equals(request.getVcEmailCode().getValidation()))){
+        if(request.getNewPasswd().equals(request.getTwiceNewPasswd())){
+            user.setUserSysEmail(request.getUserSysEmail());
+            user.setUserTelephone(request.getUserTelephone());
+            user.setUserName(request.getUserName());
+            user = userMapper.selectOne(user);
+            user.setUserPassword(PasswordEncrypt.hashPassword(request.getNewPasswd()));
+            userMapper.update(user);
+            uuidResponse.setUuid(user.getUserId());
             uuidResponse.setCode(200);
-            uuidResponse.setMsg("验证码错误");
+            uuidResponse.setMsg("修改成功!");
             return uuidResponse;
         }
-        User user = new User();
-        user.setUserSysEmail(request.getUserSysEmail());
-        user =userMapper.selectOne(user);
-        user.setUserPassword(request.getNewPasswd());
-        userMapper.update(user);
-        uuidResponse.setCode(200);
-        uuidResponse.setUuid(user.getUserId());
-        uuidResponse.setMsg("找回密码成功");
+        uuidResponse.setCode(500);
+        uuidResponse.setMsg("两次输入的密码不一致！请重新输入");
         return uuidResponse;
     }
+
 }

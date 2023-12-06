@@ -1,12 +1,10 @@
 package example.entity.request;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import example.entity.response.father.Response;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 /**

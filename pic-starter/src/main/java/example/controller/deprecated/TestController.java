@@ -2,7 +2,7 @@ package example.controller.deprecated;
 
 import io.swagger.annotations.*;
 import org.springframework.web.servlet.ModelAndView;
-import response.R_Code;
+import response.RepCode;
 import response.ReBody;
 import org.springframework.web.bind.annotation.*;
 import test.Add;
@@ -27,23 +27,24 @@ public class TestController {
 
     @PostMapping("/post")
     @ApiOperation("测试 表单处理 Post方法")
-    public String post(@ApiParam("用户的名字")@RequestParam(name = "username") String username){return "获取到表单数据"+username+"hello world!";}
+    public String post(@ApiParam("用户的名字")@RequestParam(name = "username") String username){
+        return "获取到表单数据"+username+"hello world!";}
 
     @GetMapping("/res_code")
     @ApiOperation("测试系统")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "mobile", value = "1:ok 2:fail 3:error other:paramError", required = true, paramType = "form", dataType = "Integer")
+            @ApiImplicitParam(name = "mobile", value = "200:ok 400:fail 500:error 400:paramError", required = true, paramType = "form", dataType = "Integer")
     })
     public ReBody testCondtent(@RequestParam(name = "code") int code) {
         switch (code) {
             case 1:
-                return new ReBody(R_Code.R_Ok);
+                return new ReBody(RepCode.R_Ok);
             case 2:
-                return new ReBody(R_Code.R_Fail);
+                return new ReBody(RepCode.R_Fail);
             case 3:
-                return new ReBody(R_Code.R_Error);
+                return new ReBody(RepCode.R_Error);
             default:
-                return new ReBody(R_Code.R_ParamError);
+                return new ReBody(RepCode.R_ParamError);
         }
     }
     @GetMapping("/testMv")

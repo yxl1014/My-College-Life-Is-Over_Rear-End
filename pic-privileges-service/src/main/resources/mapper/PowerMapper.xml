@@ -39,7 +39,8 @@
                power_create_time,
                power_notes
         from sys_power
-        where power_id = #{powerId};
+        where power_id = #{powerId}
+        or power_name=#{powerName};
     </select>
 
     <select id="selectAllPower" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
@@ -57,6 +58,8 @@
                  INNER JOIN sys_role_power_ref rp ON p.power_id = rp.ref_power_id
         WHERE ref_role_id = #{roleId};
     </select>
+
+
 
 
 </mapper>

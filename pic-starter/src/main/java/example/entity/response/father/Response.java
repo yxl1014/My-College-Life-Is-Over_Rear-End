@@ -1,6 +1,5 @@
 package example.entity.response.father;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -19,10 +18,10 @@ import lombok.NoArgsConstructor;
 public class Response {
 
     @ApiModelProperty("状态码")
-    @JsonProperty("code")
     private int code;
 
-    @ApiModelProperty("信息")
-    @JsonProperty("msg")
+    @ApiModelProperty("响应信息")
     private String msg;
+
+
 }

@@ -29,7 +29,7 @@ public class Power {
     private String powerName;
 
     @JsonProperty("power_type")
-    private String powerType;
+    private int powerType;
 
     @JsonProperty("power_create_time")
     private LocalDateTime powerDate;

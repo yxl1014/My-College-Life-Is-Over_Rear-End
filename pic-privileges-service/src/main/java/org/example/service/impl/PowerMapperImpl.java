@@ -48,8 +48,13 @@ public class PowerMapperImpl {
         return powerMapper.selectAllPower();
     }
 
-    public List<Power> getRolePowers(Integer roleId){
+    public List<Power> getRolePowers(Integer roleId) {
         return powerMapper.getRolePowers(roleId);
+    }
+
+    //不同角色赋予权限不同操作（可访问or可操作）
+    public Integer grantPowerToRoleOperate(String powerName, int powerType) {
+        return roleMapper.grantPowerToRoleOperate(powerName, powerType);
     }
 
 }

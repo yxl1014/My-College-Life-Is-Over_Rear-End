@@ -1,4 +1,5 @@
 import org.example.PrivilegeApplication;
+import org.example.model.entity.Power;
 import org.example.model.entity.Role;
 import org.example.service.impl.RoleMapperImpl;
 import org.junit.Test;
@@ -139,5 +140,21 @@ public class TestRoleMapper {
         }
     }
 
+    @Test
+    public void testGrantPowerToRoleVisit() {
+        // 模拟角色ID和权限ID
+        Integer roleId = 101;
+        String powerName = "用户管理";
+        int powerType = 2;//可操作为1，可访问为2
+        Integer powerId = roleMapperImpl.grantPowerToRoleOperate(powerName,powerType);
+        roleMapperImpl.grantPowerToRole(roleId, powerId);
+        // 验证授权结果
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted) {
+            System.out.println("权限成功授权给角色(可访问）！");
+        } else {
+            Assertions.fail("权限授予角色失败（可访问）！");
+        }
+    }
 
 }

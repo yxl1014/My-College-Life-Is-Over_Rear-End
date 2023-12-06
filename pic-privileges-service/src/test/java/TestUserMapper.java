@@ -1,3 +1,5 @@
+import common.encrypt.PasswordEncrypt;
+import common.uuid.UuidGenerator;
 import org.example.PrivilegeApplication;
 import org.example.model.entity.User;
 import org.example.service.impl.UserMapperImpl;

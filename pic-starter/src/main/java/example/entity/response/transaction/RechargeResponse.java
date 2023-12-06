@@ -2,7 +2,6 @@ package example.entity.response.transaction;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import example.entity.response.father.Response;
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -17,31 +16,30 @@ import java.sql.Timestamp;
  * @author: HammerRay
  * @date: 2023/12/2 下午11:02
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("充值响应")
-public class RechargeResponse extends Response {
+public class RechargeResponse{
     @ApiModelProperty(value = "交易单号uuid")
     @JsonProperty("transId")
     private String transId;
 
     @ApiModelProperty(value = "打款人uuid")
     @JsonProperty("senderId")
-    private String senderId;
+    private String transSenderId;
 
     @ApiModelProperty(value = "收款人uuid")
     @JsonProperty("receiverId")
-    private String receiverId;
+    private String transReceiverId;
 
     @ApiModelProperty(value = "充值金额")
     @JsonProperty("howMuch")
-    private double howMuch;
+    private double transHowMuch;
 
     @ApiModelProperty(value = "现在余额")
     @JsonProperty("restMoney")
-    private double restMoney;
+    private double transRestMoney;
 
     @ApiModelProperty(value = "交易时间")
     @JsonProperty("transTime")
