@@ -1,7 +1,25 @@
 # 数据库连接配置
 spring:
+  redis:
+    # 连接超时时间
+    timeout: 10
+    # 连接redis端口
+    port: 6379
+    # 主机地址
+    host: 127.0.0.1
+    password:
+    jedis:
+      pool:
+        #最大连接数据库连接数,设 0 为没有限制
+        max-active: 8
+        #最大等待连接中的数量,设 0 为没有限制
+        max-idle: 8
+        #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        max-wait: -1
+        #最小等待连接中的数量,设 0 为没有限制
+        min-idle: 0
   mvc:
-    pathmatch:
+    path match:
       #这里配置的这个参数是为了解决spring boot和swagger版本不兼容的问题
       matching-strategy: ant_path_matcher
   datasource:
@@ -51,3 +69,7 @@ smtp_hostname_qq : smtp.qq.com
 smtp_port_qq : 587
 email_username_zy : 2624773733@qq.com
 email_password_zy : rgxfiootentddjch
+
+
+
+

@@ -1,5 +1,6 @@
-package example.service.validationCode;
+package example.service.validationcode;
 
+import common.uuid.UuidGenerator;
 import example.entity.database.VerifyCode;
 import example.entity.inner.DigitOperaCode;
 import example.mapper.VerifyCodeMapper;
@@ -7,9 +8,12 @@ import example.entity.response.DigitOperaCodeResponse;
 import example.entity.response.StringCodeResponse;
 import example.tools.VerifyCodeGenerator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+
 import java.sql.Timestamp;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @description: 图片验证码
@@ -20,6 +24,8 @@ import java.sql.Timestamp;
 public class VcsPictureService {
     @Autowired
     VerifyCodeMapper verifyCodeMapper;
+    @Autowired
+    ValidationCacheService validationCacheService;
 
     /**
      * 数字验证码
@@ -71,7 +77,10 @@ public class VcsPictureService {
         verifyCode.setVcPictureCode(String.valueOf(digitOperaCode.getResult()));
         verifyCode.setVcCreateTime(new Timestamp(System.currentTimeMillis()));
 
+        validationCacheService.cacheCode(digitOperaCode.getVcId(), String.valueOf(digitOperaCode.getResult()));
+
         verifyCodeMapper.insert(verifyCode);
+
         DigitOperaCodeResponse digitOperaCodeResponse = new DigitOperaCodeResponse();
         digitOperaCodeResponse.setBase64Img(digitOperaCode.getBase64Img());
         digitOperaCodeResponse.setVcId(digitOperaCode.getVcId());
@@ -79,4 +88,6 @@ public class VcsPictureService {
         digitOperaCodeResponse.setMsg("返回成功");
         return digitOperaCodeResponse;
     }
+
+
 }

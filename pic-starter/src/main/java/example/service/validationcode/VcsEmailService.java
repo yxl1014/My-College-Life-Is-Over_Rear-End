@@ -1,4 +1,4 @@
-package example.service.validationCode;
+package example.service.validationcode;
 
 
 import common.verify.RegexValidator;
@@ -30,6 +30,8 @@ import java.util.Properties;
 public class VcsEmailService {
     @Autowired
     VerifyCodeMapper verifyCodeMapper;
+    @Autowired
+    ValidationCacheService validationCacheService;
 
     public StringCodeResponse codeSend(String recipientAddr) throws MessagingException, IOException {
         if (recipientAddr.startsWith("\"") && recipientAddr.endsWith("\"")) {
@@ -42,11 +44,15 @@ public class VcsEmailService {
 
         Session session = emailSessionGenerator();
         StringCodeResponse code = VerifyCodeGenerator.pureDigitCode();
+
+        validationCacheService.cacheCode(code.getVcId(),code.getValidation());
+
         codeInsert(code,recipientAddr, (short) 1);
+
 
         MimeMessage message = new MimeMessage(session);
 
-        message.setSubject("我们是LoadRunnerX平台，请接收您的邮箱登录验证码:");
+        message.setSubject("我们是LoadRunnerX平台，请接收您的邮箱登录验证码,验证码有效时间为60s:");
         message.setText("这是您的邮箱登录验证码: "+ code.getValidation() +"\n时间："+new Date());
 
         message.setFrom(new InternetAddress("2624773733@qq.com","LoadRunnerX"));
@@ -58,7 +64,7 @@ public class VcsEmailService {
         user.setUserSysEmail(recipientAddr);
 
         code.setCode(200);
-        code.setMsg("发送成功！");
+        code.setMsg("发送成功！验证码有效时长为60s");
 
         return code;
     }

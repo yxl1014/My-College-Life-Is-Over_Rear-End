@@ -1,4 +1,4 @@
-package example.service.validationCode;
+package example.service.validationcode;
 
 import common.verify.RegexValidator;
 import example.entity.database.VerifyCode;
@@ -19,7 +19,8 @@ import java.sql.Timestamp;
 public class VcsTelephoneService {
     @Autowired
     VerifyCodeMapper verifyCodeMapper;
-
+    @Autowired
+    ValidationCacheService validationCacheService;
 
     public StringCodeResponse codeSend(String telephone) {
         // 使用substring方法去除字符串两端的双引号
@@ -40,10 +41,13 @@ public class VcsTelephoneService {
         verifyCode.setVcTelephoneCode(res.getValidation());
         verifyCode.setVcOperationType((short) 1);
         verifyCode.setVcCreateTime(new Timestamp(System.currentTimeMillis()));
+
+        validationCacheService.cacheCode(res.getVcId(), res.getValidation());
+
         verifyCodeMapper.insert(verifyCode);
 
         res.setCode(200);
-        res.setMsg("发送成功");
+        res.setMsg("发送成功!验证码有效时长为60s");
         return res;
     }
 

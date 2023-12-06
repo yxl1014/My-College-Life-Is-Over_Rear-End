@@ -1,8 +1,8 @@
 package example.controller;
 
-import example.service.validationCode.VcsEmailService;
-import example.service.validationCode.VcsPictureService;
-import example.service.validationCode.VcsTelephoneService;
+import example.service.validationcode.VcsEmailService;
+import example.service.validationcode.VcsPictureService;
+import example.service.validationcode.VcsTelephoneService;
 import example.entity.response.DigitOperaCodeResponse;
 import example.entity.response.StringCodeResponse;
 import io.swagger.annotations.*;

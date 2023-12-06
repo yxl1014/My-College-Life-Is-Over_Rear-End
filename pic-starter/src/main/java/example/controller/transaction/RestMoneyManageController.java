@@ -6,6 +6,7 @@ import example.service.transaction.RechargeService;
 import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import response.ReBody;
@@ -25,7 +26,7 @@ public class RestMoneyManageController {
     @PostMapping("/recharge")
     @ApiOperation("充值接口")
     @ApiResponse(code = 200,message = "充值成功",response = RechargeResponse.class)
-    public ReBody recharge (RechargeRequest request){
+    public ReBody recharge (@RequestBody RechargeRequest request){
 
 
         return rechargeService.recharge(request);

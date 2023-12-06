@@ -43,10 +43,10 @@ public class LoginController {
 
     }
 
-    @PostMapping("/logout")
+    @GetMapping("/logout")
     @ApiOperation("登出---redis中删除相关UUID")
     @ApiResponse(code = 200, message = "登出成功", response = UuidResponse.class)
-    public UuidResponse logout(@RequestBody @ApiParam("用户的uuid") String uuid) throws IOException {
+    public UuidResponse logout(@RequestParam @ApiParam("用户的uuid") String uuid) throws IOException {
 
         return logoffService.logOff(uuid);
 
