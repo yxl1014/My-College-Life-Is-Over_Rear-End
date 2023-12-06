@@ -34,8 +34,11 @@ mybatis:
 mybatis-plus:
   global-config:
     db-config:
-      table-prefix: LoadRunnerX
-      id-type: auto
+      table-prefix: sys_
+#      id-type: auto
+
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 
 server:
   port: 18080
