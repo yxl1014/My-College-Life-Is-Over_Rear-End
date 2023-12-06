@@ -78,5 +78,5 @@ fabric.properties
 # Android studio 3.1+ serialized cache file
 .idea/caches/build_file_checksums.ser
 
-# 不提交编译文件
+# 不提交.class编译文件
 *.class
