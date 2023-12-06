@@ -1,6 +1,11 @@
 import org.example.PrivilegeApplication;
+import org.example.model.dao.UserMapper;
 import org.example.model.entity.Power;
+import org.example.model.entity.Role;
+import org.example.model.entity.User;
 import org.example.service.impl.PowerMapperImpl;
+import org.example.service.impl.RoleMapperImpl;
+import org.example.service.impl.UserMapperImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -25,6 +30,7 @@ public class TestPowerMapper {
 
     @Autowired
     private PowerMapperImpl powerMapperImpl;
+
 
     //增加权限
     @Test
@@ -106,7 +112,23 @@ public class TestPowerMapper {
 
     }
 
+    //查询权限状态（1为可操作,2为可访问）
+    @Test
+    public void isStatusToPower() {
+        Integer powerId = 1001;
+        int powerFlag = 2;
+        Power power = new Power();
+        power.setPowerId(powerId);
+        Power power1 = powerMapperImpl.selectOnePower(power);
+        String powerName = power1.getPowerName();
+        boolean isStatusToPower = powerMapperImpl.isStatusToPower(powerId, powerFlag);
+        if (isStatusToPower) {
+            System.out.println(powerId + powerName + "是可操作的！");
+        } else {
+            System.out.println(powerId + powerName + "是可访问的！");
+        }
 
+    }
 
 
 }

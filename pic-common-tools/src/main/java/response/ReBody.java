@@ -30,4 +30,7 @@ public class ReBody {
     public ReBody(RepCode rCode) {
         this.code = rCode.ordinal();
     }
+
+    public void setRCode(R_Code rCode) {
+    }
 }

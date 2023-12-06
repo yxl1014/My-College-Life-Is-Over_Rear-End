@@ -1,23 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-login-register/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-starter/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-common/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-common-tools/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/pic-asynchronous-tasks/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-limits/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-login-register/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-notice/pom.xml" />
-        <option value="$PROJECT_DIR$/pic-transaction/pom.xml" />
-      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8 (2)" project-jdk-type="JavaSDK">

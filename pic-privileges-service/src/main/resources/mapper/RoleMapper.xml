@@ -90,7 +90,30 @@
         SELECT power_id
         FROM sys_power
         WHERE power_name=#{powerName}
-        AND power_type = #{powerType};
+          AND power_type = #{powerType};
+    </select>
+
+    <select id="revokeUserFromRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        DELETE
+        FROM sys_user_role_ref
+        WHERE ref_user_id = #{userId}
+          And ref_role_id = #{roleId};
+    </select>
+
+    <select id="isAbleToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        select role_id,
+               role_name,
+               role_create_time,
+               role_status_flag,
+               role_remark
+        from sys_role
+        where role_status_flag = #{roleFlag};
+    </select>
+
+    <select id="isUserWhatToRole" resultType="java.lang.Integer">
+        select ref_role_id
+        from sys_user_role_ref
+        where ref_user_id = #{userId};
     </select>
 
 

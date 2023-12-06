@@ -48,5 +48,15 @@ public interface RoleMapper {
     //撤销已分配给角色的权限
     void revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
 
+    //撤销已分配给用户的角色
+    void revokeUserFromRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+
+    //所有可用状态角色列表（0为可用）
+    List<Role> isAbleToRole(@Param("roleFlag") int roleFlag);
+
+    //判断用户的角色
+    int isUserWhatToRole(@Param("userId") String userId);
+
+
 
 }

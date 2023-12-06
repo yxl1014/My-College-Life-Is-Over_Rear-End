@@ -34,7 +34,7 @@ public class Role {
     private LocalDateTime roleDate;
 
     @JsonProperty("role_status_flag")
-    private String roleFlag;
+    private int roleFlag;
 
     @JsonProperty("role_remark")
     private String roleMark;

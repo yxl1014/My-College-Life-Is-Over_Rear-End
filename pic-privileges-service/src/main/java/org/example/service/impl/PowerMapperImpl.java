@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
 import org.example.model.dao.UserMapper;
@@ -52,9 +53,13 @@ public class PowerMapperImpl {
         return powerMapper.getRolePowers(roleId);
     }
 
-    //不同角色赋予权限不同操作（可访问or可操作）
-    public Integer grantPowerToRoleOperate(String powerName, int powerType) {
-        return roleMapper.grantPowerToRoleOperate(powerName, powerType);
+    //判断权限的状态为可操作还是可访问
+    public boolean isStatusToPower(@Param("powerId") Integer powerId, @Param("powerType") int powerType) {
+        int count = powerMapper.isStatusToPower(powerId, powerType);
+        return count > 0;
     }
+
+
+
 
 }

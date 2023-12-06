@@ -31,5 +31,10 @@ public interface PowerMapper {
     //查询角色对应的权限列表
     List<Power> getRolePowers(Integer roleId);
 
+    //判断权限的状态为可操作还是可访问
+    int isStatusToPower(@Param("powerId") Integer powerId, @Param("powerType") int powerType);
+
+
+
 
 }

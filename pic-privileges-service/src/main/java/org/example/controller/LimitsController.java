@@ -179,7 +179,7 @@ public class LimitsController {
 
     //测试角色赋予可操作权限
     @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerName}/powerType/{powerType}")
-    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerName") String powerName ,@PathVariable("powerType") int powerType) {
+    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerName") String powerName, @PathVariable("powerType") int powerType) {
         Role role = new Role();
         Power power = new Power();
         role.setRoleId(roleId);
@@ -200,7 +200,38 @@ public class LimitsController {
         }
     }
 
+    //查询可用状态下角色
+    @GetMapping("/isAbleToRole")
+    public ResponseEntity<?> isAbleToRole() {
+        int roleFlag = 0;
+        List<Role> roleList = roleMapperImpl.isAbleToRole(roleFlag);
+        return ResponseEntity.ok(roleList);
+    }
 
+    //权限认证（查询该用户是否拥有此权限以及权限状态）
+    @GetMapping("/isStatusToUser/{userId}/{powerId}")
+    //  userId = "0000018b-e2b0-2c75-988b-44cac59dd328";
+    public ResponseEntity<String> isStatusToUser(@PathVariable("userId") String userId, @PathVariable Integer powerId) {
+        User user = new User();
+        user.setUserId(userId);
+        Integer roleId = roleMapperImpl.isUserWhatToRole(userId);
+        Role role = new Role();
+        role.setRoleId(roleId);
+        Power power=new Power();
+        power.setPowerId(powerId);
+        Power power1 = powerMapperImpl.selectOnePower(power);
+        int powerType=power1.getPowerType();
+        // 验证该角色是否拥有此权限
+        boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);
+        if (isGranted&& powerType == 1) {
+            return ResponseEntity.ok("该用户拥有此权限,且此权限为可操作");
+        } else if (isGranted&& powerType == 2) {
+            return ResponseEntity.badRequest().body("该用户拥有此权限,且此权限为可访问");
+        }else {
+            return ResponseEntity.badRequest().body("该用户不拥有此权限");
+        }
+
+    }
 }
 
 
