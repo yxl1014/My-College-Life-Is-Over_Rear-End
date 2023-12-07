@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.session.SqlSession;
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
+import org.example.model.dao.UserMapper;
 import org.example.model.entity.Power;
 import org.example.model.entity.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,30 +19,76 @@ import java.util.List;
  */
 @Service
 public class RoleMapperImpl {
+    private final PowerMapper powerMapper;
+    private final UserMapper userMapper;
     private final RoleMapper roleMapper;
 
     @Autowired
-    public RoleMapperImpl(RoleMapper roleMapper) {
+    public RoleMapperImpl(PowerMapper powerMapper, UserMapper userMapper, RoleMapper roleMapper) {
+        this.powerMapper = powerMapper;
+        this.userMapper = userMapper;
         this.roleMapper = roleMapper;
     }
-
     //增加角色
     public void insertRole(Role role) {
+        // 参数校验
+        if (role == null || role.getRoleId() == null) {
+            throw new IllegalArgumentException("角色信息不能为空");
+        }
+
+        // 权限验证
+       /* if (!checkAdminPermissions()) {
+            throw new SecurityException("无权限插入角色信息");
+        }*/
+        //执行插入
         roleMapper.insertRole(role);
     }
 
     //删除角色
     public void deleteRole(Role role) {
+        // 参数校验
+        if (role == null || role.getRoleId() == null) {
+            throw new IllegalArgumentException("角色信息不能为空");
+        }
+
+        // 权限验证
+           /* if (!checkAdminPermissions()) {
+                throw new SecurityException("无权限删除角色信息");
+            }*/
+
+        // 执行删除
         roleMapper.deleteRole(role);
     }
 
     //更新角色信息
     public void updateRole(Role role) {
+        // 参数校验
+        if (role == null || role.getRoleId() == null)  {
+            throw new IllegalArgumentException("角色信息不能为空");
+        }
+
+        // 权限验证
+       /* if (!checkAdminPermissions()) {
+            throw new SecurityException("无权更新角色信息");
+        }*/
+
+        // 执行更新
         roleMapper.updateRole(role);
     }
 
     //查找角色信息
     public Role selectOneRole(Role role) {
+        // 参数校验
+        if (role == null || role.getRoleId() == null){
+            throw new IllegalArgumentException("角色信息不能为空");
+        }
+
+        // 权限验证
+       /* if (!checkAdminPermissions()) {
+            throw new SecurityException("无权查找角色");
+        }*/
+
+        // 执行查找
         return roleMapper.selectOneRole(role);
     }
 

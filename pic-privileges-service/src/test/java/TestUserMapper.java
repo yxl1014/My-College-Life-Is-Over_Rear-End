@@ -34,9 +34,9 @@ public class TestUserMapper {
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         User user1 = new User();
         user1.setUserId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
-        user1.setUserName("Sheen");
-        user1.setUserTelephone("15623401234");
-        user1.setUserSysEmail("Sheen@yeah.com");
+        user1.setUserName("Coco");
+        user1.setUserTelephone("15623402002");
+        user1.setUserSysEmail("Coco@yeah.com");
         user1.setUserPassword(PasswordEncrypt.hashPassword("IAmSheen"));
         user1.setUserNickName("Fairy");
         user1.setUserGender("女");
@@ -56,36 +56,29 @@ public class TestUserMapper {
 
     @Test
     public void deleteUser() {
-        User user = new User();
-        user.setUserTelephone("16666666666");
-        User user1 = userMapperimpl.selectOneUser(user);
-        userMapperimpl.deleteUser(user1);
+        userMapperimpl.deleteUser("0000018c-42d4-7a7a-a2ef-164497e596e8");
         System.out.println("用户注销成功！");
     }
 
     @Test
     public void updateUser() {
-        User user = new User();
-        user.setUserTelephone("15600001234");
-        User user1 = userMapperimpl.selectOneUser(user);
-        user1.setUserName("CoCo");
+        User user1= userMapperimpl.selectOneUser("0000018c-42d4-7a7a-a2ef-164497e596e8");
+        user1.setUserName("mono");
+        System.out.println(user1);
         userMapperimpl.updateUser(user1);
         System.out.println("用户信息更新成功！");
     }
 
     @Test
     public void selectUser() {
-        User user = new User();
-        user.setUserSysEmail("Sheen@yeah.com");
-        User user1 = userMapperimpl.selectOneUser(user);
+
+        User user1 = userMapperimpl.selectOneUser("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
         if (user1 != null) {
             System.out.println("用户信息查询成功");
             System.out.println(user1);
         } else {
             System.out.println("用户不存在！");
         }
-
-
         System.out.println("############################################################");
         System.out.println("以下是查询所有的用户得到信息:");
         List<User> userList = userMapperimpl.selectAllUser();

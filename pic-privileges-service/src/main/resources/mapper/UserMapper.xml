@@ -67,7 +67,6 @@
             user_flag=#{userFlag},
             user_personal_profile=#{userPersonalProfile},
             user_create_time=#{userCreateTime},
-
             user_sec_problem_1=#{userSecProblem1},
             user_sec_answer_1=#{userSecAnswer1},
             user_sec_problem_2=#{userSecProblem2},
@@ -75,9 +74,8 @@
             user_sec_problem_3=#{userSecProblem3},
             user_sec_answer_3=#{userSecAnswer3}
 
-        where user_name = #{userName}
-           or user_telephone = #{userTelephone}
-           or user_sys_email = #{userSysEmail};
+        where user_id = #{userId};
+
     </update>
 
     <select id="selectOneUser" resultType="org.example.model.entity.User" resultMap="UserMapResult">
@@ -107,6 +105,114 @@
         where user_name = #{userName}
            or user_telephone = #{userTelephone}
            or user_sys_email = #{userSysEmail};
+    </select>
+
+    <select id="findUserById" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_id = #{userId};
+    </select>
+
+    <select id="findUserByUserName" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_name = #{userName};
+    </select>
+
+    <select id="findUserByTelephone" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_telephone = #{userTelephone};
+    </select>
+
+    <select id="findUserByEmail" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select user_id,
+               user_name,
+               user_telephone,
+               user_sys_email,
+               user_password,
+               user_nick_name,
+               user_gender,
+               user_born_day,
+               user_id_card,
+               user_money,
+               user_company,
+               user_home,
+               user_ip,
+               user_flag,
+               user_personal_profile,
+               user_create_time,
+               user_sec_problem_1,
+               user_sec_answer_1,
+               user_sec_problem_2,
+               user_sec_answer_2,
+               user_sec_problem_3,
+               user_sec_answer_3
+        from sys_user
+        where user_sys_email = #{userSysEmail};
     </select>
 
     <select id="selectAllUser" resultType="org.example.model.entity.User" resultMap="UserMapResult">

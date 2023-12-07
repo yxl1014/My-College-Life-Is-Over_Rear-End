@@ -29,8 +29,7 @@
             role_status_flag=#{roleFlag},
             role_remark=#{roleMark}
 
-        where role_id = #{roleId}
-           or role_name = #{roleName};
+        where role_id = #{roleId};
 
     </update>
 

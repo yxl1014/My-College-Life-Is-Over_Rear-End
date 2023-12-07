@@ -66,9 +66,8 @@ public class LimitsController {
     //测试查询用户
     @GetMapping("/selectOneUser/{userEmail}")
     public ResponseEntity<User> getUserByEmail(@PathVariable("userEmail") String userSysEmail) {
-        User user = new User();
-        user.setUserSysEmail(userSysEmail);
-        User user1 = userMapperImpl.selectOneUser(user);
+
+        User user1 = userMapperImpl.selectOneUser(userSysEmail);
         if (user1 != null) {
             return ResponseEntity.ok(user1);
         } else {
@@ -94,7 +93,7 @@ public class LimitsController {
     public ResponseEntity<Power> getPowerById(@PathVariable("powerId") Integer powerId) {
         Power power = new Power();
         power.setPowerId(powerId);
-        Power power1 = powerMapperImpl.selectOnePower(power);
+        Power power1 = powerMapperImpl.selectOnePower(powerId);
         if (power1 != null) {
             return ResponseEntity.ok(power1);
         } else {
@@ -219,7 +218,7 @@ public class LimitsController {
         role.setRoleId(roleId);
         Power power=new Power();
         power.setPowerId(powerId);
-        Power power1 = powerMapperImpl.selectOnePower(power);
+        Power power1 = powerMapperImpl.selectOnePower(powerId);
         int powerType=power1.getPowerType();
         // 验证该角色是否拥有此权限
         boolean isGranted = roleMapperImpl.isPowerGrantedToRole(roleId, powerId);

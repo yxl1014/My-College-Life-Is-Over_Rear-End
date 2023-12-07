@@ -3,6 +3,7 @@ package org.example.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.example.model.entity.Power;
+import org.example.model.entity.User;
 
 import java.util.List;
 
@@ -17,13 +18,13 @@ public interface PowerMapper {
     void insertPower(Power power);
 
     //删除权限
-    void deletePower(Power power);
+    void deletePower(Integer powerId);
 
     //更新列表
     void updatePower(Power power);
 
     //选择权限
-    Power selectOnePower(Power power);
+    Power selectOnePower(Integer powerId);
 
     //查看所有权限
     List<Power> selectAllPower();
@@ -32,7 +33,7 @@ public interface PowerMapper {
     List<Power> getRolePowers(Integer roleId);
 
     //判断权限的状态为可操作还是可访问
-    int isStatusToPower(@Param("powerId") Integer powerId, @Param("powerType") int powerType);
+    int isStatusToPower(@Param("powerId") Integer powerId);
 
 
 

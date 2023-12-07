@@ -2,6 +2,7 @@ package org.example.service.impl;
 
 import org.apache.ibatis.session.SqlSession;
 import org.example.model.dao.PowerMapper;
+import org.example.model.dao.RoleMapper;
 import org.example.model.dao.UserMapper;
 import org.example.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,27 +24,153 @@ public class UserMapperImpl {
         this.userMapper = userMapper;
     }
 
+
     public void insertUser(User user) {
+        // 参数校验,用户id 用户电话 用户邮箱 用户名不能重复存在
+        if (user == null || user.getUserId() == null) {
+            throw new IllegalArgumentException("用户信息不能为空");
+        }else if(userMapper.selectOneUser(user.getUserId())!=null||userMapper.selectOneUser(user.getUserSysEmail())!=null||userMapper.selectOneUser(user.getUserTelephone())!=null||userMapper.selectOneUser(user.getUserName())!=null){
+            throw new IllegalArgumentException("用户已存在");
+        }
+
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限更新用户信息");
+        }*/
+        //执行插入
         userMapper.insertUser(user);
     }
 
-    public void deleteUser(User user) {
-        userMapper.deleteUser(user);
+    public void deleteUser(String userId) {
+        // 参数校验
+        if (userId == null) {
+            throw new IllegalArgumentException("用户信息不能为空");
+        }
+
+        // 权限验证
+       /* if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限更新用户信息");
+        }*/
+        //执行删除
+        userMapper.deleteUser(userId);
     }
 
     public void updateUser(User user) {
+        // 参数校验
+        if (user == null || user.getUserId() == null) {
+            throw new IllegalArgumentException("用户信息不能为空");
+        }else if(userMapper.findUserById(user.getUserId())==null){
+            throw new IllegalArgumentException("用户不存在（用户id不可修改）");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限更新用户信息");
+        }*/
+        // 执行更新
         userMapper.updateUser(user);
     }
 
-    public User selectOneUser(User user) {
-        return userMapper.selectOneUser(user);
+
+    // 根据传入的查询条件判断是使用用户ID、用户名还是用户邮箱进行查询
+    public User selectOneUser(String query) {
+        // 参数校验
+        if (query == null) {
+            throw new IllegalArgumentException("查询信息不能为空");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限访问用户信息");
+        }*/
+        //执行查找
+        User user = null;
+        if (isValidUuid(query)) {
+            // 如果查询条件符合uuid，则使用用户id进行查询
+            user = userMapper.findUserById(query);
+        } else if (isNumeric(query)) {
+            // 如果查询条件是纯数字，则使用用户电话进行查询
+            user = userMapper.findUserByTelephone(query);
+        } else if (isValidEmail(query)) {
+            // 如果查询条件是有效的邮箱地址，则使用用户邮箱进行查询
+            user = userMapper.findUserByEmail(query);
+        } else {
+            // 否则，默认使用用户名进行查询
+            user = userMapper.findUserByUserName(query);
+        }
+        return user;
     }
+
+
+    public User findUserById(String userId) {
+        // 参数校验
+        if (userId == null) {
+            throw new IllegalArgumentException("用户id信息不能为空");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限访问用户信息");
+        }*/
+        //执行查找
+        return userMapper.findUserById(userId);
+    }
+
+    public User findUserByUserName(String userName) {
+        // 参数校验
+        if (userName == null) {
+            throw new IllegalArgumentException("用户名不能为空");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限访问用户信息");
+        }*/
+        //执行查找
+        return userMapper.findUserByUserName(userName);
+    }
+
+    public User findUserByTelephone(String userTelephone) {
+        // 参数校验
+        if (userTelephone == null) {
+            throw new IllegalArgumentException("用户电话不能为空");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限访问用户信息");
+        }*/
+        //执行查找
+        return userMapper.findUserByTelephone(userTelephone);
+    }
+
+    public User findUserByEmail(String userSysEmail) {
+        // 参数校验
+        if (userSysEmail == null) {
+            throw new IllegalArgumentException("用户email不能为空");
+        }
+        // 权限验证
+        /*if (!checkUserPowers(user.getUserId())) {
+            throw new SecurityException("无权限访问用户信息");
+        }*/
+        //执行查找
+        return userMapper.findUserByEmail(userSysEmail);
+    }
+
+    //判断字符串是否为纯文字
+    private boolean isNumeric(String str) {
+        return str != null && str.matches("\\d+");
+    }
+
+    //判断字符串是否为有效邮箱地址
+    private boolean isValidEmail(String str) {
+        return str != null && str.matches("\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}");
+    }
+
+    //判断字符串是否为uuid
+    private boolean isValidUuid(String str) {
+        return str != null && str.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
+    }
+
 
     public List<User> selectAllUser() {
         return userMapper.selectAllUser();
     }
-
-    //用户分配角色
 
 
 }

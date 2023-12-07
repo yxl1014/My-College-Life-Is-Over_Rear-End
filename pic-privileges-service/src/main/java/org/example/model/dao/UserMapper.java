@@ -18,13 +18,21 @@ public interface UserMapper {
     void insertUser(User user);
 
     //注销用户
-    void deleteUser(User user);
+    void deleteUser(String userId);
 
     //更新用户
     void updateUser(User user);
 
     //选择用户
-    User selectOneUser(User user);
+    User selectOneUser(String query);
+
+    User findUserById(String userId);
+
+    User findUserByUserName(String userName);
+
+    User findUserByTelephone(String userTelephone);
+
+    User findUserByEmail(String userSysEmail);
 
     //查看所有有用户
     List<User> selectAllUser();

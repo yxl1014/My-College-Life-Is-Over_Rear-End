@@ -26,6 +26,7 @@ public interface RoleMapper {
 
     //选择角色
     Role selectOneRole(Role role);
+    
 
     //查看所有角色
     List<Role> selectAllRole();
