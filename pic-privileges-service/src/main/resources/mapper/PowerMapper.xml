@@ -3,6 +3,7 @@
         PUBLIC "-//mybatis.org//DTO Mapper 3.0 //EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="org.example.model.dao.PowerMapper">
+
     <resultMap id="PowerMapResult" type="org.example.model.entity.Power">
         <result column="power_id" property="powerId"/>
         <result column="power_name" property="powerName"/>
@@ -10,7 +11,9 @@
         <result column="power_create_time" property="powerDate"/>
         <result column="power_notes" property="powerNote"/>
 
+
     </resultMap>
+
 
     <insert id="insertPower" parameterType="org.example.model.entity.Power">
         INSERT INTO sys_power (power_id, power_name, power_type, power_create_time, power_notes)
@@ -22,7 +25,8 @@
             <otherwise>
                 1
             </otherwise>
-        </choose>,
+        </choose>
+        ,
         #{powerDate},
         <choose>
             <when test="powerId % 2 == 0">
@@ -51,6 +55,16 @@
     </update>
 
 
+    <select id="findPowerByPowerName" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
+        select power_id,
+               power_name,
+               power_type,
+               power_create_time,
+               power_notes
+        from sys_power
+        where power_name = #{powerName};
+    </select>
+
     <select id="selectOnePower" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
         select power_id,
                power_name,
@@ -78,12 +92,14 @@
         WHERE ref_role_id = #{roleId};
     </select>
 
-    <select id="isStatusToPower" resultType="java.lang.Integer">
+    <select id="isStatusToPower" resultType="java.lang.Boolean">
         SELECT COUNT(*)
         FROM sys_power
         WHERE power_id = #{powerId}
           AND power_type = #{powerType};
     </select>
+
+
 
 
 </mapper>

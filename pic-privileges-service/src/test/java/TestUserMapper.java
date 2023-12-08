@@ -34,10 +34,10 @@ public class TestUserMapper {
         SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
         User user1 = new User();
         user1.setUserId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
-        user1.setUserName("Coco");
-        user1.setUserTelephone("15623402002");
-        user1.setUserSysEmail("Coco@yeah.com");
-        user1.setUserPassword(PasswordEncrypt.hashPassword("IAmSheen"));
+        user1.setUserName("Fairy");
+        user1.setUserTelephone("15623402234");
+        user1.setUserSysEmail("Fairy@yeah.com");
+        user1.setUserPassword(PasswordEncrypt.hashPassword("IAmFairy"));
         user1.setUserNickName("Fairy");
         user1.setUserGender("女");
         user1.setUserBornDay(new Date(sdf1.parse("2012-09-21").getTime()));
@@ -62,10 +62,10 @@ public class TestUserMapper {
 
     @Test
     public void updateUser() {
-        User user1= userMapperimpl.selectOneUser("0000018c-42d4-7a7a-a2ef-164497e596e8");
-        user1.setUserName("mono");
-        System.out.println(user1);
-        userMapperimpl.updateUser(user1);
+        User user= userMapperimpl.selectOneUser("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
+        user.setUserName("fiona");
+        System.out.println(user);
+        userMapperimpl.updateUser(user);
         System.out.println("用户信息更新成功！");
     }
 

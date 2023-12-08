@@ -2,9 +2,7 @@ package org.example.model.dao;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.example.model.entity.Power;
 import org.example.model.entity.Role;
-import org.example.model.entity.User;
 
 import java.util.List;
 
@@ -19,45 +17,49 @@ public interface RoleMapper {
     void insertRole(Role role);
 
     //删除角色
-    void deleteRole(Role role);
+    void deleteRole(Integer roleId);
 
     //更新列表
     void updateRole(Role role);
 
     //选择角色
-    Role selectOneRole(Role role);
-    
+    Role selectOneRole(String query);
+
+    Role findRoleById(Integer roleId);
+
+    Role findRoleByRoleName(String roleName);
 
     //查看所有角色
     List<Role> selectAllRole();
 
-    //不同角色赋予权限不同操作（可访问or可操作）
-    Integer grantPowerToRoleOperate(@Param("powerName") String powerName, @Param("powerType") int powerType);
-
     //不同角色赋予不同权限
-    void grantPowerToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    Boolean grantPowerToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
 
     //判断不同角色赋予不同权限是否成功
-    int isPowerGrantedToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    Boolean isPowerGrantedToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+
+
 
     //不同用户赋予不同角色
-    void grantUserToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+    Boolean grantUserToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
 
     //判断不同用户赋予角色是否成功
-    int isUserGrantedToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+    Boolean isUserGrantedToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+
 
     //撤销已分配给角色的权限
-    void revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
+    Boolean revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
 
     //撤销已分配给用户的角色
-    void revokeUserFromRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
+    Boolean revokeUserFromRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
 
     //所有可用状态角色列表（0为可用）
     List<Role> isAbleToRole(@Param("roleFlag") int roleFlag);
 
     //判断用户的角色
-    int isUserWhatToRole(@Param("userId") String userId);
+    Integer isUserWhatToRole(@Param("userId") String userId);
 
-
+    //由姓名和权限状态查询id（可访问or可操作）和授权一起组合使用）
+    Integer grantPowerToRoleOperate(@Param("powerName") String powerName, @Param("powerType") int powerType);
 
 }

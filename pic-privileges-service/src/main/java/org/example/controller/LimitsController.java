@@ -76,11 +76,9 @@ public class LimitsController {
     }
 
     //测试查询角色
-    @GetMapping("/selectOneRole/{roleId}")
-    public ResponseEntity<Role> getRoleById(@PathVariable("roleId") Integer roleId) {
-        Role role = new Role();
-        role.setRoleId(roleId);
-        Role role1 = roleMapperImpl.selectOneRole(role);
+    @GetMapping("/findRoleById/{roleId}")
+    public ResponseEntity<Role> findRoleById(@PathVariable("roleId") Integer roleId) {
+        Role role1 = roleMapperImpl.findRoleById(roleId);
         if (role1 != null) {
             return ResponseEntity.ok(role1);
         } else {
@@ -101,7 +99,7 @@ public class LimitsController {
         }
     }
 
-    //测试角色赋予权限
+  /*  //测试角色赋予权限
     @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerId}")
     public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerId") Integer powerId) {
         Role role = new Role();
@@ -118,7 +116,7 @@ public class LimitsController {
             return ResponseEntity.badRequest().body("授权失败");
         }
 
-    }
+    }*/
 
     //测试用户赋予角色
     @GetMapping("/testGrantUserToRole/users/{userId}/roles/{roleId}")
@@ -177,15 +175,14 @@ public class LimitsController {
     }
 
     //测试角色赋予可操作权限
-    @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerName}/powerType/{powerType}")
-    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerName") String powerName, @PathVariable("powerType") int powerType) {
+   /* @GetMapping("/testGrantPowerToRole/roles/{roleId}/powers/{powerId}/powerType/{powerType}")
+    public ResponseEntity<String> getPowerToRole(@PathVariable("roleId") Integer roleId, @PathVariable("powerId") Integer powerId, @PathVariable("powerType") int powerType) {
         Role role = new Role();
         Power power = new Power();
         role.setRoleId(roleId);
-        power.setPowerName(powerName);
         power.setPowerType(powerType);
         //执行权限的可操作或可访问的选择
-        Integer powerId = roleMapperImpl.grantPowerToRoleOperate(powerName, powerType);
+        roleMapperImpl.grantPowerToRoleOperate(powerId, powerType);
         //授权
         roleMapperImpl.grantPowerToRole(roleId, powerId);
         // 验证是否成功
@@ -198,7 +195,7 @@ public class LimitsController {
             return ResponseEntity.badRequest().body("授权失败");
         }
     }
-
+*/
     //查询可用状态下角色
     @GetMapping("/isAbleToRole")
     public ResponseEntity<?> isAbleToRole() {
@@ -208,14 +205,14 @@ public class LimitsController {
     }
 
     //权限认证（查询该用户是否拥有此权限以及权限状态）
-    @GetMapping("/isStatusToUser/{userId}/{powerId}")
+/*    @GetMapping("/isStatusToUser/{userId}/{powerId}")
     //  userId = "0000018b-e2b0-2c75-988b-44cac59dd328";
     public ResponseEntity<String> isStatusToUser(@PathVariable("userId") String userId, @PathVariable Integer powerId) {
         User user = new User();
         user.setUserId(userId);
-        Integer roleId = roleMapperImpl.isUserWhatToRole(userId);
+       // Integer roleId = roleMapperImpl.isUserWhatToRole(userId);
         Role role = new Role();
-        role.setRoleId(roleId);
+       // role.setRoleId(roleId);
         Power power=new Power();
         power.setPowerId(powerId);
         Power power1 = powerMapperImpl.selectOnePower(powerId);
@@ -230,7 +227,7 @@ public class LimitsController {
             return ResponseEntity.badRequest().body("该用户不拥有此权限");
         }
 
-    }
+    }*/
 }
 
 

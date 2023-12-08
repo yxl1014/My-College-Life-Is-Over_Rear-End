@@ -29,7 +29,7 @@ public class UserMapperImpl {
         // 参数校验,用户id 用户电话 用户邮箱 用户名不能重复存在
         if (user == null || user.getUserId() == null) {
             throw new IllegalArgumentException("用户信息不能为空");
-        }else if(userMapper.selectOneUser(user.getUserId())!=null||userMapper.selectOneUser(user.getUserSysEmail())!=null||userMapper.selectOneUser(user.getUserTelephone())!=null||userMapper.selectOneUser(user.getUserName())!=null){
+        } else if (userMapper.findUserById(user.getUserId()) != null || userMapper.findUserByEmail(user.getUserSysEmail()) != null || userMapper.findUserByTelephone(user.getUserTelephone()) != null || userMapper.findUserByUserName(user.getUserName()) != null) {
             throw new IllegalArgumentException("用户已存在");
         }
 
@@ -59,7 +59,7 @@ public class UserMapperImpl {
         // 参数校验
         if (user == null || user.getUserId() == null) {
             throw new IllegalArgumentException("用户信息不能为空");
-        }else if(userMapper.findUserById(user.getUserId())==null){
+        } else if (userMapper.findUserById(user.getUserId()) == null) {
             throw new IllegalArgumentException("用户不存在（用户id不可修改）");
         }
         // 权限验证
@@ -152,13 +152,13 @@ public class UserMapperImpl {
         return userMapper.findUserByEmail(userSysEmail);
     }
 
-    //判断字符串是否为纯文字
-    private boolean isNumeric(String str) {
+    //判断字符串是否为纯数字
+    private Boolean isNumeric(String str) {
         return str != null && str.matches("\\d+");
     }
 
     //判断字符串是否为有效邮箱地址
-    private boolean isValidEmail(String str) {
+    private Boolean isValidEmail(String str) {
         return str != null && str.matches("\\w+@[a-zA-Z_]+?\\.[a-zA-Z]{2,3}");
     }
 

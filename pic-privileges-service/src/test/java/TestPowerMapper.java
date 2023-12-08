@@ -54,9 +54,9 @@ public class TestPowerMapper {
     //修改权限内容
     @Test
     public void updatePower() {
-        Power power1 = powerMapperImpl.selectOnePower(1027);
-        power1.setPowerNote("可操作");
-        powerMapperImpl.updatePower(power1);
+        Power power = powerMapperImpl.selectOnePower(1027);
+        power.setPowerNote("可操作");
+        powerMapperImpl.updatePower(power);
         System.out.println("权限状态已更新！");
 
     }
@@ -102,17 +102,18 @@ public class TestPowerMapper {
     //查询权限状态（1为可操作,2为可访问）
     @Test
     public void isStatusToPower() {
-        Integer powerId = 1001;
+        Integer powerId = 1002;
         Power power1 = powerMapperImpl.selectOnePower(powerId);
         String powerName = power1.getPowerName();
-        boolean isStatusToPower = powerMapperImpl.isStatusToPower(powerId);
-        if (isStatusToPower) {
+        if (powerMapperImpl.isStatusToPower(powerId)) {
             System.out.println(powerId + powerName + "是可操作的！");
         } else {
             System.out.println(powerId + powerName + "是可访问的！");
         }
 
     }
+
+
 
 }
 

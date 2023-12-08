@@ -26,6 +26,8 @@ public interface PowerMapper {
     //选择权限
     Power selectOnePower(Integer powerId);
 
+    Power findPowerByPowerName(String powerName);
+
     //查看所有权限
     List<Power> selectAllPower();
 
@@ -33,7 +35,7 @@ public interface PowerMapper {
     List<Power> getRolePowers(Integer roleId);
 
     //判断权限的状态为可操作还是可访问
-    int isStatusToPower(@Param("powerId") Integer powerId);
+    Boolean isStatusToPower(@Param("powerId") Integer powerId);
 
 
 

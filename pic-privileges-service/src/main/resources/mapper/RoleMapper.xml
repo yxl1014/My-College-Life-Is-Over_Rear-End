@@ -44,6 +44,27 @@
            or role_name = #{roleName};
     </select>
 
+    <select id="findRoleById" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        select role_id,
+               role_name,
+               role_create_time,
+               role_status_flag,
+               role_remark
+        from sys_role
+        where role_id = #{roleId};
+
+    </select>
+
+    <select id="findRoleByRoleName" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+        select role_id,
+               role_name,
+               role_create_time,
+               role_status_flag,
+               role_remark
+        from sys_role
+        where role_name = #{roleName};
+    </select>
+
     <select id="selectAllRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         select role_id,
                role_name,
@@ -54,24 +75,25 @@
     </select>
 
 
-    <select id="grantPowerToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+    <select id="grantPowerToRole" resultType="java.lang.Boolean">
         INSERT INTO sys_role_power_ref (ref_role_id, ref_power_id)
         VALUES (#{roleId}, #{powerId});
     </select>
 
-    <select id="isPowerGrantedToRole" resultType="java.lang.Integer">
+    <select id="isPowerGrantedToRole" resultType="java.lang.Boolean">
         SELECT COUNT(*)
         FROM sys_role_power_ref
         WHERE ref_role_id = #{roleId}
           AND ref_power_id = #{powerId};
     </select>
 
-    <select id="grantUserToRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
+
+    <select id="grantUserToRole" resultType="java.lang.Boolean">
         INSERT INTO sys_user_role_ref (ref_user_id, ref_role_id)
         VALUES (#{userId}, #{roleId});
     </select>
 
-    <select id="isUserGrantedToRole" resultType="java.lang.Integer">
+    <select id="isUserGrantedToRole" resultType="java.lang.Boolean">
         SELECT COUNT(*)
         FROM sys_user_role_ref
         WHERE ref_user_id = #{userId}
@@ -85,12 +107,6 @@
           And ref_power_id = #{powerId};
     </select>
 
-    <select id="grantPowerToRoleOperate" resultType="java.lang.Integer">
-        SELECT power_id
-        FROM sys_power
-        WHERE power_name=#{powerName}
-          AND power_type = #{powerType};
-    </select>
 
     <select id="revokeUserFromRole" resultType="org.example.model.entity.Role" resultMap="RoleMapResult">
         DELETE
@@ -115,6 +131,12 @@
         where ref_user_id = #{userId};
     </select>
 
+    <select id="grantPowerToRoleOperate" resultType="java.lang.Integer">
+        SELECT power_id
+        FROM sys_power
+        WHERE power_name = #{powerName}
+          AND power_type = #{powerType};
+    </select>
 
 
 </mapper>
