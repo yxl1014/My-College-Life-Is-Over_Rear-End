@@ -38,6 +38,8 @@ public interface RoleMapper {
     //判断不同角色赋予不同权限是否成功
     Boolean isPowerGrantedToRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
 
+    //由姓名和权限状态查询id（可访问or可操作）和授权一起组合使用）
+    Integer grantPowerToRoleOperate(@Param("powerName") String powerName, @Param("powerType") int powerType);
 
 
     //不同用户赋予不同角色
@@ -45,7 +47,6 @@ public interface RoleMapper {
 
     //判断不同用户赋予角色是否成功
     Boolean isUserGrantedToRole(@Param("userId") String userId, @Param("roleId") Integer roleId);
-
 
     //撤销已分配给角色的权限
     Boolean revokePowerFromRole(@Param("roleId") Integer roleId, @Param("powerId") Integer powerId);
@@ -59,7 +60,5 @@ public interface RoleMapper {
     //判断用户的角色
     Integer isUserWhatToRole(@Param("userId") String userId);
 
-    //由姓名和权限状态查询id（可访问or可操作）和授权一起组合使用）
-    Integer grantPowerToRoleOperate(@Param("powerName") String powerName, @Param("powerType") int powerType);
 
 }

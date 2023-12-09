@@ -26,8 +26,6 @@ public interface PowerMapper {
     //选择权限
     Power selectOnePower(Integer powerId);
 
-    Power findPowerByPowerName(String powerName);
-
     //查看所有权限
     List<Power> selectAllPower();
 

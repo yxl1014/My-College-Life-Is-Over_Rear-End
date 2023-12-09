@@ -62,7 +62,7 @@ public class TestUserMapper {
 
     @Test
     public void updateUser() {
-        User user= userMapperimpl.selectOneUser("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
+        User user = userMapperimpl.selectOneUser("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
         user.setUserName("fiona");
         System.out.println(user);
         userMapperimpl.updateUser(user);
@@ -71,11 +71,16 @@ public class TestUserMapper {
 
     @Test
     public void selectUser() {
-
         User user1 = userMapperimpl.selectOneUser("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
-        if (user1 != null) {
+        User user2 = userMapperimpl.selectOneUser("Sheen");
+        User user3 = userMapperimpl.selectOneUser("15623402234");
+        User user4 = userMapperimpl.selectOneUser("Coco@yeah.com");
+        if (user1 != null || user2 != null || user3 != null || user4 != null) {
             System.out.println("用户信息查询成功");
             System.out.println(user1);
+            System.out.println(user2);
+            System.out.println(user3);
+            System.out.println(user4);
         } else {
             System.out.println("用户不存在！");
         }
@@ -84,6 +89,50 @@ public class TestUserMapper {
         List<User> userList = userMapperimpl.selectAllUser();
         for (User u : userList) {
             System.out.println(u);
+        }
+    }
+
+    @Test
+    public void findUserById() {
+        User user = userMapperimpl.findUserById("0000018b-e2b0-57f4-8ad0-aefad80d6a4e");
+        if (user != null) {
+            System.out.println("用户信息查询成功");
+            System.out.println(user);
+        } else {
+            System.out.println("用户不存在！");
+        }
+    }
+
+    @Test
+    public void findUserByUserName() {
+        User user = userMapperimpl.findUserByUserName("Sheen");
+        if (user != null) {
+            System.out.println("用户信息查询成功");
+            System.out.println(user);
+        } else {
+            System.out.println("用户不存在！");
+        }
+    }
+
+    @Test
+    public void findUserByTelephone() {
+        User user = userMapperimpl.findUserByTelephone("15623402234");
+        if (user != null) {
+            System.out.println("用户信息查询成功");
+            System.out.println(user);
+        } else {
+            System.out.println("用户不存在！");
+        }
+    }
+
+    @Test
+    public void findUserByEmail() {
+        User user = userMapperimpl.findUserByEmail("Coco@yeah.com");
+        if (user != null) {
+            System.out.println("用户信息查询成功");
+            System.out.println(user);
+        } else {
+            System.out.println("用户不存在！");
         }
     }
 

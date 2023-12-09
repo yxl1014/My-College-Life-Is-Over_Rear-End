@@ -46,8 +46,8 @@ public class TestPowerMapper {
     //删除权限
     @Test
     public void deletePower() {
-            powerMapperImpl.deletePower(1031);
-            System.out.println("权限删除成功！");
+        powerMapperImpl.deletePower(1031);
+        System.out.println("权限删除成功！");
 
     }
 
@@ -79,42 +79,42 @@ public class TestPowerMapper {
         }
     }
 
-    //查询角色对应的权限列表
-    @Test
-    public void getRolePowers() {
-        // 执行授权操作
-        List<Power> powers = powerMapperImpl.getRolePowers(101);
-        if (powers != null) {
-            System.out.println("角色所属权限查询成功");
-        } else {
-            System.out.println("此角色无权限");
-        }
-        System.out.println("############################################################");
-        System.out.println("以下是查询到的角色所属权限列表:");
 
-        assert powers != null;
-        for (Power p : powers) {
-            System.out.println(p);
+        //查询角色对应的权限列表
+        @Test
+        public void getRolePowers() {
+            // 执行授权操作
+            List<Power> powers = powerMapperImpl.getRolePowers(101);
+            if (powers != null) {
+                System.out.println("角色所属权限查询成功");
+            } else {
+                System.out.println("此角色无权限");
+            }
+            System.out.println("############################################################");
+            System.out.println("以下是查询到的角色所属权限列表:");
+
+            assert powers != null;
+            for (Power p : powers) {
+                System.out.println(p);
+            }
+
         }
+
+        //查询权限状态（1为可操作,2为可访问）
+        @Test
+        public void isStatusToPower() {
+            Integer powerId = 1002;
+            Power power1 = powerMapperImpl.selectOnePower(powerId);
+            String powerName = power1.getPowerName();
+            if (powerMapperImpl.isStatusToPower(powerId)) {
+                System.out.println(powerId + powerName + "是可操作的！");
+            } else {
+                System.out.println(powerId + powerName + "是可访问的！");
+            }
+
+        }
+
 
     }
-
-    //查询权限状态（1为可操作,2为可访问）
-    @Test
-    public void isStatusToPower() {
-        Integer powerId = 1002;
-        Power power1 = powerMapperImpl.selectOnePower(powerId);
-        String powerName = power1.getPowerName();
-        if (powerMapperImpl.isStatusToPower(powerId)) {
-            System.out.println(powerId + powerName + "是可操作的！");
-        } else {
-            System.out.println(powerId + powerName + "是可访问的！");
-        }
-
-    }
-
-
-
-}
 
 

@@ -87,10 +87,11 @@ public class TestRoleMapper {
     @Test
     public void testGrantPowerToRole() {
         // 模拟角色ID和权限ID
-        Integer roleId = 101;
-        Integer powerId=1004;
+        Integer roleId = 110;
+        String powerName="报酬系统";
+        int powerType=2;
         // 执行授权并验证授权结果
-        if (roleMapperImpl.grantPowerToRole(roleId,powerId)){
+        if (roleMapperImpl.grantPowerToRole(roleId,powerName,powerType)){
             System.out.println("权限成功授权给角色！");
         } else {
             Assertions.fail("权限授予角色失败！");

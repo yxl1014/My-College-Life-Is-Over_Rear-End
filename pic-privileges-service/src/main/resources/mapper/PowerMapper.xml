@@ -55,16 +55,6 @@
     </update>
 
 
-    <select id="findPowerByPowerName" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
-        select power_id,
-               power_name,
-               power_type,
-               power_create_time,
-               power_notes
-        from sys_power
-        where power_name = #{powerName};
-    </select>
-
     <select id="selectOnePower" resultType="org.example.model.entity.Power" resultMap="PowerMapResult">
         select power_id,
                power_name,

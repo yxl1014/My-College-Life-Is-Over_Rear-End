@@ -30,7 +30,7 @@ public class PowerMapperImpl {
         // 参数校验,权限id不能重复
         if (power == null || power.getPowerId() == null) {
             throw new IllegalArgumentException("权限信息不能为空");
-        } else if (powerMapper.selectOnePower(power.getPowerId())!=null) {
+        } else if (powerMapper.selectOnePower(power.getPowerId()) != null) {
             throw new IllegalArgumentException("权限信息已存在");
         }
         // 权限验证
@@ -63,8 +63,7 @@ public class PowerMapperImpl {
         // 参数校验
         if (power == null || power.getPowerId() == null) {
             throw new IllegalArgumentException("权限信息不能为空");
-        }else if(powerMapper.selectOnePower(power.getPowerId())==null)
-        {
+        } else if (powerMapper.selectOnePower(power.getPowerId()) == null) {
             throw new IllegalArgumentException("权限id不存在");
         }
 
@@ -92,24 +91,6 @@ public class PowerMapperImpl {
         // 执行查找
         return powerMapper.selectOnePower(powerId);
     }
-
-    //查找权限，由于权限名可能有多个故只能通过权限id查询
-    public Power findPowerByPowerName(String powerName) {
-        // 参数校验
-        if (powerName == null) {
-            throw new IllegalArgumentException("权限名不能为空");
-        }
-
-        // 权限验证
-       /* if (!checkPowers()) {
-            throw new SecurityException("无权查找权限");
-        }*/
-
-        // 执行查找
-        return powerMapper.findPowerByPowerName(powerName);
-    }
-
-
 
     //查询权限列表信息
     public List<Power> selectAllPower() {
@@ -144,9 +125,6 @@ public class PowerMapperImpl {
         int powerType = power1.getPowerType();
         return powerType == 1;
     }
-
-
-
 
 
 }

@@ -1,5 +1,6 @@
 package org.example.service.impl;
 
+import org.apache.ibatis.annotations.Param;
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
 import org.example.model.dao.UserMapper;
@@ -89,7 +90,6 @@ public class RoleMapperImpl {
        /* if (!checkPowers()) {
             throw new SecurityException("无权查找角色");
         }*/
-        Role role = null;
         if (isNumeric(query)) {
             // 执行查找
             return roleMapper.findRoleById(Integer.parseInt(query));
@@ -137,13 +137,15 @@ public class RoleMapperImpl {
 
 
     //不同角色赋予不同权限（可访问or可操作）
-    public Boolean grantPowerToRole(Integer roleId, Integer powerId) {
+    public Boolean grantPowerToRole(Integer roleId, String powerName, int powerType) {
         // 参数校验
-        if (roleId == null || powerId == null) {
-            throw new IllegalArgumentException("角色信息、权限信息不为空！");
-        } else if (roleMapper.findRoleById(roleId) == null || powerMapper.selectOnePower(powerId) == null) {
+        if (roleId == null || powerName == null || (powerType != 1 && powerType != 2)) {
+            throw new IllegalArgumentException("角色信息、权限信息、权限状态不为空（1:可访问or2:可操作）！");
+        } else if (roleMapper.findRoleById(roleId) == null || roleMapper.grantPowerToRoleOperate(powerName, powerType) == null) {
             throw new IllegalArgumentException("角色不存在或者权限不存在！");
-        } else if (roleMapper.isPowerGrantedToRole(roleId, powerId)) {
+        }
+        Integer powerId = roleMapper.grantPowerToRoleOperate(powerName, powerType);
+        if (roleMapper.isPowerGrantedToRole(roleId, powerId)) {
             throw new IllegalArgumentException("此用户已拥有此权限！");
         }
         // 权限验证
@@ -288,23 +290,6 @@ public class RoleMapperImpl {
         Role role = roleMapper.findRoleById(roleId);
         return role.getRoleName();
     }
-
-
-   /* //查询角色的权限不同操作（可访问or可操作）
-    public Integer grantPowerToRoleOperate(String powerName, int powerType) {
-        // 参数校验
-        if (powerName == null || (powerType != 1 && powerType != 2)) {
-            throw new IllegalArgumentException("权限信息和权限状态不能为空,可操作为1，可访问为2");
-        } else if (powerMapper.findPowerByPowerName(powerName) == null) {
-            throw new IllegalArgumentException("权限不存在！");
-        }
-        // 权限验证
-        *//*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限查询角色的权限不同操作！");
-        }*//*
-        return grantPowerToRoleOperate(powerName,powerType);
-
-    }*/
 
 
 }
