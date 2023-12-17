@@ -8,10 +8,12 @@ package org.example.model.dao;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.example.model.entity.User;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 @Mapper
+@Repository
 // UserMapper.java
 public interface UserMapper {
     //新增用户
@@ -36,6 +38,9 @@ public interface UserMapper {
 
     //查看所有有用户
     List<User> selectAllUser();
+
+    //验证用户登陆
+    User findByUsernameAndPassword(@Param("userName") String userName,@Param("userPassword") String userPassword);
 
 
 }

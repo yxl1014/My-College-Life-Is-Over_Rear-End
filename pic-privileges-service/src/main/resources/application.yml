@@ -25,6 +25,14 @@ spring:
         url-pattern: /druid/*
         login-username: yxl
         login-password: yxl
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          audiences:
+            - sheen
+
+
 
 #mapper.xml配置
 mybatis:
@@ -32,6 +40,8 @@ mybatis:
 
 server:
   port: 8051
+
+
 
 
 

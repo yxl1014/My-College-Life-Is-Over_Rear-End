@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: eensh
@@ -203,5 +204,22 @@ public class LimitsController {
             return ResponseEntity.notFound().build();
         }
     }
+
+    //登陆
+    @PostMapping("/user/login")
+    public String login(@RequestBody Map<String ,String> credentials){
+        String userName=credentials.get("userName");
+        String userPassword=credentials.get("userPassword");
+        if (userMapperImpl.loginUser(userName,userPassword)){
+            return "登陆成功";
+        }else {
+            return "用户名或密码错误";
+        }
+    }
+
+
+
+
+
 }
 

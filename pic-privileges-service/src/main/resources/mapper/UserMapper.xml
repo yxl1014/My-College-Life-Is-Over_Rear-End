@@ -269,5 +269,12 @@
 
     </select>
 
+    <select id="findByUsernameAndPassword" resultType="org.example.model.entity.User" resultMap="UserMapResult">
+        select *
+        from sys_user
+        where user_name = #{userName}
+          AND user_password = #{userPassword};
+
+    </select>
 
 </mapper>

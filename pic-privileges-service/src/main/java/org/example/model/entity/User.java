@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -96,6 +97,8 @@ public class User {
     private Role role;
 
 
+    public <E> User(String userName, String s, ArrayList<E> es) {
+    }
 }
 
 

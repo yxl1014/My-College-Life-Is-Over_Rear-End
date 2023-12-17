@@ -1,13 +1,19 @@
 package org.example.service.impl;
 
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.ibatis.session.SqlSession;
+import org.apache.tomcat.websocket.AuthenticationException;
 import org.example.model.dao.PowerMapper;
 import org.example.model.dao.RoleMapper;
 import org.example.model.dao.UserMapper;
 import org.example.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import javax.xml.crypto.Data;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -23,6 +29,43 @@ public class UserMapperImpl {
     public UserMapperImpl(UserMapper userMapper) {
         this.userMapper = userMapper;
     }
+
+    @Value("${jwt.secret}")
+    private String jwtSecret;
+
+    //验证登陆
+    public Boolean loginUser(String userName, String userPassword) {
+        // 参数校验 用户名和用户密码不能重复存在
+        if (userName == null || userPassword == null) {
+            throw new IllegalArgumentException("用户信息不能为空");
+        }
+        User user = userMapper.findByUsernameAndPassword(userName, userPassword);
+        return user!=null;
+    }
+
+    public String GetUser(String userName, String userPassword) throws AuthenticationException {
+        // 参数校验 用户名和用户密码不能重复存在
+        if (userName == null || userPassword == null) {
+            throw new IllegalArgumentException("用户信息不能为空");
+        }
+
+        User user = userMapper.findByUsernameAndPassword(userName, userPassword);
+        if(user == null){
+            throw new AuthenticationException("Invalid userName or userPassword");
+        }
+        //生成JWT
+        String token=Jwts.builder()
+                .setSubject(user.getUserName())
+                .setExpiration(new Date(System.currentTimeMillis()+3600000))//过期时间是1小时
+                .signWith(SignatureAlgorithm.HS256,jwtSecret)
+                .compact();
+        return token;
+    }
+
+
+
+
+
 
 
     public void insertUser(User user) {
@@ -167,10 +210,10 @@ public class UserMapperImpl {
         return str != null && str.matches("[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}");
     }
 
-
     public List<User> selectAllUser() {
         return userMapper.selectAllUser();
     }
+
 
 
 }
