@@ -1,8 +1,6 @@
 package org.mysql.entity;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 /**
  * @author yxl17
@@ -16,6 +14,7 @@ public class MysqlBuilder<T> {
     private MysqlResultType resultType;
     private Class<T> clz;
     private T in;
+    private T noEqual;
     private T out;
     private T update;
 
@@ -33,6 +32,11 @@ public class MysqlBuilder<T> {
 
     public MysqlBuilder<T> buildIn(T in) {
         this.in = in;
+        return this;
+    }
+
+    public MysqlBuilder<T> buildNoEqual(T noEqual) {
+        this.noEqual = noEqual;
         return this;
     }
 

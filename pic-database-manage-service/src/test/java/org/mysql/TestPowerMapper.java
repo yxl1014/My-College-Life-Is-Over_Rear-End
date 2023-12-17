@@ -4,6 +4,7 @@ import exception.FormatException;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mysql.domain.Power;
+import org.mysql.domain.User;
 import org.mysql.entity.MysqlBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -12,7 +13,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.List;
 
 /**
  * @Author: eensh
@@ -25,7 +25,7 @@ import java.util.List;
 public class TestPowerMapper {
 
     @Autowired
-    private MysqlComp mysqlComp;
+    private BaseMysqlComp mysqlComp;
 
 
     //增加权限
@@ -50,13 +50,14 @@ public class TestPowerMapper {
 
     @Test
     public void selectPower() {
-        MysqlBuilder<Power> builder = new MysqlBuilder<>(Power.class);
-        Power power = new Power();
-        power.setPowerId(20);
-        builder.setIn(power);
+        MysqlBuilder<User> builder = new MysqlBuilder<>(User.class);
+        User user = new User();
+        user.setUserName("xxx");
+        user.setUserPassword("123456");
+        builder.setIn(user);
 
-        Power out = new Power();
-        out.setPowerName("213");
+        User out = new User();
+        out.setUserId("xxx");
         builder.setOut(out);
         try {
             System.out.println(mysqlComp.selectList(builder));
