@@ -57,6 +57,10 @@ public enum LogEnum {
     IDENTITY_USER("验证操作", "普通用户访问被拦截"),
 
 
+    //Exception
+    EXCEPTION_FORMAT_ERROR("内部错误","格式转换异常"),
+
+
     //---------------------MainServer---------------------
     //工具类报错
 
