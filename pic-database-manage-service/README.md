@@ -15,3 +15,8 @@ update : clz的实例化对象 只有在update操作有用 在in 判断条件之
 目前只实现了常规的 =插叙 一些其他的 大于小于范围查询没有做，我将mapper接口暴露出去了，可以自己写wrapper来通过mapper操作。
 ！！！但是要注意的是： 只要这个对数据库的查询使用的地方超过两次了，那么 就将你的这个wrapper 封装到MysqlComp当中 ！！！
 doOpt方法我也暴露出去了， 可以自定义MysqlBuilder来直接传入查询 但是没啥必要
+
+如果想要加表
+1、在domain当中添加一个完全匹配的实体类
+2、在mapper当中添加一个空的带有@Mapper注解的Mapper且继承BaseMapper<刚刚创建的实体类>
+3、在MysqlComp.getMapperByClass方法中添加这个Mapper 即可
