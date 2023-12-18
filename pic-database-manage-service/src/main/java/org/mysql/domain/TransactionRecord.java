@@ -1,5 +1,7 @@
 package org.mysql.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +17,9 @@ import java.sql.Timestamp;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@TableName("sys_transaction_record")
 public class TransactionRecord {
+    @TableId
     private String transId;
     private String transSenderId;
     private String transReceiverId;

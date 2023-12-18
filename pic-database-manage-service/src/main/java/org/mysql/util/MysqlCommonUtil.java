@@ -30,8 +30,8 @@ public class MysqlCommonUtil {
             int i = checkLetterUpperOrLower(s);
             switch (i) {
                 // 大写的话 将之前的给加到结果当中
-                case 0:{
-                    if (temp.length()==0){
+                case 0: {
+                    if (temp.length() == 0) {
                         continue;
                     }
                     mysqlName.append(temp.append("_"));
@@ -75,8 +75,8 @@ public class MysqlCommonUtil {
         MysqlCommonUtil mysqlCommonUtil = new MysqlCommonUtil();
         Class<Announcement> clz = Announcement.class;
         Field[] fields = clz.getDeclaredFields();
-        for (Field field:fields){
-            System.out.println(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
+        for (Field field : fields) {
+            System.out.println(field.getName() + "--->" + mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
         }
     }
 
