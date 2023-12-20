@@ -21,6 +21,7 @@
 
     <dependencies>
 
+
         <dependency>
             <groupId>org.example</groupId>
             <artifactId>pic-database-manage-service</artifactId>
@@ -46,6 +47,14 @@
         </dependency>
 
         <dependency>
+            <groupId>org.example</groupId>
+            <artifactId>pic-starter</artifactId>
+            <version>1.0-SNAPSHOT</version>
+            <scope>test</scope>
+        </dependency>
+
+
+        <dependency>
             <!--entity 属性名与数据库列名的映射 @Entity @Id-->
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jpa</artifactId>
@@ -57,11 +66,6 @@
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
 
-        <dependency>
-            <!--鱼龙混杂 -->
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-commons</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -69,11 +73,6 @@
         </dependency>
 
 
-        <!-- Swagger dependencies api接口测试 -->
-        <dependency>
-            <groupId>io.springfox</groupId>
-            <artifactId>springfox-boot-starter</artifactId>
-        </dependency>
 
         <!--        springboot测试模块依赖 开始。。。。。-->
         <dependency>
@@ -95,62 +94,8 @@
         </dependency>
         <!--        springboot测试模块依赖 结束。。。。。-->
         <!--    数据库连接操作模块依赖 开始。。。。-->
-        <dependency>
-            <!--连接Mysql数据库驱动 -->
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector.java.version}</version>
-        </dependency>
-
-        <dependency>
-            <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <!--整合druid到springboot中 -->
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.springboot.starter}</version>
-        </dependency>
-
-        <dependency>
-            <!--整合mybatis到springboot中 -->
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis.spring.boot.starter.version}</version>
-        </dependency>
 
 
-        <dependency>
-            <!--mybatis plus和springboot整合-->
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatisplus.boot.starter.version}</version>
-        </dependency>
-
-        <dependency>
-            <!-- 数据库查询分页插件 -->
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper.boot.version}</version>
-        </dependency>
-        <!--    数据库连接操作模块依赖 结束。。。。-->
-
-        <dependency>
-            <!-- 邮箱发送jar包-->
-            <groupId>com.sun.mail</groupId>
-            <artifactId>javax.mail</artifactId>
-            <version>1.6.2</version>
-        </dependency>
-        <dependency>
-            <groupId>org.example</groupId>
-            <artifactId>pic-starter</artifactId>
-            <version>1.0-SNAPSHOT</version>
-            <scope>test</scope>
-        </dependency>
 
 
         <!-- Spring Boot Starter Security -->
@@ -176,6 +121,11 @@
             <artifactId>jjwt-jackson</artifactId>
             <version>0.11.2</version>
             <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <scope>test</scope>
         </dependency>
 
 

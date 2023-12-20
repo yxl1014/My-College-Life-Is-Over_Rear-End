@@ -14,12 +14,24 @@ public class LogComp {
     }
 
     public static LogMessage buildData(LogType logType, LogEnum logEnum) {
-        return new LogMessage(logType,logEnum);
+        return new LogMessage(logType, logEnum);
     }
 
     public static LogMessage buildData(LogType logType) {
         return new LogMessage(logType);
     }
+
+    public static LogMessage buildPowerExists() { return new LogMessage(LogType.POWER, LogEnum.POWER_EXISTS);
+    }
+    public static LogMessage buildPowerEmpty() {
+        return new LogMessage(LogType.POWER, LogEnum.POWER_EMPTY);
+    }
+
+    public static LogMessage buildPowerIdIsNull() {
+        return new LogMessage(LogType.POWER, LogEnum.POWER_Id_Is_Null);
+    }
+
+
 
     public static class LogMessage {
         private final StringBuilder logMsg;
@@ -43,6 +55,8 @@ public class LogComp {
             logMsg.append(" -- ").append(key).append(" -> ").append(value);
             return this;
         }
+
+
 
         public String log() {
             return logMsg.toString();

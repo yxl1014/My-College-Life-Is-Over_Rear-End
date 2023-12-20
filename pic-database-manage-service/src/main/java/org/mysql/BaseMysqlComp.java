@@ -22,7 +22,10 @@ import java.util.List;
  * @author yxl17
  * @Package : org.mysql
  * @Create on : 2023/12/17 16:14
+ *
+ * 基于mysql数据库操作的组件，提供了对数据库的查询、插入、更新和删除操作
  **/
+
 
 @Component
 @Getter
@@ -54,6 +57,7 @@ public class BaseMysqlComp {
     }
 
 
+    //接收一个泛型参数T使用MysqlBuilder<T>对象来构建数据库
     public <T> List<T> selectList(MysqlBuilder<T> mysqlBuilder) throws FormatException, IllegalAccessException {
         mysqlBuilder.setOptType(MysqlOptType.SELECT);
         mysqlBuilder.setResultType(MysqlResultType.LIST);
@@ -63,6 +67,7 @@ public class BaseMysqlComp {
         }
         return (List<T>) o;
     }
+
 
     public <T> T selectOne(MysqlBuilder<T> mysqlBuilder) throws FormatException, IllegalAccessException {
         mysqlBuilder.setOptType(MysqlOptType.SELECT);
@@ -104,6 +109,8 @@ public class BaseMysqlComp {
         return (Integer) o;
     }
 
+    //根据传过来的MysqlBuilder对象的操作类型，使用相应的Mapper对象执行具体的数据库操作
+
     public <T> Object doOpt(MysqlBuilder<T> mysqlBuilder) throws FormatException, IllegalAccessException {
         BaseMapper<T> baseMapper = getMapperByClass(mysqlBuilder.getClz());
         switch (mysqlBuilder.getOptType()) {
@@ -136,6 +143,7 @@ public class BaseMysqlComp {
         }
     }
 
+    //根据传入的对象和字段信息，构建了相应查询条件和更新条件
 
     private <T> void buildUpdateWrapperData(UpdateWrapper<T> updateWrapper, Class<T> clz, T in, T noEqual) throws IllegalAccessException, FormatException {
         Field[] fields = clz.getDeclaredFields();
@@ -197,6 +205,7 @@ public class BaseMysqlComp {
         queryWrapper.select(selectColumns.toArray(new String[0]));
     }
 
+    //根据传入的类对象，选择相应的Mapper对象进行返回
     private BaseMapper getMapperByClass(Class<?> clz) {
         if (clz.equals(Announcement.class)) {
             return announcementMapper;

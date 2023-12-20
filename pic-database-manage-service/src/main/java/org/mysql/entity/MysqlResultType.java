@@ -13,3 +13,5 @@ public enum MysqlResultType {
     // 无
     NULL
 }
+//mysql查询结果的类型
+//使用MysqlResultType.ONE表示查询结果只有一个

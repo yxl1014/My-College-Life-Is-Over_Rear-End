@@ -22,7 +22,8 @@ public enum LogType {
     SCHEDULED("定时器"),
     CONTROL("调度器"),
     ELASTICSEARCH("es"),
-    ;
+
+    POWER("权限操作");
 
 
     private String name;

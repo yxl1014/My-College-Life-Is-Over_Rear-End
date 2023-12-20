@@ -1,20 +1,23 @@
-import org.example.PrivilegeApplication;
-import org.example.model.dao.UserMapper;
-import org.example.model.entity.Power;
-import org.example.model.entity.Role;
-import org.example.model.entity.User;
-import org.example.service.impl.PowerMapperImpl;
-import org.example.service.impl.RoleMapperImpl;
-import org.example.service.impl.UserMapperImpl;
+import exception.FormatException;
+import exception.PowerExceptions;
+import org.apache.ibatis.annotations.Mapper;
+import org.mysql.BaseMysqlComp;
+import org.mysql.domain.Power;
+import org.mysql.entity.MysqlBuilder;
+import org.mysql.mapper.PowerMapper;
+import org.privileges.PrivilegeApplication;
+import org.privileges.service.impl.PowerMapperImpl;
 import org.junit.Test;
-import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.ParseException;
+import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -31,18 +34,29 @@ public class TestPowerMapper {
     @Autowired
     private PowerMapperImpl powerMapperImpl;
 
-
     //增加权限
     @Test
-    public void insertRole() {
+    public void insertPower() throws PowerExceptions.EmptyPowerException, PowerExceptions.PowerExistsException, FormatException, IllegalAccessException{
         Power power = new Power();
-        power.setPowerId(1033);
-        power.setPowerName("权限管理");
-        power.setPowerDate(LocalDateTime.now());
+        power.setPowerId(1053);
+        power.setPowerName("角色管理");
+        power.setPowerType((short) 0);
+        power.setPowerCreateTime(Timestamp.valueOf(LocalDateTime.now()));
+
         powerMapperImpl.insertPower(power);
         System.out.println("权限创建成功！");
     }
 
+    @Test
+    public void selectOnePower() throws  FormatException, IllegalAccessException, PowerExceptions.PowerIdIsNullException {
+        Power power = new Power();
+        power.setPowerId(1051);
+        powerMapperImpl.selectOnePower(power);
+    }
+}
+
+
+/*
     //删除权限
     @Test
     public void deletePower() {
@@ -118,3 +132,4 @@ public class TestPowerMapper {
     }
 
 
+*/
