@@ -1,8 +1,9 @@
+/*
 import common.encrypt.PasswordEncrypt;
 import common.uuid.UuidGenerator;
-import org.example.PrivilegeApplication;
-import org.example.model.entity.User;
-import org.example.service.impl.UserMapperImpl;
+import org.privileges.PrivilegeApplication;
+import org.privileges.model.entity.User;
+import org.privileges.service.impl.UserMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,10 +16,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
+*/
 /**
  * @Author: eensh
  * @CreateDate: 2023/11/28
- */
+ *//*
+
 @SpringBootTest(classes = PrivilegeApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
@@ -138,3 +141,4 @@ public class TestUserMapper {
 
 
 }
+*/

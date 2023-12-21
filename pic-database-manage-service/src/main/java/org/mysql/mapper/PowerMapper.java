@@ -1,6 +1,7 @@
 package org.mysql.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import exception.PowerExceptions;
 import org.apache.ibatis.annotations.Mapper;
 import org.mysql.domain.Power;
 

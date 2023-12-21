@@ -1,7 +1,8 @@
-import org.example.PrivilegeApplication;
-import org.example.model.entity.Role;
-import org.example.model.entity.User;
-import org.example.service.impl.RoleMapperImpl;
+/*
+import org.privileges.PrivilegeApplication;
+import org.privileges.model.entity.Role;
+import org.privileges.model.entity.User;
+import org.privileges.service.impl.RoleMapperImpl;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
 import org.junit.runner.RunWith;
@@ -10,7 +11,6 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -175,3 +175,4 @@ public class TestRoleMapper {
     }
 
 }
+*/

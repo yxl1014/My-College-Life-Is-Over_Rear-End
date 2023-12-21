@@ -2,6 +2,9 @@ package org.mysql.util;
 
 import exception.FormatException;
 import org.mysql.domain.Announcement;
+import org.mysql.domain.Power;
+import org.mysql.domain.Role;
+import org.mysql.domain.User;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Field;
@@ -17,6 +20,12 @@ public class MysqlCommonUtil {
 
     /**
      * 将java对象的字段名转换成mysql的列名
+     * 接受一个java类的字段名作为参数，并返回对应的MYSQL列名
+     * 会根据字段名中的字符大小写情况进行转换
+     * 将大写字母转换为下划线家小写字母的形式
+     * javaFieldName2MysqlColumnsName("userName)
+     * 将返回user_name
+     * 如果字段名不符合命名规范，将抛出FormatException异常
      *
      * @param fieldName java类的字段名
      * @return mysql的列名
@@ -71,6 +80,12 @@ public class MysqlCommonUtil {
         return -1;
     }
 
+    /**
+     * 先构建了一个MysqlCommonUtil对象,然后获取了Announcement类的所有字段
+     * 遍历每个字段然后调用javaFieldName2MysqlColumnsName方法将字段名转换为MySQL列名，并打印结果
+     *
+     * @return
+     */
     public static void main(String[] args) throws FormatException {
         MysqlCommonUtil mysqlCommonUtil = new MysqlCommonUtil();
         Class<Announcement> clz = Announcement.class;
@@ -78,6 +93,25 @@ public class MysqlCommonUtil {
         for (Field field : fields) {
             System.out.println(field.getName() + "--->" + mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
         }
+
+        Class<User> clz1 = User.class;
+        Field[] fields1 = clz1.getDeclaredFields();
+        for (Field field : fields1) {
+            System.out.println(field.getName() + "--->" + mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
+        }
+
+        Class<Role> clz2 = Role.class;
+        Field[] fields2=clz2.getDeclaredFields();
+        for (Field field : fields2) {
+            System.out.println(field.getName() + "--->" + mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
+        }
+
+        Class<Power> clz3 = Power.class;
+        Field[] fields3=clz3.getDeclaredFields();
+        for (Field field : fields3) {
+            System.out.println(field.getName() + "--->" + mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()));
+        }
+
     }
 
 }

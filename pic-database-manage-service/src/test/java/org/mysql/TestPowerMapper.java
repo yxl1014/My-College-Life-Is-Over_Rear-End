@@ -89,14 +89,14 @@ public class TestPowerMapper {
         builder.setIn(power);
 
         Power update = new Power();
-        update.setPowerName("xxx");
+        update.setPowerName("用户");
         builder.setUpdate(update);
         try {
             System.out.println(mysqlComp.update(builder));
         } catch (FormatException | IllegalAccessException e) {
             throw new RuntimeException(e);
         }
-        System.out.println("删除成功！");
+        System.out.println("更新成功！");
     }
 }
 

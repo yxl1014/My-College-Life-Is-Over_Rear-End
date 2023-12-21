@@ -25,4 +25,5 @@ public class Power {
     private Short powerType;
     private Timestamp powerCreateTime;
     private String powerNotes;
+
 }

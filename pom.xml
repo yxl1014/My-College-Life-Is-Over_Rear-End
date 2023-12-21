@@ -178,7 +178,71 @@
                 <version>2.0.1.Final</version>
             </dependency>
 
-        </dependencies>
+            <dependency>
+                <!--整合mybatis到springboot中 -->
+                <groupId>org.mybatis.spring.boot</groupId>
+                <artifactId>mybatis-spring-boot-starter</artifactId>
+                <version>${mybatis.spring.boot.starter.version}</version>
+            </dependency>
+
+
+            <dependency>
+                <!--mybatis plus和springboot整合-->
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatisplus.boot.starter.version}</version>
+            </dependency>
+            <!--    数据库连接操作模块依赖 开始。。。。-->
+            <dependency>
+                <!--连接Mysql数据库驱动 -->
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.connector.java.version}</version>
+            </dependency>
+            <dependency>
+                <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <!-- Swagger dependencies api接口测试 -->
+            <dependency>
+                <groupId>io.springfox</groupId>
+                <artifactId>springfox-boot-starter</artifactId>
+            </dependency>
+            <dependency>
+                <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
+            <dependency>
+                <!--整合druid到springboot中 -->
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.springboot.starter}</version>
+            </dependency>
+
+
+            <dependency>
+            <!--mybatis plus和springboot整合-->
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatisplus.boot.starter.version}</version>
+        </dependency>
+
+        <dependency>
+            <!-- 数据库查询分页插件 -->
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>${pagehelper.boot.version}</version>
+        </dependency>
+        <!--    数据库连接操作模块依赖 结束。。。。-->
+
+
+    </dependencies>
     </dependencyManagement>
 
 
