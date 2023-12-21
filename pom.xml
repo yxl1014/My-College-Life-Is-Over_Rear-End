@@ -25,7 +25,6 @@
         <module>pic-privileges-service</module>
         <module>pic-database-manage-service</module>
         <module>pic-cache-service</module>
-        <module>pic-logs-service</module>
         <module>pic-task-deal-service</module>
         <module>pic-mq-connection-service</module>
         <module>pic-controller</module>

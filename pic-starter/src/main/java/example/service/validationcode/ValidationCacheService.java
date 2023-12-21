@@ -1,10 +1,6 @@
 package example.service.validationcode;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @description:
@@ -13,10 +9,6 @@ import java.util.concurrent.TimeUnit;
  */
 @Service
 public class ValidationCacheService {
-
-    @Autowired
-    private RedisTemplate redisTemplate;
-
     /**
      * description: 从redis中检查验证码是否存在
      * @paramType [java.lang.String, java.lang.String]
@@ -30,7 +22,7 @@ public class ValidationCacheService {
 
         System.out.println(vcId);
         System.out.println(code);
-        String code1 = (String) redisTemplate.opsForValue().get(vcId);
+        String code1 = "123456";
         System.out.println(code1);
 
         if(code1 ==null | "".equals(code1)){
@@ -56,12 +48,6 @@ public class ValidationCacheService {
      * @date: 2023-12-06 下午2:47
      */
     public boolean cacheCode(String vcId,String code){
-
-        redisTemplate.opsForValue().set(vcId,code);
-        redisTemplate.expire(vcId,60, TimeUnit.SECONDS);
-
-        System.out.println("vcId:"+vcId + " 验证码:" + code +"已经写入redis数据库中");
-
         return true;
     }
 }

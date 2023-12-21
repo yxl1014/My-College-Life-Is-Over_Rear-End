@@ -1,5 +1,6 @@
 package org.mysql.domain;
 
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,6 +16,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @TableName("sys_user_role_ref")
 public class UserRoleRef {
+    @TableId
+    private Integer refId;
     private String refUserId;
     private Short refRoleId;
 }

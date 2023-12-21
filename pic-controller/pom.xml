@@ -27,7 +27,6 @@
 
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <!-- spring-boot-starter-web  spring-data-rest-webmvc   -->
             <artifactId>spring-boot-starter-data-rest</artifactId>
         </dependency>
 
@@ -35,6 +34,7 @@
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
+            <version>${springfox.boot.starter.version}</version>
         </dependency>
 
     </dependencies>

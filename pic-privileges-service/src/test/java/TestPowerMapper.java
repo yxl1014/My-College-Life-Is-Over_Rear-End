@@ -1,25 +1,14 @@
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import exception.FormatException;
 import exception.PowerExceptions;
-import exception.RoleExceptions;
-import org.apache.ibatis.annotations.Mapper;
-import org.mysql.BaseMysqlComp;
-import org.mysql.domain.Power;
-import org.mysql.domain.RolePowerRef;
-import org.mysql.entity.MysqlBuilder;
-import org.mysql.mapper.PowerMapper;
-import org.privileges.PrivilegeApplication;
-import org.privileges.service.impl.PowerMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mysql.domain.Power;
+import org.mysql.domain.RolePowerRef;
+import org.privileges.PrivilegeApplication;
+import org.privileges.service.impl.PowerMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.domain.Sort;
-import org.springframework.security.core.parameters.P;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.sql.Timestamp;
@@ -94,7 +83,7 @@ public class TestPowerMapper {
 
     //查询角色对应的权限列表
     @Test
-    public void getRolePowers() throws RoleExceptions.EmptyRoleException, RoleExceptions.RoleNoExistsException, FormatException, IllegalAccessException {
+    public void getRolePowers() throws Exception {
         // 执行授权操作
         RolePowerRef rolePowerRef = new RolePowerRef();
         rolePowerRef.setRefRoleId((short) 101);

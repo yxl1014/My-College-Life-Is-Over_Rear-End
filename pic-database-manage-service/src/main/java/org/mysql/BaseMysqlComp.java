@@ -22,7 +22,7 @@ import java.util.List;
  * @author yxl17
  * @Package : org.mysql
  * @Create on : 2023/12/17 16:14
- *
+ * <p>
  * 基于mysql数据库操作的组件，提供了对数据库的查询、插入、更新和删除操作
  **/
 

@@ -8,8 +8,8 @@ import org.mysql.BaseMysqlComp;
 import org.mysql.domain.Power;
 import org.mysql.domain.RolePowerRef;
 import org.mysql.entity.MysqlBuilder;
-import org.mysql.entity.MysqlOptType;
 import org.mysql.mapper.PowerMapper;
+import org.mysql.mapper.RoleMapper;
 import org.mysql.mapper.RolePowerRefMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -27,14 +27,15 @@ public class PowerMapperImpl {
     private final PowerMapper powerMapper;
     private final RolePowerRefMapper rolePowerRefMapper;
     private final BaseMysqlComp baseMysqlComp;
+    private final RoleMapper roleMapper;
 
 
     @Autowired
-    public PowerMapperImpl(PowerMapper powerMapper, BaseMysqlComp baseMysqlComp, RolePowerRefMapper rolePowerRefMapper) {
+    public PowerMapperImpl(PowerMapper powerMapper, BaseMysqlComp baseMysqlComp, RolePowerRefMapper rolePowerRefMapper, RoleMapper roleMapper) {
         this.powerMapper = powerMapper;
         this.baseMysqlComp = baseMysqlComp;
         this.rolePowerRefMapper = rolePowerRefMapper;
-
+        this.roleMapper = roleMapper;
     }
 
     // 添加权限
@@ -131,7 +132,7 @@ public class PowerMapperImpl {
     }
 
     //查找角色的权限
-    public List<RolePowerRef> getRolePowers(RolePowerRef rolePowerRef) throws RoleExceptions.EmptyRoleException, FormatException, IllegalAccessException, RoleExceptions.RoleNoExistsException {
+    public List<RolePowerRef> getRolePowers(RolePowerRef rolePowerRef) throws Exception {
         // 参数校验：角色id不为空；当前操作用户有查看角色权限的权限（未完成）；
         if (rolePowerRef == null || rolePowerRef.getRefRoleId() == null) {
             throw new RoleExceptions.EmptyRoleException();
@@ -140,7 +141,7 @@ public class PowerMapperImpl {
             MysqlBuilder<RolePowerRef> getRolePowers = new MysqlBuilder<>(RolePowerRef.class);
             getRolePowers.setIn(rolePowerRef);
             getRolePowers.getIn().setRefRoleId(rolePowerRef.getRefRoleId());
-            if (rolePowerRefMapper.selectById(rolePowerRef.getRefRoleId()) == null) {
+            if (roleMapper.selectById(rolePowerRef.getRefRoleId()) == null) {
                 throw new RoleExceptions.RoleNoExistsException();
                 //抛出自定义的权限不存在的异常
             } else {
