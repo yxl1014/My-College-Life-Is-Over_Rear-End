@@ -6,8 +6,8 @@ spring:
     # 连接redis端口
     port: 6379
     # 主机地址
-    host: 127.0.0.1
-    password:
+    host: 120.26.67.97
+    password: 123456
     jedis:
       pool:
         #最大连接数据库连接数,设 0 为没有限制

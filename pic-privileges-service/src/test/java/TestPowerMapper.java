@@ -1,9 +1,9 @@
 import exception.FormatException;
 import exception.PowerExceptions;
+import org.database.mysql.domain.Power;
+import org.database.mysql.domain.RolePowerRef;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mysql.domain.Power;
-import org.mysql.domain.RolePowerRef;
 import org.privileges.PrivilegeApplication;
 import org.privileges.service.impl.PowerMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;

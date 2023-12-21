@@ -1,11 +1,13 @@
 package org.mysql;
 
 import exception.FormatException;
+import org.database.MysqlTestApplication;
+import org.database.mysql.BaseMysqlComp;
+import org.database.mysql.domain.Power;
+import org.database.mysql.domain.User;
+import org.database.mysql.entity.MysqlBuilder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mysql.domain.Power;
-import org.mysql.domain.User;
-import org.mysql.entity.MysqlBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
