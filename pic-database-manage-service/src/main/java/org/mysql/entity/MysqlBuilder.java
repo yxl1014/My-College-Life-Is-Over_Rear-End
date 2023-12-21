@@ -42,7 +42,7 @@ public class MysqlBuilder<T> {
     }
     //设置查询条件中IN子句并返回当前对象
 
-    public MysqlBuilder<T> buildEqual(T Eq) {
+    public MysqlBuilder<T> buildEqual(T eq) {
         this.eq = eq;
         return this;
     }

@@ -22,13 +22,20 @@ public class PowerExceptions {
             System.out.println(LogEnum.POWER_EXISTS.getMsg());
         }
     }
-    public static class PowerIdIsNullException extends Exception {
-        public PowerIdIsNullException() {
-            super(LogEnum.POWER_Id_Is_Null.getMsg());
-            System.out.println(LogEnum.POWER_Id_Is_Null.getMsg());
+
+    public static class PowerIsNullException extends Exception {
+        public PowerIsNullException() {
+            super(LogEnum.POWER_Is_Null.getMsg());
+            System.out.println(LogEnum.POWER_Is_Null.getMsg());
         }
     }
 
+    public static class PowerNoExistsException extends Exception {
+        public PowerNoExistsException() {
+            super(LogEnum.POWER_NO_Exists.getMsg());
+            System.out.println(LogEnum.POWER_NO_Exists.getMsg());
+        }
+    }
 
 
 }

@@ -23,7 +23,11 @@ public enum LogType {
     CONTROL("调度器"),
     ELASTICSEARCH("es"),
 
-    POWER("权限操作");
+    POWER("权限操作"),
+
+    ROLE("角色操作");
+
+
 
 
     private String name;

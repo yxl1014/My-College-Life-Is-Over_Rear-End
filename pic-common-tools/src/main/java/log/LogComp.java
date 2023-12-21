@@ -27,8 +27,17 @@ public class LogComp {
         return new LogMessage(LogType.POWER, LogEnum.POWER_EMPTY);
     }
 
-    public static LogMessage buildPowerIdIsNull() {
-        return new LogMessage(LogType.POWER, LogEnum.POWER_Id_Is_Null);
+    public static LogMessage buildPowerIdNull() {
+        return new LogMessage(LogType.POWER, LogEnum.POWER_Is_Null);
+    }
+
+    public static LogMessage buildRoleIsNull() {
+        return new LogMessage(LogType.ROLE, LogEnum.ROLE_EMPTY);
+    }
+    public static LogMessage buildRoleExists() { return new LogMessage(LogType.ROLE, LogEnum.ROLE_EXISTS);
+    }
+    public static LogMessage buildRoleEmpty() {
+        return new LogMessage(LogType.ROLE, LogEnum.ROLE_EMPTY);
     }
 
 

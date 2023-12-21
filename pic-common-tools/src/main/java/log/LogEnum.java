@@ -159,10 +159,17 @@ public enum LogEnum {
     CONTROL_ONE_END("重新分配一个正在进行的任务", "重新分配一个正在进行的任务结束"),
 
     //权限
-    POWER_EXISTS("权限增加", "权限已存在"),
-    POWER_EMPTY("权限增加", "权限信息不能为空"),
-    POWER_Id_Is_Null("权限查询", "权限Id为空" );
 
+    POWER_EMPTY("权限操作", "权限信息不能为空"),
+    POWER_Is_Null("权限操作", "权限Id为空"),
+    POWER_EXISTS("权限操作", "权限已存在"),
+    POWER_NO_Exists("权限操作", "权限不存在"),
+
+    //角色
+    ROLE_EMPTY("角色操作", "角色不存在"),
+    ROLE_EXISTS("角色操作", "角色已存在"),
+    ROLE_Is_Null("角色操作", "角色Id为空"),
+    ROLE_NO_Exists("角色操作", "角色不存在");
 
     private String type;
     private String msg;
@@ -179,4 +186,4 @@ public enum LogEnum {
     public String getMsg() {
         return msg;
     }
-}
+    }
