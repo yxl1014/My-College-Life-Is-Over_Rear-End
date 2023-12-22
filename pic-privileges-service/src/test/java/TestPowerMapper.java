@@ -2,6 +2,8 @@ import exception.FormatException;
 import exception.PowerExceptions;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.RolePowerRef;
+import org.database.redis.RedisComp;
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.privileges.PrivilegeApplication;
@@ -27,6 +29,9 @@ public class TestPowerMapper {
 
     @Autowired
     private PowerMapperImpl powerMapperImpl;
+
+    @Autowired
+    private RedisComp redisComp;
 
 
     //增加权限
@@ -58,6 +63,12 @@ public class TestPowerMapper {
         }
     }
 
+
+    @Test
+    public void testRedis(){
+        redisComp.set("a","b");
+        Assert.assertEquals(redisComp.get("a"),"b");
+    }
 
     //根据powerId删除
     @Test

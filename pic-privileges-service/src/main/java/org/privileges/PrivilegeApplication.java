@@ -6,10 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
 /**
- * @author eensh
+ * @author eenshs
  */
-@SpringBootApplication(scanBasePackages = {"org.mysql","org.privileges"})
+@SpringBootApplication(scanBasePackages = {"org.database","org.privileges"})
 @SpringBootConfiguration
+//@MapperScan("org.database.mysql.mapper")
 public class PrivilegeApplication {
     public static void main(String[] args) {
 

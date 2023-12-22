@@ -1,6 +1,6 @@
 package org.redis;
 
-import org.database.MysqlTestApplication;
+import org.database.DatabaseCompApplication;
 import org.database.redis.RedisComp;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringRunner;
  * @Create on : 2023/12/22 00:04
  **/
 
-@SpringBootTest(classes = MysqlTestApplication.class)
+@SpringBootTest(classes = DatabaseCompApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestRedis {

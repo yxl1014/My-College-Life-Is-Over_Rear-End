@@ -1,7 +1,7 @@
 package org.mysql;
 
 import exception.FormatException;
-import org.database.MysqlTestApplication;
+import org.database.DatabaseCompApplication;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.User;
@@ -21,7 +21,7 @@ import java.time.LocalDateTime;
  * @CreateDate: 2023/11/28
  */
 
-@SpringBootTest(classes = MysqlTestApplication.class)
+@SpringBootTest(classes = DatabaseCompApplication.class)
 @RunWith(SpringRunner.class)
 @EnableAutoConfiguration
 public class TestPowerMapper {

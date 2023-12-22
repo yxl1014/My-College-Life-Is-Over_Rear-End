@@ -12,9 +12,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 @SpringBootConfiguration
-public class MysqlTestApplication {
+public class DatabaseCompApplication {
     public static void main(String[] args) {
-
-        SpringApplication.run(MysqlTestApplication.class, args);
+        SpringApplication.run(DatabaseCompApplication.class, args);
     }
 }
