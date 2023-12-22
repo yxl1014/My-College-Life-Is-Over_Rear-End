@@ -36,4 +36,24 @@ public class RoleExceptions {
         }
     }
 
+    public static class RoleAndUserEmptyException extends Exception {
+        public RoleAndUserEmptyException() {
+            super(LogEnum.ROLE_USER_EMPTY.getMsg());
+            System.out.println(LogEnum.ROLE_USER_EMPTY.getMsg());
+        }
+    }
+
+    public static class RoleAndPowerEmptyException extends Exception {
+        public RoleAndPowerEmptyException() {
+            super(LogEnum.ROLE_POWER_EMPTY.getMsg());
+            System.out.println(LogEnum.ROLE_POWER_EMPTY.getMsg());
+        }
+    }
+    public static class RoleHasPowerException extends Exception {
+        public RoleHasPowerException() {
+            super(LogEnum.ROLE_HAS_POWER.getMsg());
+            System.out.println(LogEnum.ROLE_HAS_POWER.getMsg());
+        }
+    }
+
 }

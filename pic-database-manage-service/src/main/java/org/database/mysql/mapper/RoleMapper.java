@@ -11,4 +11,5 @@ import org.database.mysql.domain.Role;
  **/
 @Mapper
 public interface RoleMapper extends BaseMapper<Role> {
+
 }

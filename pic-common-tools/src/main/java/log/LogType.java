@@ -30,6 +30,8 @@ public enum LogType {
 
 
 
+
+
     private String name;
 
     LogType(String name) {

@@ -160,16 +160,29 @@ public enum LogEnum {
 
     //权限
 
-    POWER_EMPTY("权限操作", "权限信息不能为空"),
-    POWER_Is_Null("权限操作", "权限Id为空"),
+    POWER_EMPTY("权限操作", "权限信息为空"),
     POWER_EXISTS("权限操作", "权限已存在"),
+    POWER_Is_Null("权限操作", "权限Id为空"),
     POWER_NO_Exists("权限操作", "权限不存在"),
 
     //角色
-    ROLE_EMPTY("角色操作", "角色不存在"),
+    ROLE_EMPTY("角色操作", "角色信息为空"),
     ROLE_EXISTS("角色操作", "角色已存在"),
     ROLE_Is_Null("角色操作", "角色Id为空"),
-    ROLE_NO_Exists("角色操作", "角色不存在");
+    ROLE_NO_Exists("角色操作", "角色不存在"),
+
+    ROLE_USER_EMPTY("角色用户操作","角色或用户为空" ),
+    ROLE_POWER_EMPTY("角色权限操作","角色或权限为空"),
+    ROLE_HAS_POWER("角色权限操作","角色已有权限无需分配"),
+
+    USER_EMPTY("用户操作","用户信息为空" ),
+    USER_EXISTS("用户操作","用户已存在" ),
+    USER_Is_Null("用户操作","用户Id为空" ),
+    USER_NO_Exists("用户操作","用户不存在" ),
+    USER_HAS_ROLE("用户操作","用户已有角色无需分配" );
+
+
+
 
     private String type;
     private String msg;

@@ -1,10 +1,9 @@
-/*
-package org.privileges.service.impl;
 
+package org.privileges.service.impl;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.apache.tomcat.websocket.AuthenticationException;
-import org.mysql.mapper.UserMapper;
+import org.database.mysql.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -12,13 +11,12 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.List;
 
-*/
 /**
  * @Author: eensh
  * @CreateDate: 2023/11/27
- *//*
+ */
 
-
+/*
 @Service
 public class UserMapperImpl {
     private final UserMapper userMapper;
@@ -28,8 +26,6 @@ public class UserMapperImpl {
         this.userMapper = userMapper;
     }
 
-    @Value("${jwt.secret}")
-    private String jwtSecret;
 
     //验证登陆
     public Boolean loginUser(String userName, String userPassword) {
@@ -64,7 +60,7 @@ public class UserMapperImpl {
 
 
 
-
+/*
 
     public void insertUser(User user) {
         // 参数校验,用户id 用户电话 用户邮箱 用户名不能重复存在

@@ -36,9 +36,9 @@ public class TestPowerMapper {
 
     //增加权限
     @Test
-    public void insertPower() throws PowerExceptions.EmptyPowerException, PowerExceptions.PowerExistsException, FormatException, IllegalAccessException {
+    public void insertPower() throws Exception {
         Power power = new Power();
-        power.setPowerId(1061);
+        power.setPowerId(1051);
         power.setPowerName("角色管理");
         power.setPowerType((short) 0);
         power.setPowerCreateTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -49,7 +49,7 @@ public class TestPowerMapper {
 
     //根据powerId查询
     @Test
-    public void selectOnePower() throws FormatException, IllegalAccessException, PowerExceptions.PowerIsNullException, PowerExceptions.PowerNoExistsException {
+    public void selectOnePower() throws Exception {
         Power power = new Power();
         power.setPowerId(1051);
         powerMapperImpl.selectOnePower(power);
@@ -72,7 +72,7 @@ public class TestPowerMapper {
 
     //根据powerId删除
     @Test
-    public void deletePower() throws PowerExceptions.PowerIsNullException, FormatException, IllegalAccessException, PowerExceptions.PowerNoExistsException {
+    public void deletePower() throws Exception {
         Power power = new Power();
         power.setPowerId(1051);
         powerMapperImpl.deletePower(power);
@@ -82,7 +82,7 @@ public class TestPowerMapper {
 
     //更新权限内容(根据powerId)
     @Test
-    public void updatePower() throws PowerExceptions.PowerNoExistsException, PowerExceptions.EmptyPowerException, FormatException, IllegalAccessException, PowerExceptions.PowerIsNullException {
+    public void updatePower() throws Exception {
         Power power = new Power();
         power.setPowerId(3);
         power.setPowerNotes("可操作");
@@ -97,7 +97,7 @@ public class TestPowerMapper {
     public void getRolePowers() throws Exception {
         // 执行授权操作
         RolePowerRef rolePowerRef = new RolePowerRef();
-        rolePowerRef.setRefRoleId((short) 101);
+        rolePowerRef.setRefRoleId((short) 103);
         List<RolePowerRef> powerList = powerMapperImpl.getRolePowers(rolePowerRef);
 
         if (powerList != null) {
@@ -112,33 +112,17 @@ public class TestPowerMapper {
         }
     }
 
-
-}
-
-
-
-
-/*
-
-
-
-
-        //查询权限状态（1为可操作,2为可访问）
-        @Test
-        public void isStatusToPower() {
-            Integer powerId = 1002;
-            Power power1 = powerMapperImpl.selectOnePower(powerId);
-            String powerName = power1.getPowerName();
-            if (powerMapperImpl.isStatusToPower(powerId)) {
-                System.out.println(powerId + powerName + "是可操作的！");
-            } else {
-                System.out.println(powerId + powerName + "是可访问的！");
-            }
-
+    //查询权限状态（1为可操作,0为可访问）
+    @Test
+    public void isStatusToPower() throws Exception {
+        Power power=new Power();
+        power.setPowerId(43);
+        if(powerMapperImpl.isStatusToPower(power)){
+            System.out.println(power.getPowerId()+"的权限状态为：可操作");
+        }else {
+            System.out.println(power.getPowerId()+"的权限状态为：可访问");
         }
 
 
     }
-
-
-*/
+}

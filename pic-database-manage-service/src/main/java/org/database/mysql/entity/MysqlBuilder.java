@@ -46,7 +46,7 @@ public class MysqlBuilder<T> {
         this.eq = eq;
         return this;
     }
-    //设置查询条件中！=子句，并返回当前对象
+    //设置查询条件中=子句，并返回当前对象
 
     public MysqlBuilder<T> buildNoEqual(T noEqual) {
         this.noEqual = noEqual;
@@ -64,6 +64,8 @@ public class MysqlBuilder<T> {
         this.update = update;
         return this;
     }
+
+
     //设置更新操作的数据，并返回当前对象
 }
 

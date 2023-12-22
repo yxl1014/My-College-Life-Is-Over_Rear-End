@@ -35,11 +35,12 @@ public class PowerMapperImpl {
         this.powerMapper = powerMapper;
         this.baseMysqlComp = baseMysqlComp;
         this.rolePowerRefMapper = rolePowerRefMapper;
+
         this.roleMapper = roleMapper;
     }
 
     // 添加权限
-    public void insertPower(Power power) throws PowerExceptions.EmptyPowerException, FormatException, IllegalAccessException, PowerExceptions.PowerExistsException {
+    public void insertPower(Power power) throws Exception {
 
         // 参数校验：权限id不为空；权限id不能已存在；当前操作用户有添加权限的权限（未完成）；
         if (power == null || power.getPowerId() == null) {
@@ -61,11 +62,10 @@ public class PowerMapperImpl {
 
 
     ///查找权限，由于权限名可能有多个故只能通过权限id查询
-    public Power selectOnePower(Power power) throws
-            FormatException, IllegalAccessException, PowerExceptions.PowerIsNullException, PowerExceptions.PowerNoExistsException {
+    public Power selectOnePower(Power power) throws Exception {
         // 参数校验：权限id不为空；当前操作用户有查找权限的权限（未完成）；
         if (power.getPowerId() == null) {
-            throw new PowerExceptions.PowerIsNullException();
+            throw new PowerExceptions.EmptyPowerException();
             //抛出自定义的权限信息为空的异常
         } else {
             MysqlBuilder<Power> selectOnePower = new MysqlBuilder<>(Power.class);
@@ -82,18 +82,17 @@ public class PowerMapperImpl {
     }
 
     //查询权限列表信息
-    public List<Power> selectAllPower() throws FormatException, IllegalAccessException {
+    public List<Power> selectAllPower() throws Exception {
         MysqlBuilder<Power> selectAllPower = new MysqlBuilder<>(Power.class);
         return baseMysqlComp.selectList(selectAllPower);
     }
 
 
     //删除权限（根据权限id）
-    public void deletePower(Power power) throws
-            PowerExceptions.PowerIsNullException, FormatException, IllegalAccessException, PowerExceptions.PowerNoExistsException {
+    public void deletePower(Power power) throws Exception {
         // 参数校验：权限id不为空；当前操作用户有删除权限的权限（未完成）；
-        if (power.getPowerId() == null) {
-            throw new PowerExceptions.PowerIsNullException();
+        if (power.getPowerId() == null||power==null) {
+            throw new PowerExceptions.EmptyPowerException();
             //抛出自定义的权限信息为空的异常
         } else {
             MysqlBuilder<Power> deletePower = new MysqlBuilder<>(Power.class);
@@ -111,7 +110,7 @@ public class PowerMapperImpl {
     }
 
     //更新权限内容(根据powerId)
-    public void updatePower(Power power) throws PowerExceptions.EmptyPowerException, PowerExceptions.PowerNoExistsException, FormatException, IllegalAccessException {
+    public void updatePower(Power power) throws Exception {
         // 参数校验：权限id不为空；当前操作用户有更新权限的权限（未完成）；
         if (power == null || power.getPowerId() == null) {
             throw new PowerExceptions.EmptyPowerException();
@@ -151,25 +150,23 @@ public class PowerMapperImpl {
         }
     }
 
-
-}
-/*
-
-
-    //判断权限的状态为可操作还是可访问(1为可操作，2为可访问)
-    public Boolean isStatusToPower(Integer powerId) {
-        if (powerId == null) {
-            throw new IllegalArgumentException("权限ID不能为空");
+    //判断权限的状态为可操作还是可访问(1为可操作，0为可访问)
+    public Boolean isStatusToPower(Power power) throws Exception {
+        // 参数校验：权限id不为空；当前操作用户有查看角色权限状态的权限（未完成）；
+        if (power == null || power.getPowerId() == null) {
+            throw new PowerExceptions.EmptyPowerException();
+            //抛出自定义的权限信息为空的异常
+        } else {
+            if (powerMapper.selectById(power.getPowerId()) == null) {
+                throw new PowerExceptions.PowerNoExistsException();
+                //抛出自定义的权限不存在的异常
+            } else {
+                Power power1=powerMapper.selectById(power.getPowerId());
+                if(power1.getPowerType()==1){
+                    return true;
+                }
+                return false;
+            }
         }
-        // 权限验证
-       *//* if (!checkPowers()) {
-            throw new SecurityException("无权限判断权限的状态为可操作还是可访问");
-        }*//*
-        Power power1 = powerMapper.selectOnePower(powerId);
-        int powerType = power1.getPowerType();
-        return powerType == 1;
     }
-
-
 }
-*/
