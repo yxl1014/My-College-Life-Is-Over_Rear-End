@@ -50,11 +50,9 @@ public class RoleMapperImpl {
             Role role1 = new Role();
             MysqlBuilder<Role> builder = new MysqlBuilder<>(Role.class);
             builder.setIn(role1);
-            builder.getIn().setRoleName(role.getRoleName());
 
             MysqlBuilder<Role> insertRole = new MysqlBuilder<>(Role.class);
             insertRole.setIn(role);
-            insertRole.getIn().setRoleId(role.getRoleId());
 
             if (roleMapper.selectById(role.getRoleId()) != null || baseMysqlComp.selectOne(builder) != null) {
                 throw new RoleExceptions.RoleExistsException();
@@ -74,8 +72,6 @@ public class RoleMapperImpl {
         } else {
             MysqlBuilder<Role> selectOneRole = new MysqlBuilder<>(Role.class);
             selectOneRole.setIn(role);
-            selectOneRole.getIn().setRoleId(role.getRoleId());
-            selectOneRole.getIn().setRoleName(role.getRoleName());
             if (baseMysqlComp.selectOne(selectOneRole) == null) {
                 throw new RoleExceptions.RoleNoExistsException();
                 //抛出自定义的权限不存在的异常
@@ -92,6 +88,14 @@ public class RoleMapperImpl {
         return baseMysqlComp.selectList(selectAllRole);
     }
 
+    //所有可用状态角色列表
+    public List<Role> selectAllDoRole() throws Exception {
+        MysqlBuilder<Role> selectAllDoRole = new MysqlBuilder<>(Role.class);
+        Role role =new Role();
+        role.setRoleStatusFlag((short)0);
+        return baseMysqlComp.selectList(selectAllDoRole.buildIn(role));
+    }
+
 
     //删除角色（根据权限id）
     public void deleteRole(Role role) throws Exception {
@@ -102,7 +106,6 @@ public class RoleMapperImpl {
         } else {
             MysqlBuilder<Role> deleteRole = new MysqlBuilder<>(Role.class);
             deleteRole.setIn(role);
-            deleteRole.getIn().setRoleId(role.getRoleId());
             if (baseMysqlComp.selectOne(deleteRole) == null) {
                 throw new RoleExceptions.RoleNoExistsException();
                 //抛出自定义的角色不存在的异常
@@ -152,7 +155,6 @@ public class RoleMapperImpl {
                 } else {
                     MysqlBuilder<UserRoleRef> grantRoleToUser = new MysqlBuilder<>(UserRoleRef.class);
                     grantRoleToUser.setIn(userRoleRef);
-                    grantRoleToUser.getIn().setRefRoleId(userRoleRef.getRefRoleId());
                     if (baseMysqlComp.selectOne(grantRoleToUser) != null) {
                         throw new UserExceptions.UserHasRoleException();
                         //抛出自定义的用户已有角色异常
@@ -167,6 +169,36 @@ public class RoleMapperImpl {
         }
     }
 
+    //撤销已分配给用户的角色
+    public Boolean revokeRoleFromUser(UserRoleRef userRoleRef) throws Exception {
+        // 参数校验,用户信息存在，角色信息存在，用户已拥有该角色，当前操作用户有撤销用户角色的权限的权限
+        if (userRoleRef.getRefRoleId() == null || userRoleRef.getRefUserId() == null) {
+            throw new RoleExceptions.RoleAndUserEmptyException();
+            //抛出自定义的角色或用户信息为空的异常
+        } else {
+            if (userMapper.selectById(userRoleRef.getRefUserId()) == null) {
+                throw new UserExceptions.UserNoExistsException();
+                //抛出自定义的用户不存在的异常
+            } else {
+                if (roleMapper.selectById(userRoleRef.getRefRoleId()) == null) {
+                    throw new RoleExceptions.RoleNoExistsException();
+                    //抛出自定义的角色不存在的异常
+                } else {
+                    MysqlBuilder<UserRoleRef> revokeRoleFromUser = new MysqlBuilder<>(UserRoleRef.class);
+                    revokeRoleFromUser.setIn(userRoleRef);
+                    if (baseMysqlComp.selectOne(revokeRoleFromUser) == null) {
+                        throw new UserExceptions.UserNoRoleException();
+                        //抛出用户无该角色无需撤销异常
+                    } else {
+                        baseMysqlComp.delete(revokeRoleFromUser);
+                        //撤销角色给用户
+                    }
+                    return baseMysqlComp.selectOne(revokeRoleFromUser) == null;
+
+                }
+            }
+        }
+    }
 
     //分配可操作权限给角色
     public Boolean grantDoPowerToRole(RolePowerRef rolePowerRef) throws Exception {
@@ -187,7 +219,6 @@ public class RoleMapperImpl {
                 } else {
                     MysqlBuilder<RolePowerRef> grantDoPowerToRole = new MysqlBuilder<>(RolePowerRef.class);
                     grantDoPowerToRole.setIn(rolePowerRef);
-                    grantDoPowerToRole.getIn().setRefPowerId(rolePowerRef.getRefPowerId());
                     if (baseMysqlComp.selectOne(grantDoPowerToRole) != null) {
                         throw new RoleExceptions.RoleHasPowerException();
                         //抛出自定义角色已有权限异常
@@ -201,6 +232,7 @@ public class RoleMapperImpl {
             }
         }
     }
+
 
     //分配可操作权限给角色
     public Boolean grantSeePowerToRole(RolePowerRef rolePowerRef) throws Exception {
@@ -221,7 +253,6 @@ public class RoleMapperImpl {
                 } else {
                     MysqlBuilder<RolePowerRef> grantSeePowerToRole = new MysqlBuilder<>(RolePowerRef.class);
                     grantSeePowerToRole.setIn(rolePowerRef);
-                    grantSeePowerToRole.getIn().setRefPowerId(rolePowerRef.getRefPowerId());
                     if (baseMysqlComp.selectOne(grantSeePowerToRole) != null) {
                         throw new RoleExceptions.RoleHasPowerException();
                         //抛出自定义角色已有权限异常
@@ -235,175 +266,72 @@ public class RoleMapperImpl {
             }
         }
     }
+
+    //撤销已分配给角色的权限
+    public Boolean revokePowerFromRole(RolePowerRef rolePowerRef) throws Exception {
+        //参数校验，角色信息存在，权限信息存在，角色已拥有该权限，当前操作用户有撤销已分配给角色的权限的权限
+        if (rolePowerRef.getRefRoleId() == null || rolePowerRef.getRefPowerId() == null) {
+            throw new RoleExceptions.RoleAndPowerEmptyException();
+            //抛出自定义的角色或权限信息为空的异常
+        } else {
+            if (roleMapper.selectById(rolePowerRef.getRefRoleId()) == null) {
+                throw new RoleExceptions.RoleNoExistsException();
+                //抛出角色不存在的异常
+            } else {
+                if (powerMapper.selectById(rolePowerRef.getRefPowerId()) == null) {
+                    throw new PowerExceptions.PowerNoExistsException();
+                    //抛出角色不存在的异常
+                } else {
+                    MysqlBuilder<RolePowerRef> revokePowerFromRole = new MysqlBuilder<>(RolePowerRef.class);
+                    revokePowerFromRole.setIn(rolePowerRef);
+                    if (baseMysqlComp.selectOne(revokePowerFromRole) == null) {
+                        throw new RoleExceptions.RoleNoPowerException();
+                        //抛出权限无需撤销异常
+                    } else {
+                        baseMysqlComp.delete(revokePowerFromRole);
+                        //撤销权限给角色
+                    }
+                    return baseMysqlComp.selectOne(revokePowerFromRole) == null;
+
+
+                }
+            }
+        }
+
+    }
+
+
+    //查询角色状态查询id（0 正常或1 停用）
+    public Boolean checkRoleOperate(Role role) throws Exception {
+        // 参数校验,角色信息存在，当前操作用户有分配权限给角色的权限（未完成）
+        if (role == null || role.getRoleId() == null) {
+            throw new RoleExceptions.EmptyRoleException();
+            //抛出自定义的角色信息为空的异常
+        } else {
+            if (roleMapper.selectById(role.getRoleId()) == null) {
+                throw new RoleExceptions.RoleExistsException();
+                //抛出自定义权限不存在的异常
+            } else {
+                Role role1 = roleMapper.selectById(role.getRoleId());
+                if (role1.getRoleStatusFlag() == 0) {
+                    return true;
+                } else {
+                    return false;
+                }
+            }
+        }
+    }
+
 }
 
 
 
 
-/*
+
+      /*
 
 
 
-
-
-    //不同角色赋予不同权限（可访问or可操作）
-    public Boolean grantPowerToRole(Integer roleId, String powerName, int powerType) {
-        // 参数校验
-        if (roleId == null || powerName == null || (powerType != 1 && powerType != 2)) {
-            throw new IllegalArgumentException("角色信息、权限信息、权限状态不为空（1:可访问or2:可操作）！");
-        } else if (roleMapper.findRoleById(roleId) == null || roleMapper.grantPowerToRoleOperate(powerName, powerType) == null) {
-            throw new IllegalArgumentException("角色不存在或者权限不存在！");
-        }
-        Integer powerId = roleMapper.grantPowerToRoleOperate(powerName, powerType);
-        if (roleMapper.isPowerGrantedToRole(roleId, powerId)) {
-            throw new IllegalArgumentException("此用户已拥有此权限！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限为角色赋予不同权限");
-        }*//*
-
-        roleMapper.grantPowerToRole(roleId, powerId);
-        //验证授权结果
-        return roleMapper.isPowerGrantedToRole(roleId, powerId);
-    }
-
-    //判断权限是否分配给角色成功
-    public Boolean isPowerGrantedToRole(Integer roleId, Integer powerId) {
-        // 参数校验
-        if (roleId == null || powerId == null) {
-            throw new IllegalArgumentException("用户信息权限信息均不能为空！");
-        } else if (roleMapper.findRoleById(roleId) == null || powerMapper.selectOnePower(powerId) == null) {
-            throw new IllegalArgumentException("用户不存在或者角色不存在！");
-        } else if (roleMapper.isPowerGrantedToRole(roleId, powerId)) {
-            throw new IllegalArgumentException("此角色已分配权限！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限判断角色是否分配给用户成功！");
-        }*//*
-
-        return roleMapper.isPowerGrantedToRole(roleId, powerId);
-    }
-
-    //由姓名和权限状态查询id（可访问or可操作）和授权一起组合使用
-    public Integer grantPowerToRoleOperate(String powerName, int powerType) {
-        // 参数校验
-        if (powerName == null || (powerType != 1 && powerType != 2)) {
-            throw new IllegalArgumentException("权限信息和权限状态不能为空,可操作为1，可访问为2");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-        throw new SecurityException("无权限查询角色的权限不同操作！");
-    }*//*
-
-        return roleMapper.grantPowerToRoleOperate(powerName, powerType);
-    }
-
-
-    //分配角色给用户
-    public Boolean grantUserToRole(String userId, Integer roleId) {
-        // 参数校验
-        if (userId == null || roleId == null) {
-            throw new IllegalArgumentException("用户信息角色信息均不能为空！");
-        } else if (userMapper.findUserById(userId) == null || roleMapper.findRoleById(roleId) == null) {
-            throw new IllegalArgumentException("用户不存在或者角色不存在！");
-        } else if (roleMapper.isUserGrantedToRole(userId, roleId)) {
-            throw new IllegalArgumentException("此用户已分配角色！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限分配角色给用户！");
-        }*//*
-
-        roleMapper.grantUserToRole(userId, roleId);
-        //验证授权结果
-        return roleMapper.isUserGrantedToRole(userId, roleId);
-
-    }
-
-    //判断角色是否分配给用户成功
-    public Boolean isUserGrantedToRole(String userId, Integer roleId) {
-        // 参数校验
-        if (userId == null || roleId == null) {
-            throw new IllegalArgumentException("用户信息角色信息均不能为空！");
-        } else if (userMapper.findUserById(userId) == null || roleMapper.findRoleById(roleId) == null) {
-            throw new IllegalArgumentException("用户不存在或者角色不存在！");
-        } else if (roleMapper.isUserGrantedToRole(userId, roleId)) {
-            throw new IllegalArgumentException("此角色已分配权限！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限判断角色是否分配给用户成功！");
-        }*//*
-
-
-        return roleMapper.isUserGrantedToRole(userId, roleId);
-    }
-
-
-    //撤销已分配给角色的权限
-    public Boolean revokePowerFromRole(Integer roleId, Integer powerId) {
-        // 参数校验
-        if (roleId == null || powerId == null) {
-            throw new IllegalArgumentException("用户信息、权限信息均不能为空！");
-        } else if (roleMapper.findRoleById(roleId) == null || powerMapper.selectOnePower(powerId) == null) {
-            throw new IllegalArgumentException("用户不存在或者权限不存在！");
-        } else if (!roleMapper.isPowerGrantedToRole(roleId, powerId)) {
-            throw new IllegalArgumentException("此角色无需撤销该权限！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限撤销已分配给角色的权限！");
-        }*//*
-
-        roleMapper.revokePowerFromRole(roleId, powerId);
-        //验证授权结果
-
-        return !roleMapper.isPowerGrantedToRole(roleId, powerId);
-    }
-
-    //撤销已分配给用户的角色
-    public Boolean revokeUserFromRole(String userId, Integer roleId) {
-        // 参数校验
-        if (userId == null || roleId == null) {
-            throw new IllegalArgumentException("用户信息、角色信息均不能为空！");
-        } else if (userMapper.findUserById(userId) == null || roleMapper.findRoleById(roleId) == null) {
-            throw new IllegalArgumentException("用户不存在或者角色不存在！");
-        } else if (!roleMapper.isUserGrantedToRole(userId, roleId)) {
-            throw new IllegalArgumentException("此用户无需撤销该角色！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限撤销撤销已分配给用户的角色！");
-        }*//*
-
-        roleMapper.revokeUserFromRole(userId, roleId);
-        //验证授权结果
-
-        return !roleMapper.isUserGrantedToRole(userId, roleId);
-    }
-
-    //所有可用状态角色列表
-    public List<Role> isAbleToRole(int roleFlag) {
-        if (roleFlag != 0 && roleFlag != 1 && roleFlag != 2) {
-            throw new IllegalArgumentException("角色状态无效，0为可用1为停用2为删除！");
-        }
-        // 权限验证
-        */
-/*if (!checkUserPowers(user.getUserId())) {
-            throw new SecurityException("无权限撤销撤销已分配给用户的角色！");
-        }*//*
-
-        return roleMapper.isAbleToRole(roleFlag);
-    }
 
     //判断用户的角色
     public String isUserWhatToRole(String userId) {

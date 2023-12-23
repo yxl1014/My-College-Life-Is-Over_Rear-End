@@ -33,7 +33,7 @@ public class User {
     private String userCompany;
     private String userHome;
     private String userIp;
-    private Boolean userFlag;
+    private Short userFlag;
     private String userPersonalProfile;
     private Timestamp userCreateTime;
     private String userSecProblemOne;

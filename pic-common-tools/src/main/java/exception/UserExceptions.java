@@ -40,4 +40,10 @@ public class UserExceptions {
             System.out.println(LogEnum.USER_HAS_ROLE.getMsg());
         }
     }
+    public static class UserNoRoleException extends Exception {
+        public UserNoRoleException() {
+            super(LogEnum.USER_NO_ROLE.getMsg());
+            System.out.println(LogEnum.USER_NO_ROLE.getMsg());
+        }
+    }
 }

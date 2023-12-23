@@ -23,6 +23,6 @@ public class Role {
     private Short roleId;
     private String roleName;
     private Timestamp roleCreateTime;
-    private Boolean roleStatusFlag;
+    private Short roleStatusFlag;
     private String roleRemark;
 }

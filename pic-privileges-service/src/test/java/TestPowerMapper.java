@@ -38,7 +38,7 @@ public class TestPowerMapper {
     @Test
     public void insertPower() throws Exception {
         Power power = new Power();
-        power.setPowerId(1051);
+        power.setPowerId(1059);
         power.setPowerName("角色管理");
         power.setPowerType((short) 0);
         power.setPowerCreateTime(Timestamp.valueOf(LocalDateTime.now()));
@@ -114,14 +114,13 @@ public class TestPowerMapper {
 
     //查询权限状态（1为可操作,0为可访问）
     @Test
-    public void isStatusToPower() throws Exception {
+    public void checkPowerOperate() throws Exception {
         Power power=new Power();
-        power.setPowerId(43);
-        if(powerMapperImpl.isStatusToPower(power)){
-            System.out.println(power.getPowerId()+"的权限状态为：可操作");
-        }else {
-            System.out.println(power.getPowerId()+"的权限状态为：可访问");
-        }
+        power.setPowerId(64);
+        if(powerMapperImpl.checkPowerOperate(power)){
+        System.out.println(power.getPowerId()+"权限状态是可操作");}
+        else
+        {System.out.println(power.getPowerId()+"权限状态是可访问");}
 
 
     }

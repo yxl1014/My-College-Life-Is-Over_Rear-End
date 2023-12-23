@@ -174,12 +174,14 @@ public enum LogEnum {
     ROLE_USER_EMPTY("角色用户操作","角色或用户为空" ),
     ROLE_POWER_EMPTY("角色权限操作","角色或权限为空"),
     ROLE_HAS_POWER("角色权限操作","角色已有权限无需分配"),
+    ROLE_NO_POWER("角色权限操作","角色未拥有该权限无需撤销"),
 
     USER_EMPTY("用户操作","用户信息为空" ),
     USER_EXISTS("用户操作","用户已存在" ),
     USER_Is_Null("用户操作","用户Id为空" ),
     USER_NO_Exists("用户操作","用户不存在" ),
-    USER_HAS_ROLE("用户操作","用户已有角色无需分配" );
+    USER_HAS_ROLE("用户操作","用户已有角色无需分配" ),
+    USER_NO_ROLE("用户操作","该用户无此角色无需撤销" );
 
 
 

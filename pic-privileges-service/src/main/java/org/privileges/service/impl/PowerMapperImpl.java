@@ -49,7 +49,6 @@ public class PowerMapperImpl {
         } else {
             MysqlBuilder<Power> insertPower = new MysqlBuilder<>(Power.class);
             insertPower.setIn(power);
-            insertPower.getIn().setPowerId(power.getPowerId());
             if (powerMapper.selectById(power.getPowerId()) != null) {
                 throw new PowerExceptions.PowerExistsException();
                 //抛出自定义的权限信息已存在的异常
@@ -70,7 +69,7 @@ public class PowerMapperImpl {
         } else {
             MysqlBuilder<Power> selectOnePower = new MysqlBuilder<>(Power.class);
             selectOnePower.setIn(power);
-            selectOnePower.getIn().setPowerId(power.getPowerId());
+
             if (baseMysqlComp.selectOne(selectOnePower) == null) {
                 throw new PowerExceptions.PowerNoExistsException();
                 //抛出自定义的权限不存在的异常
@@ -97,7 +96,6 @@ public class PowerMapperImpl {
         } else {
             MysqlBuilder<Power> deletePower = new MysqlBuilder<>(Power.class);
             deletePower.setIn(power);
-            deletePower.getIn().setPowerId(power.getPowerId());
             if (baseMysqlComp.selectOne(deletePower) == null) {
                 throw new PowerExceptions.PowerNoExistsException();
                 //抛出自定义的权限不存在的异常
@@ -139,7 +137,6 @@ public class PowerMapperImpl {
         } else {
             MysqlBuilder<RolePowerRef> getRolePowers = new MysqlBuilder<>(RolePowerRef.class);
             getRolePowers.setIn(rolePowerRef);
-            getRolePowers.getIn().setRefRoleId(rolePowerRef.getRefRoleId());
             if (roleMapper.selectById(rolePowerRef.getRefRoleId()) == null) {
                 throw new RoleExceptions.RoleNoExistsException();
                 //抛出自定义的权限不存在的异常
@@ -151,7 +148,7 @@ public class PowerMapperImpl {
     }
 
     //判断权限的状态为可操作还是可访问(1为可操作，0为可访问)
-    public Boolean isStatusToPower(Power power) throws Exception {
+    public Boolean checkPowerOperate(Power power) throws Exception {
         // 参数校验：权限id不为空；当前操作用户有查看角色权限状态的权限（未完成）；
         if (power == null || power.getPowerId() == null) {
             throw new PowerExceptions.EmptyPowerException();
@@ -162,10 +159,7 @@ public class PowerMapperImpl {
                 //抛出自定义的权限不存在的异常
             } else {
                 Power power1=powerMapper.selectById(power.getPowerId());
-                if(power1.getPowerType()==1){
-                    return true;
-                }
-                return false;
+                return power1.getPowerType() == 1;
             }
         }
     }

@@ -56,4 +56,10 @@ public class RoleExceptions {
         }
     }
 
+    public static class RoleNoPowerException extends Exception {
+        public RoleNoPowerException() {
+            super(LogEnum.ROLE_NO_POWER.getMsg());
+            System.out.println(LogEnum.ROLE_NO_POWER.getMsg());
+        }
+    }
 }
