@@ -1,6 +1,6 @@
 package org.mysql;
 
-import exception.FormatException;
+import org.commons.exception.FormatException;
 import org.database.DatabaseCompApplication;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.Power;

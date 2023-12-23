@@ -1,8 +1,8 @@
 package org.database.redis;
 
-import common.GsonUtil;
-import log.LogComp;
 import org.apache.logging.log4j.Logger;
+import org.commons.common.GsonUtil;
+import org.commons.log.LogComp;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;

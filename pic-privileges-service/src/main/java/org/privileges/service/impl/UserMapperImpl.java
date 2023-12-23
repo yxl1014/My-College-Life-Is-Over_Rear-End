@@ -1,24 +1,15 @@
 
 package org.privileges.service.impl;
 
-import exception.RoleExceptions;
-import exception.UserExceptions;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import org.apache.tomcat.websocket.AuthenticationException;
 import org.database.mysql.BaseMysqlComp;
-import org.database.mysql.domain.Power;
-import org.database.mysql.domain.Role;
 import org.database.mysql.domain.User;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.mapper.PowerMapper;
 import org.database.mysql.mapper.RoleMapper;
 import org.database.mysql.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,7 +39,7 @@ public class UserMapperImpl {
     public void insertUser(User user) throws Exception {
         // 参数校验 用户电话 用户邮箱 用户名不能重复存在，当前操作用户有添加用户的权限（未完成）
         if (user == null || user.getUserId() == null || user.getUserName() == null || user.getUserTelephone() == null || user.getUserSysEmail() == null) {
-            throw new UserExceptions.EmptyUserException();
+            //throw new UserExceptions.EmptyUserException();
             //抛出用户信息为空异常
         } else {
             MysqlBuilder<User> insertUser = new MysqlBuilder<>(User.class);
@@ -80,13 +71,13 @@ public class UserMapperImpl {
     public void selectOneUser(User user) throws Exception {
         // 参数校验 可通过用户名、用户电话、用户id、用户邮箱找到用户
         if (user == null || (user.getUserId() == null && user.getUserName() == null && user.getUserTelephone() == null && user.getUserSysEmail() == null)) {
-            throw new UserExceptions.EmptyUserException();
+            //throw new UserExceptions.EmptyUserException();
             //抛出用户信息为空异常
         } else {
             MysqlBuilder<User> selectOneUser = new MysqlBuilder<>(User.class);
             selectOneUser.setIn(user);
             if (baseMysqlComp.selectOne(selectOneUser) == null) {
-                throw new UserExceptions.UserNoExistsException();
+                //throw new UserExceptions.UserNoExistsException();
                 //抛出自定义的用户不存在的异常
             } else {
 
@@ -108,13 +99,13 @@ public class UserMapperImpl {
     public void deleteUser(User user) throws Exception {
         // 参数校验:角色id不为空；当前操作用户有注销的权限（未完成）
         if (user == null || user.getUserId() == null) {
-            throw new UserExceptions.EmptyUserException();
+            //throw new UserExceptions.EmptyUserException();
             //抛出自定义的角色信息为空的异常
         } else {
             MysqlBuilder<User> deleteUser = new MysqlBuilder<>(User.class);
             deleteUser.setIn(user);
             if (baseMysqlComp.selectOne(deleteUser) == null) {
-                throw new UserExceptions.UserNoExistsException();
+                //throw new UserExceptions.UserNoExistsException();
                 //抛出自定义的角色不存在的异常
             } else {
                 //执行删除操作
@@ -128,11 +119,11 @@ public class UserMapperImpl {
     public void updateUser(User user) throws Exception {
         // 参数校验：用户id不为空；当前操作用户有更新用户的权限（未完成）；
         if (user == null || user.getUserId() == null) {
-            throw new UserExceptions.EmptyUserException();
+            //throw new UserExceptions.EmptyUserException();
             //抛出自定义的角色信息为空的异常
         } else {
             if (userMapper.selectById(user.getUserId()) == null) {
-                throw new UserExceptions.UserNoExistsException();
+                //throw new UserExceptions.UserNoExistsException();
                 //抛出自定义的角色不存在的异常
             } else {
                 MysqlBuilder<User> builder = new MysqlBuilder<>(User.class);

@@ -1,8 +1,7 @@
 package org.privileges.service.impl;
 
-import exception.PowerExceptions;
-import exception.RoleExceptions;
-import exception.UserExceptions;
+import org.commons.exception.PowerExceptions;
+import org.commons.exception.RoleExceptions;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.Role;
@@ -64,7 +63,12 @@ public class RoleMapperImpl {
         }
     }
 
-    //查找角色信息
+    /**
+     * 查找角色信息
+     *
+     * @param role 角色
+     * @throws Exception 错误
+     */
     public void selectOneRole(Role role) throws Exception {
         // 参数校验
         if (role == null || (role.getRoleId() == null && role.getRoleName() == null)) {
@@ -91,8 +95,8 @@ public class RoleMapperImpl {
     //所有可用状态角色列表
     public List<Role> selectAllDoRole() throws Exception {
         MysqlBuilder<Role> selectAllDoRole = new MysqlBuilder<>(Role.class);
-        Role role =new Role();
-        role.setRoleStatusFlag((short)0);
+        Role role = new Role();
+        role.setRoleStatusFlag((short) 0);
         return baseMysqlComp.selectList(selectAllDoRole.buildIn(role));
     }
 
@@ -146,7 +150,8 @@ public class RoleMapperImpl {
             //抛出自定义的角色或用户信息为空的异常
         } else {
             if (userMapper.selectById(userRoleRef.getRefUserId()) == null) {
-                throw new UserExceptions.UserNoExistsException();
+                //throw new UserExceptions.UserNoExistsException();
+                return false;
                 //抛出自定义的用户不存在的异常
             } else {
                 if (roleMapper.selectById(userRoleRef.getRefRoleId()) == null) {
@@ -156,7 +161,7 @@ public class RoleMapperImpl {
                     MysqlBuilder<UserRoleRef> grantRoleToUser = new MysqlBuilder<>(UserRoleRef.class);
                     grantRoleToUser.setIn(userRoleRef);
                     if (baseMysqlComp.selectOne(grantRoleToUser) != null) {
-                        throw new UserExceptions.UserHasRoleException();
+                        //throw new UserExceptions.UserHasRoleException();
                         //抛出自定义的用户已有角色异常
                     } else {
                         baseMysqlComp.insert(grantRoleToUser);
@@ -177,7 +182,8 @@ public class RoleMapperImpl {
             //抛出自定义的角色或用户信息为空的异常
         } else {
             if (userMapper.selectById(userRoleRef.getRefUserId()) == null) {
-                throw new UserExceptions.UserNoExistsException();
+                //throw new UserExceptions.UserNoExistsException();
+                return false;
                 //抛出自定义的用户不存在的异常
             } else {
                 if (roleMapper.selectById(userRoleRef.getRefRoleId()) == null) {
@@ -187,7 +193,7 @@ public class RoleMapperImpl {
                     MysqlBuilder<UserRoleRef> revokeRoleFromUser = new MysqlBuilder<>(UserRoleRef.class);
                     revokeRoleFromUser.setIn(userRoleRef);
                     if (baseMysqlComp.selectOne(revokeRoleFromUser) == null) {
-                        throw new UserExceptions.UserNoRoleException();
+                        //throw new UserExceptions.UserNoRoleException();
                         //抛出用户无该角色无需撤销异常
                     } else {
                         baseMysqlComp.delete(revokeRoleFromUser);

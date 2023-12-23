@@ -1,9 +1,8 @@
 package org.privileges.service.impl;
 
-import exception.FormatException;
-import exception.PowerExceptions;
-import exception.RoleExceptions;
 import lombok.Getter;
+import org.commons.exception.PowerExceptions;
+import org.commons.exception.RoleExceptions;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.RolePowerRef;

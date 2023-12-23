@@ -32,32 +32,14 @@
     </properties>
 
     <dependencies>
-<!--        <dependency>-->
-<!--            <groupId>org.privileges</groupId>-->
-<!--            <artifactId>pic-controller</artifactId>-->
-<!--            <version>1.0-SNAPSHOT</version>-->
-<!--        </dependency>-->
-
+        <!--======================START项目内部引用START======================-->
         <dependency>
             <groupId>org.example</groupId>
-            <artifactId>pic-common-tools</artifactId>
+            <artifactId>pic-user-service</artifactId>
             <version>1.0-SNAPSHOT</version>
-            <exclusions>
-                <exclusion>
-                    <groupId>org.projectlombok</groupId>
-                    <artifactId>lombok</artifactId>
-                </exclusion>
-            </exclusions>
         </dependency>
 
-        <dependency>
-            <groupId>redis.clients</groupId>
-            <artifactId>jedis</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.data</groupId>
-            <artifactId>spring-data-redis</artifactId>
-        </dependency>
+        <!--======================END项目内部引用END======================-->
 
         <!-- hutool工具依赖 验证码-->
         <dependency>
@@ -74,18 +56,6 @@
         </dependency>
 
         <dependency>
-            <!--entity 属性名与数据库列名的映射 @Entity @Id-->
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <!-- spring-boot-starter-web  spring-data-rest-webmvc   -->
-            <artifactId>spring-boot-starter-data-rest</artifactId>
-        </dependency>
-
-        <dependency>
             <!--鱼龙混杂 -->
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-commons</artifactId>
@@ -95,7 +65,6 @@
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
         </dependency>
-
 
         <!--        springboot测试模块依赖 开始。。。。。-->
         <dependency>
@@ -115,52 +84,6 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!--        springboot测试模块依赖 结束。。。。。-->
-
-<!--    数据库连接操作模块依赖 开始。。。。-->
-        <dependency>
-            <!--连接Mysql数据库驱动 -->
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-            <version>${mysql.connector.java.version}</version>
-        </dependency>
-
-        <dependency>
-            <!--druid的实例所在，是一个为数据库连接提供连接池的工具 -->
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid</artifactId>
-            <version>${druid.version}</version>
-        </dependency>
-
-        <dependency>
-            <!--整合druid到springboot中 -->
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-            <version>${druid.springboot.starter}</version>
-        </dependency>
-
-        <dependency>
-            <!--整合mybatis到springboot中 -->
-            <groupId>org.mybatis.spring.boot</groupId>
-            <artifactId>mybatis-spring-boot-starter</artifactId>
-            <version>${mybatis.spring.boot.starter.version}</version>
-        </dependency>
-
-
-        <dependency>
-            <!--mybatis plus和springboot整合-->
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-            <version>${mybatisplus.boot.starter.version}</version>
-        </dependency>
-
-        <dependency>
-            <!-- 数据库查询分页插件 -->
-            <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper-spring-boot-starter</artifactId>
-            <version>${pagehelper.boot.version}</version>
-        </dependency>
-        <!--    数据库连接操作模块依赖 结束。。。。-->
 
         <dependency>
             <!-- 邮箱发送jar包-->
@@ -175,6 +98,10 @@
             <version>3.0.0</version>
             <scope>compile</scope>
         </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
 
     </dependencies>
 
@@ -185,7 +112,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
                     <includeSystemScope>true</includeSystemScope>
-                    <mainClass>example.StarterApplication</mainClass>
+                    <mainClass>org.starter.StarterApplication</mainClass>
                 </configuration>
             </plugin>
         </plugins>

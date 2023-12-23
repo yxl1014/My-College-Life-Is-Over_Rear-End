@@ -1,6 +1,6 @@
 package org.database.mysql.util;
 
-import exception.FormatException;
+import org.commons.exception.FormatException;
 import org.database.mysql.domain.Announcement;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.Role;

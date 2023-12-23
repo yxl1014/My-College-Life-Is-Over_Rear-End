@@ -9,6 +9,8 @@
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/pic-cache-service/pom.xml" />
+        <option value="$PROJECT_DIR$/pic-controller/pom.xml" />
         <option value="$PROJECT_DIR$/pic-logs-service/pom.xml" />
       </set>
     </option>

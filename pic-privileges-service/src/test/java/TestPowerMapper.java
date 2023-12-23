@@ -1,5 +1,3 @@
-import exception.FormatException;
-import exception.PowerExceptions;
 import org.database.mysql.domain.Power;
 import org.database.mysql.domain.RolePowerRef;
 import org.database.redis.RedisComp;

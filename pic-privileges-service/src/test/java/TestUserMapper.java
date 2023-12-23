@@ -1,21 +1,16 @@
-import common.encrypt.PasswordEncrypt;
-import common.uuid.UuidGenerator;
-import org.database.mysql.domain.Power;
-import org.database.mysql.domain.Role;
+import org.commons.common.encrypt.PasswordEncrypt;
+import org.commons.common.uuid.UuidGenerator;
 import org.database.mysql.domain.User;
-import org.privileges.PrivilegeApplication;
-import org.privileges.service.impl.UserMapperImpl;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.privileges.PrivilegeApplication;
+import org.privileges.service.impl.UserMapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
