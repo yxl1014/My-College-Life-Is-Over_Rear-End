@@ -28,9 +28,11 @@ public class ReBody {
     private Object data;
 
     public ReBody(RepCode rCode) {
-        this.code = rCode.ordinal();
+        this.code = rCode.getCode();
+        this.msg = rCode.getMsg();
     }
 
-    public void setRCode(R_Code rCode) {
+    public void setRepCode(RepCode rCode) {
+        this.code = rCode.getCode();
     }
 }

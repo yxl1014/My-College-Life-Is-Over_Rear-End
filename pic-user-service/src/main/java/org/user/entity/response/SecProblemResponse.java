@@ -18,14 +18,14 @@ import org.user.entity.response.father.Response;
 @AllArgsConstructor
 @NoArgsConstructor
 public class SecProblemResponse extends Response {
-    @JsonProperty("userSecProblem1")
+    @JsonProperty("userSecProblemOne")
     @ApiModelProperty(value = "密保1")
-    private String userSecProblem1;
-    @JsonProperty("userSecProblem2")
+    private String userSecProblemOne;
+    @JsonProperty("userSecProblemTwo")
     @ApiModelProperty(value = "密保2")
-    private String userSecProblem2;
-    @JsonProperty("userSecProblem3")
+    private String userSecProblemTwo;
+    @JsonProperty("userSecProblemThree")
     @ApiModelProperty(value = "密保3")
-    private String userSecProblem3;
+    private String userSecProblemThree;
 
 }

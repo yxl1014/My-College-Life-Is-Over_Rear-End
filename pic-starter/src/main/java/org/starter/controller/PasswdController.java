@@ -47,22 +47,17 @@ public class PasswdController {
     @ApiOperation("查询密保")
     @ApiResponse(code = 200, message = "请求成功", response = SecProblemResponse.class)
     public SecProblemResponse passwdSecQuery(@ApiParam("用户名/邮箱地址/手机号") @RequestParam("string")String request) {
-
         return queryService.passwdSecQuery(request);
-
     }
     @PostMapping("/checkProperSec")
     @ApiOperation("检查密保正确性")
     public boolean checkProper(SecAnswerRequest request){
-
         return findPasswordService.checkProperSec(request);
-
     }
 
     @GetMapping("/checkProperVal")
     @ApiOperation("检查验证码正确性")
     public boolean checkProper(@ApiParam("验证码uuid") @RequestParam("vcId")String vcId,@ApiParam("验证码") @RequestParam("validation")String validation){
-
         return findPasswordService.checkProperVal(vcId,validation);
     }
 

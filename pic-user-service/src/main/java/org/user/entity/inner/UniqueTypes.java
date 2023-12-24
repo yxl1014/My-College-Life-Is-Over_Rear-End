@@ -9,15 +9,23 @@ public enum UniqueTypes {
     /**
      * 用户名
      */
-    USERNAME(1),
+    USERNAME("用户名"),
     /**
      * 电话号码
      */
-    TELEPHONE(2),
+    TELEPHONE("电话号码"),
     /**
      * 邮箱地址
      */
-    EMAIL(3);
+    EMAIL("邮箱地址");
 
-    UniqueTypes(int i) {}
+    private String data;
+
+    UniqueTypes(String data) {
+        this.data = data;
+    }
+
+    public String getData() {
+        return data;
+    }
 }

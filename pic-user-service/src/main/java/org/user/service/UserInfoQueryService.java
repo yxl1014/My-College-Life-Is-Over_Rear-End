@@ -45,9 +45,9 @@ public class UserInfoQueryService {
     private SecProblemResponse getSecProblemResponse(User user) {
         SecProblemResponse secProblemResponse = new SecProblemResponse();
 
-        secProblemResponse.setUserSecProblem1(user.getUserSecProblemOne());
-        secProblemResponse.setUserSecProblem2(user.getUserSecProblemTwo());
-        secProblemResponse.setUserSecProblem3(user.getUserSecProblemThree());
+        secProblemResponse.setUserSecProblemOne(user.getUserSecProblemOne());
+        secProblemResponse.setUserSecProblemTwo(user.getUserSecProblemTwo());
+        secProblemResponse.setUserSecProblemThree(user.getUserSecProblemThree());
 
         secProblemResponse.setCode(200);
         secProblemResponse.setMsg("请求成功");

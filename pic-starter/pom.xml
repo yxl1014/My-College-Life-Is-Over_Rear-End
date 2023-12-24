@@ -48,13 +48,6 @@
             <version>5.7.19</version>
         </dependency>
 
-        <!--knife4j：swagger的升级版本；引用所有的knife4j提供的资源，包括前端Ui的jar包-->
-        <dependency>
-            <groupId>com.github.xiaoymin</groupId>
-            <artifactId>knife4j-spring-boot-starter</artifactId>
-            <version>2.0.2</version>
-        </dependency>
-
         <dependency>
             <!--鱼龙混杂 -->
             <groupId>org.springframework.data</groupId>
@@ -92,15 +85,35 @@
             <version>1.6.2</version>
         </dependency>
 
+        <!-- Swagger3 -->
         <dependency>
             <groupId>io.springfox</groupId>
-            <artifactId>springfox-swagger2</artifactId>
+            <artifactId>springfox-boot-starter</artifactId>
             <version>3.0.0</version>
-            <scope>compile</scope>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>3.0.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.github.xiaoymin/knife4j-spring-boot-starter -->
+        <dependency>
+            <groupId>com.github.xiaoymin</groupId>
+            <artifactId>knife4j-spring-boot-starter</artifactId>
+            <version>3.0.3</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-oas</artifactId>
+            <version>3.0.0</version>
         </dependency>
 
     </dependencies>

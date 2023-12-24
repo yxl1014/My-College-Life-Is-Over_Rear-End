@@ -1,15 +1,17 @@
 package org.starter.config;
 
+import com.github.xiaoymin.knife4j.spring.annotations.EnableKnife4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
+import springfox.documentation.oas.annotations.EnableOpenApi;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
-import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 /**
  * @description: <a href="http://localhost:18080/doc.html></a>
@@ -17,7 +19,10 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2WebMvc;
  * @date: 2023/11/27 下午3:59
  */
 @Configuration
-@EnableSwagger2WebMvc
+@EnableKnife4j
+@EnableOpenApi
+@EnableSwagger2
+//@ConditionalOnProperty(value = "spring.profiles.active", havingValue = "test")
 public class Knife4jConfig {
     @Bean
     public Docket createRestApi() {
@@ -27,7 +32,7 @@ public class Knife4jConfig {
                 // select()：生成 API 文档的选择器，用于指定要生成哪些 API 文档
                 .select()
                 // apis()：指定要生成哪个包下的 API 文档
-                .apis(RequestHandlerSelectors.basePackage("example.controller"))
+                .apis(RequestHandlerSelectors.basePackage("org.starter.controller"))
                 // paths()：指定要生成哪个 URL 匹配模式下的 API 文档。这里使用 PathSelectors.any()，表示生成所有的 API 文档。
                 .paths(PathSelectors.any())
                 .build();

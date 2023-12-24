@@ -1,16 +1,16 @@
 package org.user.service;
 
+import org.apache.logging.log4j.util.Strings;
 import org.commons.common.verify.RegexValidator;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
-import org.database.mysql.domain.User;
+import org.database.mysql.service.UserMysqlComp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.user.entity.inner.UniqueTypes;
 import org.user.entity.request.findPasswd.FindPasswdRequest;
 import org.user.entity.request.findPasswd.SecAnswerRequest;
-import org.user.entity.response.CheckExistResponse;
 
 /**
  * @description: 找回密码服务
@@ -23,28 +23,34 @@ public class FindPasswordService {
     @Autowired
     private BaseMysqlComp mysqlComp;
 
-    public ReBody checkExist(String string) {
-        return new ReBody();
-    }
+    @Autowired
+    private UserMysqlComp userMysqlComp;
 
-    private ReBody getReBody(User user, ReBody reBody, CheckExistResponse response) {
-        response.setUserTelephone(user.getUserTelephone());
-        response.setUserName(user.getUserName());
-        response.setUserSysEmail(user.getUserSysEmail());
-        reBody.setData(response);
-        reBody.setMsg("请求成功");
-        reBody.setCode(RepCode.R_Ok.getCode());
-
+    public ReBody checkExist(String key) {
+        ReBody reBody = new ReBody();
+        if (Strings.isEmpty(key)){
+            reBody.setRepCode(RepCode.R_ParamError);
+        }
+        else
+        {
+            if (userMysqlComp.checkUserIsExist(key)){
+                reBody.setRepCode(RepCode.R_Ok);
+                reBody.setMsg(checkWhichOne(key).getData());
+            }
+            else {
+                reBody.setRepCode(RepCode.R_Ok);
+                reBody.setMsg("不存在");
+            }
+        }
         return reBody;
     }
 
-    public UniqueTypes checkWhichOne(String string) {
+    private UniqueTypes checkWhichOne(String key) {
 
-        if (RegexValidator.regexEmail(string)) {
+        if (RegexValidator.regexEmail(key)) {
             return UniqueTypes.EMAIL;
         }
-        if (RegexValidator.regexTelephone(string)) {
-
+        if (RegexValidator.regexTelephone(key)) {
             return UniqueTypes.TELEPHONE;
         }
         return UniqueTypes.USERNAME;
