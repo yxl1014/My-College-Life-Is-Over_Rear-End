@@ -31,8 +31,8 @@ public class RoleExceptions {
 
     public static class RoleNoExistsException extends Exception {
         public RoleNoExistsException() {
-            super(LogEnum.ROLE_NO_Exists.getMsg());
-            System.out.println(LogEnum.ROLE_NO_Exists.getMsg());
+            super(LogEnum.ROLE_NO_EXISTS.getMsg());
+            System.out.println(LogEnum.ROLE_NO_EXISTS.getMsg());
         }
     }
 
