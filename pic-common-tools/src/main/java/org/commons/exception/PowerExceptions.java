@@ -32,8 +32,8 @@ public class PowerExceptions {
 
     public static class PowerNoExistsException extends Exception {
         public PowerNoExistsException() {
-            super(LogEnum.POWER_NO_Exists.getMsg());
-            System.out.println(LogEnum.POWER_NO_Exists.getMsg());
+            super(LogEnum.POWER_NO_EXISTS.getMsg());
+            System.out.println(LogEnum.POWER_NO_EXISTS.getMsg());
         }
     }
 
