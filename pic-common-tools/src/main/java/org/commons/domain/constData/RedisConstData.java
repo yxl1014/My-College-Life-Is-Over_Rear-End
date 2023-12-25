@@ -14,4 +14,19 @@ public class RedisConstData {
      * 用户验证数据的version 存在redis里
      */
     public static final String USER_LOGIN_VERSION = "a";
+
+    /**
+     * 图片验证码  UUID:CODE ttl:60s
+     */
+    public static final String VERITY_PICTURE_CODE = "b";
+
+    /**
+     * 电话验证码  UUID:CODE ttl:60s
+     */
+    public static final String VERITY_TEL_CODE = "c";
+
+    /**
+     * 邮箱验证码  UUID:CODE ttl:60s
+     */
+    public static final String VERITY_EMAIL_CODE = "d";
 }

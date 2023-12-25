@@ -8,6 +8,7 @@ package org.commons.log;
 public enum LogType {
     //测试
     TEST("测试一下"),
+    SYSTEM("系统内部异常"),
     //aop
     LOGIN("登录操作"),
     REGISTER("注册操作"),
@@ -22,9 +23,7 @@ public enum LogType {
     SCHEDULED("定时器"),
     CONTROL("调度器"),
     ELASTICSEARCH("es"),
-
     POWER("权限操作"),
-
     ROLE("角色操作");
 
 

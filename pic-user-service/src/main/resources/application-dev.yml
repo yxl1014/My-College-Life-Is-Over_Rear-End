@@ -58,5 +58,15 @@ server:
   port: 18080
 
 
+smtp_hostname_163: smtp.163.com
+smtp_port_163: 465
+smtp_hostname_126: smtp.126.com
+smtp_port_126: 25
+smtp_hostname_qq: smtp.qq.com
+smtp_port_qq: 587
+email_username_zy: 123
+email_password_zy: 123
+
+
 
 

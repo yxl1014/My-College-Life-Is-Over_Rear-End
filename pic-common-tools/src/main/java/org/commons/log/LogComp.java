@@ -60,7 +60,7 @@ public class LogComp {
             return this;
         }
 
-        public LogMessage build(String key, String value) {
+        public LogMessage build(String key, Object value) {
             logMsg.append(" -- ").append(key).append(" -> ").append(value);
             return this;
         }

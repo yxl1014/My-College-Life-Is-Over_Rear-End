@@ -5,12 +5,12 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import org.commons.response.ReBody;
+import org.database.mysql.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.user.entity.request.transaction.RechargeRequest;
 import org.user.entity.response.transaction.RechargeResponse;
 import org.user.service.transaction.RechargeService;
 
@@ -29,8 +29,8 @@ public class RestMoneyManageController {
     @PostMapping("/recharge")
     @ApiOperation("充值接口")
     @ApiResponse(code = 200,message = "充值成功",response = RechargeResponse.class)
-    public ReBody recharge (@RequestBody RechargeRequest request){
-        return rechargeService.recharge(request);
+    public ReBody recharge (@RequestBody User user){
+        return rechargeService.recharge(user);
     }
 
 }

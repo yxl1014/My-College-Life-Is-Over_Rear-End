@@ -21,6 +21,16 @@ public class UuidGenerator {
     }
 
     /**
+     * @decription: 包含当前timestamp的UUID生成方法
+     * @author: GodHammer
+     * @date: 2023-10-28 下午7:54
+     * @version: v1.0
+     */
+    public static String getCustomUuid() {
+        return getCustomUuid(System.currentTimeMillis()).toString();
+    }
+
+    /**
     * @decription: 包含当前timestamp的UUID生成方法
     * @author: GodHammer
     * @date: 2023-10-28 下午7:54

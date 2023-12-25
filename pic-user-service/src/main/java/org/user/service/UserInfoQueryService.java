@@ -34,8 +34,6 @@ public class UserInfoQueryService {
             case 3:
                 return queryByEmail(request);
             default:
-                secProblemResponse.setCode(500);
-                secProblemResponse.setMsg("请求失败，请输入正确的用户名");
                 return secProblemResponse;
         }
 
@@ -47,11 +45,6 @@ public class UserInfoQueryService {
 
         secProblemResponse.setUserSecProblemOne(user.getUserSecProblemOne());
         secProblemResponse.setUserSecProblemTwo(user.getUserSecProblemTwo());
-        secProblemResponse.setUserSecProblemThree(user.getUserSecProblemThree());
-
-        secProblemResponse.setCode(200);
-        secProblemResponse.setMsg("请求成功");
-
         return secProblemResponse;
     }
 

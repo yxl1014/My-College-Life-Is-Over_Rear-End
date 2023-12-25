@@ -4,7 +4,6 @@ import org.commons.response.ReBody;
 import org.database.mysql.BaseMysqlComp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.user.entity.request.transaction.RechargeRequest;
 
 /**
  * @description:
@@ -25,7 +24,7 @@ public class RechargeService {
      * @author: GodHammer
      * @date: 2023-12-02 下午11:44
      */
-    public ReBody recharge(RechargeRequest request){
+    public ReBody recharge(Object request){
         return new ReBody();
     }
 }

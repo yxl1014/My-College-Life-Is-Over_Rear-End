@@ -5,27 +5,24 @@ import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.user.entity.response.father.Response;
 
 /**
  * @description: 用于数字相加的验证码实体类
  * @author: HammerRay
  * @date: 2023/11/18 下午5:38
  */
-@EqualsAndHashCode(callSuper = true)
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("数字验证码")
-public class DigitOperaCode extends Response {
+public class DigitOperaCode{
     /**
      * 验证码的uuid
      */
     @ApiModelProperty("验证码的Uuid")
-    @JsonProperty("vcId")
-    private String vcId;
+    @JsonProperty("uuid")
+    private String uuid;
     /**
      * 运算的结果
      */

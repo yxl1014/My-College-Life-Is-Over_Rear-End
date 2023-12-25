@@ -36,8 +36,8 @@ public class RedisComp {
      * @return 获得值
      * redis有五种数据类型 opsForValue表示是操作字符串类型
      */
-    public Object get(String key) {
-        return key == null ? null : redisTemplate.opsForValue().get(key);
+    public String get(String key) {
+        return key == null ? null : (String) redisTemplate.opsForValue().get(key);
     }
 
     //本来只可以放入string类型，但是我们配置了自动序列化所以这儿可以传入object

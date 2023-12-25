@@ -1,5 +1,6 @@
 package org.starter.interceptor;
 
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.commons.annotation.ControllerLog;
 import org.commons.annotation.NeedCheck;
@@ -8,6 +9,8 @@ import org.commons.common.verify.JWTUtil;
 import org.commons.domain.LoginCommonData;
 import org.commons.domain.constData.RedisConstData;
 import org.commons.domain.constData.ThreadLocalConstData;
+import org.commons.log.LogComp;
+import org.commons.log.LogType;
 import org.commons.response.RepCode;
 import org.database.redis.RedisComp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +34,7 @@ import java.lang.reflect.Method;
 
 @Component
 public class CheckTokenInterceptor implements HandlerInterceptor {
+    private final Logger logger = LogComp.getLogger(CheckTokenInterceptor.class);
 
     @Autowired
     private ThreadLocalComp threadLocalComp;
@@ -47,6 +51,9 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+        LogComp.LogMessage logMessage = LogComp.buildData(LogType.INTERCEPTOR);
+        logMessage.build("url",request.getRequestURI());
+        logger.info(logMessage.log());
         if ("test".equals(env.getProperty("spring.profiles.active")))
         {
             return true;
@@ -62,6 +69,9 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             response.sendError(RepCode.R_ControllerError.getCode(), RepCode.R_ControllerError.getMsg());
             return false;
         }
+
+        // 这个取出来几个日志
+        ControllerLog controllerLog = method.getAnnotation(ControllerLog.class);
         //获取这个方法是否有这个注释
         if (!method.isAnnotationPresent(NeedCheck.class)) {
             Cookie[] cookies = request.getCookies();
@@ -104,7 +114,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             else
             // 如果没有 就去redis里比较一下 version 这个version会在登陆的时候随机生成
             {
-                String version = (String) redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
+                String version = redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
                 if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))){
                     response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                     return false;
@@ -112,12 +122,9 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 // 完事没问题了 就set进ThreadLocal
                 threadLocalComp.setThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME, unSignData);
             }
-
+            //TODO 判断一下权限
             return true;
         }
-
-        // 这个取出来几个日志
-        ControllerLog log = method.getAnnotation(ControllerLog.class);
         return true;
     }
 

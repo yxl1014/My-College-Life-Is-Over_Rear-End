@@ -15,7 +15,7 @@ public class LogoffService {
     public ReBody logOff(String uuid) {
         //TODO 删除redis中的uuid
         ReBody reBody = new ReBody();
-        reBody.setData(new UuidResponse(200, "登出成功,返回登录页面", null));
+        reBody.setData(new UuidResponse(null));
         return reBody;
     }
 }

@@ -25,8 +25,16 @@ public class WebConfig implements WebMvcConfigurer {
     public void addInterceptors(InterceptorRegistry registry) {
         List<String> list = new ArrayList<>();
         list.add("/**");
-        String[] swaggerExcludePathPatterns = {"/doc.html", "/swagger**/**", "/swagger-resources/**", "/webjars/**", "/v3/**"};
-        registry.addInterceptor(checkTokenInterceptor).addPathPatterns(list)
+        String[] swaggerExcludePathPatterns = {
+                "/swagger-ui/index.html",
+                "/swagger-ui/index.html/**",
+                "/swagger-resources/**",
+                "/error",
+                "/v2/api-docs",
+                "/login/**",
+                "/doc.html"};
+        registry.addInterceptor(checkTokenInterceptor)
+                .addPathPatterns(list)
                 .excludePathPatterns(swaggerExcludePathPatterns);
     }
 

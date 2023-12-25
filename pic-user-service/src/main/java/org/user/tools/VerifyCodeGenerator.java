@@ -8,7 +8,6 @@ import cn.hutool.core.img.ImgUtil;
 import org.commons.common.uuid.UuidGenerator;
 import org.springframework.util.FastByteArrayOutputStream;
 import org.user.entity.inner.DigitOperaCode;
-import org.user.entity.response.StringCodeResponse;
 
 import java.util.Random;
 
@@ -22,13 +21,40 @@ import java.util.Random;
 public class VerifyCodeGenerator {
 
     /**
-     * 验证码位数
+     * 数字验证码
+     *
+     * @returnType: StringCode
+     * @author: GodHammer
+     * @date: 2023-11-18 下午8:52
+     * @version: v1.0
      */
-    public static int CODE_BITS = 6;
+    public static String genNumberVerityCode() {
+        return VerifyCodeGenerator.pureDigitCode(6);
+    }
+
     /**
-     * 默认一次运算 即 6 + 7 = 13 一个＋号
+     * 6位字母验证码
+     *
+     * @returnType: StringCode
+     * @author: GodHammer
+     * @date: 2023-11-18 下午8:53
+     * @version: v1.0
      */
-    public static int OPERA_TIMES = 1;
+    public static String genLetterVerityCode() {
+        return VerifyCodeGenerator.pureLetterCode(6);
+    }
+
+    /**
+     * 6位数字字母混合验证码
+     *
+     * @returnType: StringCode
+     * @author: GodHammer
+     * @date: 2023-11-18 下午8:53
+     * @version: v1.0
+     */
+    public static String codeSendDigitLetter() {
+        return VerifyCodeGenerator.digitLetterCode(6);
+    }
 
     /**
      * 要求result传参必须为100以内0以上的整数
@@ -42,7 +68,7 @@ public class VerifyCodeGenerator {
     public static DigitOperaCode digitalOperationCode() {
         int result = new Random().nextInt(100) + 1;
         DigitOperaCode res = new DigitOperaCode();
-        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
+        res.setUuid(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
 
         res.setResult(result);
         //这个结果可以等于多少-多少  也可以等于多少＋多少  不考虑后两个：也可以等于多少*多少  也可以等于多少/多少  这个验证码的作用是检查是否真人在操作，乘除可能有人不会。
@@ -56,40 +82,31 @@ public class VerifyCodeGenerator {
         code.append(result);
         code.append('=');
         code.append('?');
-
         res.setOperationFormula(code.toString());
         LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
         FastByteArrayOutputStream os = new FastByteArrayOutputStream();
         ImgUtil.writePng(lineCaptcha.createImage(code.toString()), os);
-
         res.setBase64Img(Base64.encode(os.toByteArray()));
-
-//        LineCaptcha lineCaptcha = CaptchaUtil.createLineCaptcha(200, 100);
-//        String verify = IdUtil.simpleUUID();
-//        //图形验证码写出，可以写出到文件，也可以写出到流
-//        FastByteArrayOutputStream os = new FastByteArrayOutputStream();
-//        lineCaptcha.write(os);
-//        String code = lineCaptcha.getCode();
-////        缓存一分钟的验证码
-//        redisTemplate.opsForValue().set(verify, code, Duration.ofMinutes(1));
-//        ConcurrentHashMap<String, String> map = new ConcurrentHashMap<>(5);
-//        //验证码对应的redis上的uuid
-//        map.put("uuid", verify);
-//        //图片上的验证码
-//        map.put("code", code);
-//        //将图片转换成输出流传到前端上
-//        map.put("img",Base64.encode(os.toByteArray()));
-
         return res;
     }
 
-    public static StringCodeResponse digitLetterCode() {
-        StringCodeResponse res = new StringCodeResponse();
-        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
+
+    /**
+     * 验证码位数
+     */
+    public static int CODE_BITS = 6;
+    /**
+     * 默认一次运算 即 6 + 7 = 13 一个＋号
+     */
+    public static int OPERA_TIMES = 1;
+
+
+
+    public static String digitLetterCode(int len) {
         //数字字母混合六位验证码
         StringBuilder code = new StringBuilder();
-
-        for (int i = 0; i < CODE_BITS; i++) {
+        len = len == 0 ? CODE_BITS : len;
+        for (int i = 0; i < len; i++) {
             int tmp = new Random().nextInt(9);
             if (tmp % 2 == 0) {
 
@@ -112,32 +129,25 @@ public class VerifyCodeGenerator {
                 }
             }
         }
-
-        res.setValidation(code.toString());
-        return res;
+        return code.toString();
     }
 
-    public static StringCodeResponse pureDigitCode() {
-        StringCodeResponse res = new StringCodeResponse();
-        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
+    public static String pureDigitCode(int len) {
         //纯数字6位验证码
         StringBuilder code = new StringBuilder();
-
-        for (int i = 0; i < (CODE_BITS / 2); i++) {
+        len = len == 0 ? CODE_BITS : len;
+        for (int i = 0; i < (len / 2); i++) {
             int tmp = new Random().nextInt(90) + 10;
             code.append(tmp);
         }
-        res.setValidation(code.toString());
-        return res;
+        return code.toString();
     }
 
-    public static StringCodeResponse pureLetterCode() {
-        StringCodeResponse res = new StringCodeResponse();
-        res.setVcId(UuidGenerator.getCustomUuid(System.currentTimeMillis()).toString());
+    public static String pureLetterCode(int len) {
         //纯字母6位验证码
         StringBuilder code = new StringBuilder();
-
-        for (int i = 0; i < CODE_BITS; i++) {
+        len = len == 0 ? CODE_BITS : len;
+        for (int i = 0; i < len; i++) {
             int tmp = new Random().nextInt(9);
             if (tmp % 2 == 0) {
                 //大写英文字母
@@ -151,8 +161,7 @@ public class VerifyCodeGenerator {
 
             code.append(tmp);
         }
-        res.setValidation(code.toString());
-        return res;
+        return code.toString();
     }
 
 

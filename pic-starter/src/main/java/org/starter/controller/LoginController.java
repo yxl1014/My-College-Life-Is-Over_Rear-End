@@ -6,9 +6,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.commons.response.ReBody;
+import org.database.mysql.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import org.user.entity.request.LoginRequest;
 import org.user.entity.response.UuidResponse;
 import org.user.service.LoginService;
 import org.user.service.LogoffService;
@@ -31,7 +31,7 @@ public class LoginController {
     /**
      * $$考虑添加LoginRequest实体类，来对应前端传来的jsonBody中的各个属性  同理RegisterRequest
      *
-     * @param loginRequest:
+     * @param user:
      * @paramType: [java.lang.Object]
      * @returnType: org.springframework.web.servlet.ModelAndView
      * @author: GodHammer
@@ -41,8 +41,8 @@ public class LoginController {
     @PostMapping("/login")
     @ApiOperation("登录---通过各种方式的登录，成功后返回Token UUID 这个UUID存储于redis中")
     @ApiResponse(code = 200, message = "登录成功", response = UuidResponse.class)
-    public ReBody login(@RequestBody LoginRequest loginRequest) throws IOException {
-        return loginService.login(loginRequest);
+    public ReBody login(@RequestBody User user) throws IOException {
+        return loginService.login(user);
     }
 
     @GetMapping("/logout")

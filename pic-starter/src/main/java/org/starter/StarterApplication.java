@@ -18,6 +18,7 @@ import org.springframework.cache.annotation.EnableCaching;
 @SpringBootConfiguration
 @EnableCaching
 @SpringBootApplication(scanBasePackages = {"org.database", "org.user", "org.starter"},
+        // 这两个排除掉 不然会有一个spring 自带的身份验证 需要启动生成的一个code 用户名是user
         exclude = {SecurityAutoConfiguration.class, SecurityFilterAutoConfiguration.class})
 public class StarterApplication {
     public static void main(String[] args) {
