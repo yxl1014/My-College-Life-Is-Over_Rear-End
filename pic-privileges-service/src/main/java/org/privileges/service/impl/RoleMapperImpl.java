@@ -478,23 +478,3 @@ public class RoleMapperImpl {
 
 
 
-
-      /*
-
-
-
-
-    //判断用户的角色
-    public String isUserWhatToRole(String userId) {
-        if (userId == null) {
-            throw new IllegalArgumentException("用户信息不能为空！");
-        } else if (userMapper.findUserById(userId) == null) {
-            throw new IllegalArgumentException("用户不存在！");
-        }
-        Integer roleId = roleMapper.isUserWhatToRole(userId);
-        Role role = roleMapper.findRoleById(roleId);
-        return role.getRoleName();
-    }
-
-
-}*/

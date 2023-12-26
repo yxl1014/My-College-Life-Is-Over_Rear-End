@@ -164,6 +164,7 @@ public class TestRoleMapper {
 
     }
 
+
 }
 
 
@@ -172,55 +173,6 @@ public class TestRoleMapper {
     /*
 
 
-
-
-
-
-
-
-
-
-
-
-    //测试角色撤销已有权限
-    @Test
-    public void revokePowerFromRole() {
-        //模拟角色Id和权限Id
-        Integer roleId = 101;
-        Integer powerId = 1004;
-        if (roleMapperImpl.revokePowerFromRole(roleId, powerId)) {
-                System.out.println("权限已成功撤销！");
-            } else {
-                Assertions.fail("权限撤销失败！");
-            }
-    }
-
-
-    //测试用户撤销已有角色
-    @Test
-    public void revokeUserFromRole() {
-        //模拟角色Id和权限Id
-        String userId = "0000018b-e2c3-eb02-bad0-896cbb1b7143";
-        Integer roleId = 110;
-
-        if (roleMapperImpl.revokeUserFromRole(userId, roleId)) {
-                System.out.println("用户已成功撤销该角色！");
-            } else {
-                Assertions.fail("角色撤销失败！");
-            }
-    }
-
-    //可用状态用户列表
-    @Test
-    public void isAbleToRole() {
-        System.out.println("############################################################");
-        System.out.println("以下是查询所有状态可用的角色信息:");
-        int roleFlag = 0;//如果为0则为可用
-        List<Role> roleList = roleMapperImpl.isAbleToRole(roleFlag);
-        for (Role r : roleList) {
-            System.out.println(r);
-        }
-    }
 
     //判断用户的角色
     @Test
@@ -231,15 +183,4 @@ public class TestRoleMapper {
     }
 
 
-    //不同角色赋予权限不同操作（可访问or可操作）
-    @Test
-    public void testGrantPowerToRoleOperate() {
-        // 模拟角色ID和权限ID
-        String powerName = "用户管理";
-        int powerType = 2;//可操作为1，可访问为2
-        Integer powerId = roleMapperImpl.grantPowerToRoleOperate(powerName, powerType);
-        System.out.println(powerId);
-    }
-
-}
 */

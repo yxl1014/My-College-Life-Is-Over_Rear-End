@@ -25,6 +25,7 @@
       <module name="pic-cache-service" target="1.8" />
       <module name="pic-controller" target="1.8" />
       <module name="pic-logs-service" target="1.8" />
+      <module name="pic-product" target="1.8" />
       <module name="pic-transaction-service" target="1.8" />
     </bytecodeTargetLevel>
   </component>

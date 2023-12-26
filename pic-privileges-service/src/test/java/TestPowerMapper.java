@@ -36,7 +36,7 @@ public class TestPowerMapper {
     @Test
     public void insertPower() throws Exception {
         Power power = new Power();
-       // power.setPowerId(1059);
+        power.setPowerId(1059);
         power.setPowerName("角色管理");
         power.setPowerType((short) 0);
         power.setPowerCreateTime(Timestamp.valueOf(LocalDateTime.now()));
