@@ -32,6 +32,12 @@ public class ReBody {
         this.msg = rCode.getMsg();
     }
 
+    public ReBody(RepCode rCode, Object data) {
+        this.code = rCode.getCode();
+        this.msg = rCode.getMsg();
+        this.data = data;
+    }
+
     public void setRepCode(RepCode rCode) {
         this.code = rCode.getCode();
     }

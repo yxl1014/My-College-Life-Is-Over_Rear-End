@@ -72,5 +72,11 @@ email_username_zy : 2624773733@qq.com
 email_password_zy : rgxfiootentddjch
 
 
+token_secret : 1
+token_payload : 2
+token_exp : 3
+
+
+
 
 

@@ -29,4 +29,24 @@ public class RedisConstData {
      * 邮箱验证码  UUID:CODE ttl:60s
      */
     public static final String VERITY_EMAIL_CODE = "d";
+
+    /**
+     * 用户在线
+     */
+    public static final String USER_ONLINE = "e";
+
+    /**
+     * 电话  UUID:tel ttl:60s
+     */
+    public static final String VERITY_TEL = "f";
+
+    /**
+     * 邮箱  UUID:email ttl:60s
+     */
+    public static final String VERITY_EMAIL= "g";
+
+    /**
+     * 验证冷却  KEY:CONST ttl:60s  ket:tel、email
+     */
+    public static final String VERITY_TIMEOUT= "h";
 }

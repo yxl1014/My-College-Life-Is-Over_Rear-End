@@ -1,5 +1,6 @@
 package org.commons.common;
 
+import org.commons.domain.constData.MagicMathConstData;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -14,11 +15,11 @@ import java.util.HashMap;
 public class ThreadLocalComp {
     private static final ThreadLocal<HashMap<String, Object>> THREAD_LOCAL = new ThreadLocal<>();
 
-    public ThreadLocalComp() {
-        THREAD_LOCAL.set(new HashMap<>());
-    }
-
     public void setThreadLocalData(String key, Object data) {
+        HashMap<String, Object> map = THREAD_LOCAL.get();
+        if (map == null) {
+            THREAD_LOCAL.set(new HashMap<>(MagicMathConstData.MAGIC_MAP_DEFAULT_SIZE));
+        }
         THREAD_LOCAL.get().put(key, data);
     }
 

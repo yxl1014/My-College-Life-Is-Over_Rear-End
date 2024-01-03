@@ -4,6 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.commons.common.uuid.UuidGenerator;
 import org.commons.common.verify.RegexValidator;
+import org.commons.domain.constData.MagicMathConstData;
 import org.commons.domain.constData.RedisConstData;
 import org.commons.log.LogComp;
 import org.commons.log.LogType;
@@ -39,7 +40,9 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
     @Override
     public ReBody genMathVerityCode() {
         DigitOperaCode code = VerifyCodeGenerator.digitalOperationCode();
-        redisComp.setex(RedisConstData.VERITY_PICTURE_CODE + code.getUuid(), code.getResult(), 60 * 1000);
+        redisComp.setex(RedisConstData.VERITY_PICTURE_CODE + code.getUuid(), code.getResult(), MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+        //TODO YXL 这个是测试用的 要删
+        System.out.println(code.getResult());
         VerityCodeResponse verityCodeResponse = new VerityCodeResponse();
         verityCodeResponse.setBase64Img(code.getBase64Img());
         verityCodeResponse.setUuid(code.getUuid());
@@ -53,12 +56,22 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
         if (!RegexValidator.regexTelephone(telephone)) {
             return new ReBody(RepCode.R_ParamError);
         }
+        // 判断冷却时间
+        String timeout = redisComp.get(RedisConstData.VERITY_TIMEOUT + telephone);
+        if (!Strings.isEmpty(timeout)) {
+            return new ReBody(RepCode.R_TooFast);
+        }
 
         //TODO: 发送验证码到手机的 代码
         String code = VerifyCodeGenerator.genNumberVerityCode();
         String uuid = UuidGenerator.getCustomUuid();
 
-        redisComp.setex(RedisConstData.VERITY_TEL_CODE + uuid, code, 60 * 1000);
+        redisComp.setex(RedisConstData.VERITY_TEL_CODE + uuid, code, MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+        redisComp.setex(RedisConstData.VERITY_TEL + uuid, telephone, MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+
+        //设置冷却时间
+        redisComp.setex(RedisConstData.VERITY_TIMEOUT + telephone, MagicMathConstData.MAGIC_REDIS_TIMEOUT,
+                MagicMathConstData.MAGIC_VERITY_CODE_TIME);
 
         VerityCodeResponse verityCodeResponse = new VerityCodeResponse();
         verityCodeResponse.setUuid(uuid);
@@ -71,8 +84,14 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
     @Override
     public ReBody genEmailVerityCode(String recipientAddr) {
         if (!RegexValidator.regexEmail(recipientAddr)) {
-            throw new RuntimeException("目标邮箱格式错误");
+            return new ReBody(RepCode.R_ParamError);
         }
+        // 判断冷却时间
+        String timeout = redisComp.get(RedisConstData.VERITY_TIMEOUT + recipientAddr);
+        if (!Strings.isEmpty(timeout)) {
+            return new ReBody(RepCode.R_TooFast);
+        }
+
         String code = VerifyCodeGenerator.genNumberVerityCode();
 
         try {
@@ -85,7 +104,15 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
         }
         String uuid = UuidGenerator.getCustomUuid();
         //存redis
-        redisComp.setex(RedisConstData.VERITY_EMAIL_CODE + uuid, code, 60 * 1000);
+        redisComp.setex(RedisConstData.VERITY_EMAIL_CODE + uuid, code, MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+        redisComp.setex(RedisConstData.VERITY_EMAIL + uuid, recipientAddr, MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+
+        //设置冷却时间
+        redisComp.setex(RedisConstData.VERITY_TIMEOUT + recipientAddr, MagicMathConstData.MAGIC_REDIS_TIMEOUT,
+                MagicMathConstData.MAGIC_VERITY_CODE_TIME);
+
+        //TODO YXL 这个是测试用的 要删
+        System.out.println(code);
 
         VerityCodeResponse verityCodeResponse = new VerityCodeResponse();
         verityCodeResponse.setUuid(uuid);

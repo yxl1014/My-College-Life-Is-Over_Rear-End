@@ -3,6 +3,7 @@ package org.commons.common.verify;
 import com.auth0.jwt.JWTSigner;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.internal.com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -18,11 +19,16 @@ import java.util.Map;
 
 @Component
 public class JWTUtil {
-    private static final String SECRET = "!=end=!";
 
-    private final String PAYLOAD = "payload";
+    @Value("${token_secret}")
+    private String secret;
 
-    private final String EXP = "exp";
+
+    @Value("${token_payload}")
+    private String payload;
+
+    @Value("${token_exp}")
+    private String exp ;
 
 
     /**
@@ -35,13 +41,13 @@ public class JWTUtil {
      */
     public <T> String sign(T object, long maxAge) {
         try {
-            final JWTSigner signer = new JWTSigner(SECRET);
+            final JWTSigner signer = new JWTSigner(secret);
             final Map<String, Object> claims = new HashMap<>();
             //通过jackson的api将对象转换成json
             ObjectMapper mapper = new ObjectMapper();
             String jsonString = mapper.writeValueAsString(object);
-            claims.put(PAYLOAD, jsonString);
-            claims.put(EXP, System.currentTimeMillis() + maxAge);
+            claims.put(payload, jsonString);
+            claims.put(exp, System.currentTimeMillis() + maxAge);
             return signer.sign(claims);
         } catch (Exception e) {
             return null;
@@ -57,14 +63,14 @@ public class JWTUtil {
      * @return 对象
      */
     public <T> T unSign(String jwt, Class<T> classT) {
-        final JWTVerifier verifier = new JWTVerifier(SECRET);
+        final JWTVerifier verifier = new JWTVerifier(secret);
         try {
             final Map<String, Object> claims = verifier.verify(jwt);
-            if (claims.containsKey(EXP) && claims.containsKey(PAYLOAD)) {
-                long exp = (Long) claims.get(EXP);
+            if (claims.containsKey(exp) && claims.containsKey(payload)) {
+                long expTime = (Long) claims.get(exp);
                 long currentTimeMillis = System.currentTimeMillis();
-                if (exp > currentTimeMillis) {
-                    String json = (String) claims.get(PAYLOAD);
+                if (expTime > currentTimeMillis) {
+                    String json = (String) claims.get(payload);
                     ObjectMapper objectMapper = new ObjectMapper();
                     return objectMapper.readValue(json, classT);
                 }
