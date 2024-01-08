@@ -36,6 +36,11 @@ public class MagicMathConstData {
     public static final long MAGIC_VERITY_CODE_TIME = 60;
 
     /**
+     * 秒级的用户通用数据有效期 3分钟
+     */
+    public static final long MAGIC_VERITY_CODE_TIME_3_MIN = 60 * 3;
+
+    /**
      * redis无需value常量
      */
     public static final String MAGIC_REDIS_TIMEOUT = "1";

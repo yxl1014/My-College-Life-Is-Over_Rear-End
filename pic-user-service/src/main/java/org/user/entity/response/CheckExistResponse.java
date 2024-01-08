@@ -18,14 +18,23 @@ import lombok.NoArgsConstructor;
 @ApiModel("查看是否存在响应")
 public class CheckExistResponse {
 
-    @JsonProperty("user_name")
-    @ApiModelProperty(value = "用户名")
-    private String userName;
-    @JsonProperty("user_telephone")
+    @JsonProperty("uuid")
+    @ApiModelProperty(value = "uuid")
+    private String uuid;
+    @JsonProperty("userId")
+    @ApiModelProperty(value = "用户ID")
+    private String userId;
+    @JsonProperty("problemOne")
+    @ApiModelProperty(value = "密保问题一")
+    private String problemOne;
+    @JsonProperty("problemTwo")
+    @ApiModelProperty(value = "密保问题二")
+    private String problemTwo;
+    @JsonProperty("userTel")
     @ApiModelProperty(value = "电话")
-    private String userTelephone;
-    @JsonProperty("user_sys_email")
+    private String userTel;
+    @JsonProperty("userEmail")
     @ApiModelProperty(value = "邮箱")
-    private String userSysEmail;
+    private String userEmail;
 
 }

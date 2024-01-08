@@ -1,6 +1,5 @@
 package org.database.mysql.service;
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import lombok.SneakyThrows;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.User;
@@ -26,21 +25,6 @@ public class UserMysqlComp {
         this.userMapper = mysqlComp.getUserMapper();
     }
 
-    /**
-     * 通过电话、邮箱、用户名判断用户是否存在
-     *
-     * @param key 电话|邮箱|用户名
-     * @return 是否存在
-     */
-    public boolean checkUserIsExist(String key) {
-        LambdaQueryWrapper<User> wrapper = new LambdaQueryWrapper<>();
-        wrapper.eq(User::getUserName, key)
-                .or().eq(User::getUserTelephone, key)
-                .or().eq(User::getUserSysEmail, key);
-        Integer count = userMapper.selectCount(wrapper);
-        return count > 0;
-    }
-
     @SneakyThrows
     public User getUserId(User user) {
         MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
@@ -48,6 +32,24 @@ public class UserMysqlComp {
         User out = new User();
         out.setUserId("a");
         mysqlBuilder.setOut(out);
+        return mysqlComp.selectOne(mysqlBuilder);
+    }
+
+    @SneakyThrows
+    public User findUserByUserId(String userId) {
+        User user = new User();
+        user.setUserId(userId);
+        MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
+        mysqlBuilder.setIn(user);
+        return mysqlComp.selectOne(mysqlBuilder);
+    }
+
+    @SneakyThrows
+    public User findUserByUsername(String username) {
+        User user = new User();
+        user.setUserName(username);
+        MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
+        mysqlBuilder.setIn(user);
         return mysqlComp.selectOne(mysqlBuilder);
     }
 

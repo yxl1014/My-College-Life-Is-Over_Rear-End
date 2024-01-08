@@ -5,11 +5,9 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.commons.response.ReBody;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-import org.user.entity.response.SecProblemResponse;
+import org.springframework.web.bind.annotation.*;
+import org.user.entity.request.FindPasswordRequest;
+import org.user.entity.request.FindUpdatePwdRequest;
 import org.user.service.FindPasswordService;
 
 
@@ -19,7 +17,7 @@ import org.user.service.FindPasswordService;
  * @date: 2023/11/26 上午7:45
  */
 @RestController
-@Api(tags = "密码操作接口")
+@Api(tags = "找回密码操作接口")
 @RequestMapping("/passwd")
 public class PasswdController {
 
@@ -42,8 +40,22 @@ public class PasswdController {
 
     @GetMapping("/checkExist")
     @ApiOperation("检查用户是否存在")
-    @ApiResponse(code = 200, message = "请求成功", response = SecProblemResponse.class)
-    public ReBody checkExist(@ApiParam("用户名") @RequestParam("string")String string) {
+    @ApiResponse(code = 200, message = "请求成功", response = ReBody.class)
+    public ReBody checkExist(@ApiParam("用户名") @RequestParam("string") String string) {
         return findPasswordService.checkExist(string);
+    }
+
+    @PostMapping("/findPasswordRequest")
+    @ApiOperation("验证请求信息")
+    @ApiResponse(code = 200, message = "请求成功", response = ReBody.class)
+    public ReBody findPasswordRequest(@RequestBody FindPasswordRequest request) {
+        return findPasswordService.findPasswordRequest(request);
+    }
+
+    @PostMapping("/findUpdatePwdRequest")
+    @ApiOperation("验证并修改密码")
+    @ApiResponse(code = 200, message = "请求成功", response = ReBody.class)
+    public ReBody findUpdatePwdRequest(@RequestBody FindUpdatePwdRequest request) {
+        return findPasswordService.findUpdatePwdRequest(request);
     }
 }

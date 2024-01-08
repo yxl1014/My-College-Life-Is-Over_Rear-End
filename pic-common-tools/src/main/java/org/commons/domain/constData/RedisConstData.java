@@ -2,6 +2,7 @@ package org.commons.domain.constData;
 
 /**
  * redis key 前缀静态对象
+ *
  * @author yxl17
  * @Package : org.commons.domain.constData
  * @Create on : 2023/12/24 18:14
@@ -43,10 +44,20 @@ public class RedisConstData {
     /**
      * 邮箱  UUID:email ttl:60s
      */
-    public static final String VERITY_EMAIL= "g";
+    public static final String VERITY_EMAIL = "g";
 
     /**
      * 验证冷却  KEY:CONST ttl:60s  ket:tel、email
      */
-    public static final String VERITY_TIMEOUT= "h";
+    public static final String VERITY_TIMEOUT = "h";
+
+    /**
+     * 找回密码 验证用户名->验证手机或邮箱或者密保问题
+     */
+    public static final String FIND_PASSWORD_1 = "i";
+
+    /**
+     * 找回密码 验证手机或邮箱或者密保问题->输入新密码
+     */
+    public static final String FIND_PASSWORD_2 = "j";
 }
