@@ -100,7 +100,7 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
             LogComp.LogMessage logMessage = LogComp.buildData(LogType.UTIL);
             logMessage.build("发送邮件抛错", e.getMessage());
             logger.error(logMessage.log());
-            return new ReBody(RepCode.R_Error);
+            return new ReBody(RepCode.R_EmailNotFound);
         }
         String uuid = UuidGenerator.getCustomUuid();
         //存redis

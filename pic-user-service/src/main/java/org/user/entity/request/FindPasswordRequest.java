@@ -51,7 +51,7 @@ public class FindPasswordRequest {
     /**
      * 验证类型
      */
-    @ApiModelProperty("验证类型")
+    @ApiModelProperty("验证类型：1、密保，2、手机，3、邮箱")
     @JsonProperty("type")
     private int type;
 }
