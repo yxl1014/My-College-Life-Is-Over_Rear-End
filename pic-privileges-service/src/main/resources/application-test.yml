@@ -6,7 +6,7 @@ spring:
     # 连接redis端口
     port: 6379
     # 主机地址
-    host: 120.26.67.97
+    host: 8.130.97.128
     password: 123456
     jedis:
       pool:
@@ -19,7 +19,7 @@ spring:
         #最小等待连接中的数量,设 0 为没有限制
         min-idle: 0
   datasource:
-    url: jdbc:mysql://120.26.67.97:3306/LoadRunnerX
+    url: jdbc:mysql://8.130.97.128:3306/LoadRunnerX
     username: yxl
     password: "yxl"
     driver-class-name: com.mysql.cj.jdbc.Driver

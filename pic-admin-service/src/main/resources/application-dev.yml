@@ -19,7 +19,7 @@ spring:
         #最小等待连接中的数量,设 0 为没有限制
         min-idle: 0
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/LoadRunnerX
+    url: jdbc:mysql://8.130.97.128:3306/LoadRunnerX
     username: yxl
     password: "yxl"
     driver-class-name: com.mysql.cj.jdbc.Driver
