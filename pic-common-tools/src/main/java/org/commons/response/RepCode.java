@@ -55,6 +55,7 @@ public enum RepCode {
     R_UserIsExist(502, "用户存在"),
     R_UserSecAnswerError(503, "密保答案错误"),
     R_UserUpdatePasswordTimeOut(504, "修改密码超时"),
+    R_UserPrivilegesNotEnough(505, "用户权限不够"),
     //-----------------------登录相关 501-550---------------------
 
     //-----------------------验证相关 601-650---------------------

@@ -12,8 +12,9 @@ import org.commons.domain.constData.ThreadLocalConstData;
 import org.commons.log.LogComp;
 import org.commons.log.LogType;
 import org.commons.response.RepCode;
+import org.database.mysql.domain.User;
+import org.database.mysql.service.UserMysqlComp;
 import org.database.redis.RedisComp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 import org.springframework.web.method.HandlerMethod;
@@ -36,18 +37,24 @@ import java.lang.reflect.Method;
 public class CheckTokenInterceptor implements HandlerInterceptor {
     private final Logger logger = LogComp.getLogger(CheckTokenInterceptor.class);
 
-    @Autowired
-    private ThreadLocalComp threadLocalComp;
+    private final ThreadLocalComp threadLocalComp;
 
-    @Autowired
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
-    @Autowired
-    private RedisComp redisComp;
+    private final RedisComp redisComp;
+
+    private final UserMysqlComp userMysqlComp;
 
 
     @Resource
     private Environment env;
+
+    public CheckTokenInterceptor(ThreadLocalComp threadLocalComp, JWTUtil jwtUtil, RedisComp redisComp, UserMysqlComp userMysqlComp) {
+        this.threadLocalComp = threadLocalComp;
+        this.jwtUtil = jwtUtil;
+        this.redisComp = redisComp;
+        this.userMysqlComp = userMysqlComp;
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -122,7 +129,15 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 // 完事没问题了 就set进ThreadLocal
                 threadLocalComp.setThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME, unSignData);
             }
-            //TODO 判断一下权限
+            User user = userMysqlComp.findUserByUserId(unSignData.getUserId());
+            if (user == null) {
+                response.sendError(RepCode.R_UserNotFound.getCode(), RepCode.R_UserNotFound.getMsg());
+                return false;
+            }
+            if (user.getUserFlag() < controllerLog.roleType().ordinal()) {
+                response.sendError(RepCode.R_UserPrivilegesNotEnough.getCode(), RepCode.R_UserPrivilegesNotEnough.getMsg());
+                return false;
+            }
             return true;
         }
         return true;

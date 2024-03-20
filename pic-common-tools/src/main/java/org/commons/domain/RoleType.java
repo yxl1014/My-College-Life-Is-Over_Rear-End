@@ -6,10 +6,10 @@ package org.commons.domain;
  * @Create on : 2023/12/24 17:12
  **/
 public enum RoleType {
-    //发布者
-    CONSUMER,
     //测试者
     PROVIDER,
+    //发布者
+    CONSUMER,
     //管理员
     ADMIN;
 }
