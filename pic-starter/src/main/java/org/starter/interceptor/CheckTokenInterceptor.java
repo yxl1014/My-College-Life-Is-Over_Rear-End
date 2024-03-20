@@ -54,10 +54,10 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         LogComp.LogMessage logMessage = LogComp.buildData(LogType.INTERCEPTOR);
         logMessage.build("url",request.getRequestURI());
         logger.info(logMessage.log());
-        if ("test".equals(env.getProperty("spring.profiles.active")))
-        {
-            return true;
-        }
+//        if ("test".equals(env.getProperty("spring.profiles.active")))
+//        {
+//            return true;
+//        }
         if (!(handler instanceof HandlerMethod)) {
             response.sendError(RepCode.R_ControllerError.getCode(), RepCode.R_ControllerError.getMsg());
             return false;
@@ -73,7 +73,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         // 这个取出来几个日志
         ControllerLog controllerLog = method.getAnnotation(ControllerLog.class);
         //获取这个方法是否有这个注释
-        if (!method.isAnnotationPresent(NeedCheck.class)) {
+        if (method.isAnnotationPresent(NeedCheck.class)) {
             Cookie[] cookies = request.getCookies();
             Cookie cookie = null;
             for (Cookie c : cookies) {
@@ -87,7 +87,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 return false;
             }
             //1、验证cookie的有效期
-            if (System.currentTimeMillis() >= cookie.getMaxAge()){
+            if (cookie.getMaxAge() != -1 && System.currentTimeMillis() >= cookie.getMaxAge()){
                 response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                 return false;
             }

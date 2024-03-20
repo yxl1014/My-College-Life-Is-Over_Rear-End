@@ -165,6 +165,23 @@ public class UserServiceImpl implements IUserService {
         return reBody;
     }
 
+    @Override
+    public ReBody userInfo(String uuid) {
+        if (Strings.isEmpty(uuid)) {
+            return new ReBody(RepCode.R_ParamNull);
+        }
+        User user = userMysqlComp.findUserByUserId(uuid);
+        if (user == null){
+            return new ReBody(RepCode.R_UserNotFound);
+        }
+        // 将一些 不能返回的数据设为null
+        user.setUserPassword(null);
+        user.setUserSecAnswerOne(null);
+        user.setUserSecAnswerTwo(null);
+        user.setUserSecAnswerThree(null);
+        return new ReBody(RepCode.R_Ok, user);
+    }
+
     /**
      * 登录之后的操作
      *

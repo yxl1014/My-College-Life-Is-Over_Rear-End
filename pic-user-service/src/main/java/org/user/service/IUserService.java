@@ -12,6 +12,7 @@ import org.user.entity.request.VerityRequest;
 public interface IUserService {
     /**
      * 登录
+     *
      * @param user user
      * @return 返回
      */
@@ -19,6 +20,7 @@ public interface IUserService {
 
     /**
      * 登出
+     *
      * @param uuid uid
      * @return 返回
      */
@@ -26,6 +28,7 @@ public interface IUserService {
 
     /**
      * 注册
+     *
      * @param user user
      * @return 返回
      */
@@ -33,9 +36,19 @@ public interface IUserService {
 
     /**
      * 验证码登录
+     *
      * @param request 验证参数
-     * @param type 类型
+     * @param type    类型
      * @return 返回
      */
     ReBody loginVerity(VerityRequest request, int type);
+
+
+    /**
+     * 获取用户信息
+     *
+     * @param uuid uid
+     * @return 返回
+     */
+    ReBody userInfo(String uuid);
 }

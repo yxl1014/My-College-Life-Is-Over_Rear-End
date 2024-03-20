@@ -4,6 +4,8 @@ package org.starter.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
+import org.commons.annotation.ControllerLog;
+import org.commons.domain.RoleType;
 import org.commons.response.ReBody;
 import org.database.mysql.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,7 @@ public class RestMoneyManageController {
 
     @PostMapping("/recharge")
     @ApiOperation("充值接口")
+    @ControllerLog(url = "/findUpdatePwdRequest",msg = "验证并修改密码",roleType = RoleType.ADMIN)
     @ApiResponse(code = 200,message = "充值成功",response = RechargeResponse.class)
     public ReBody recharge (@RequestBody User user){
         return rechargeService.recharge(user);
