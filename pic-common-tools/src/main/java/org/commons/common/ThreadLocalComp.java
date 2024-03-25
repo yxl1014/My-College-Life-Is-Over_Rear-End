@@ -24,8 +24,7 @@ public class ThreadLocalComp {
     }
 
     public Object getThreadLocalData(String key) {
-        if (THREAD_LOCAL.get() == null)
-        {
+        if (THREAD_LOCAL.get() == null) {
             return null;
         }
         return THREAD_LOCAL.get().get(key);

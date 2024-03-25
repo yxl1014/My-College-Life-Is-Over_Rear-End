@@ -59,7 +59,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         LogComp.LogMessage logMessage = LogComp.buildData(LogType.INTERCEPTOR);
-        logMessage.build("url",request.getRequestURI());
+        logMessage.build("url", request.getRequestURI());
         logger.info(logMessage.log());
 //        if ("test".equals(env.getProperty("spring.profiles.active")))
 //        {
@@ -94,7 +94,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 return false;
             }
             //1、验证cookie的有效期
-            if (cookie.getMaxAge() != -1 && System.currentTimeMillis() >= cookie.getMaxAge()){
+            if (cookie.getMaxAge() != -1 && System.currentTimeMillis() >= cookie.getMaxAge()) {
                 response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                 return false;
             }
@@ -105,24 +105,23 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             }
             // 这个是解出来的数据
             LoginCommonData unSignData = jwtUtil.unSign(token, LoginCommonData.class);
-            if (unSignData == null){
+            if (unSignData == null) {
                 response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                 return false;
             }
             // 这个是本地threadlocal存的
-            LoginCommonData tlData = (LoginCommonData)threadLocalComp.getThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME);
+            LoginCommonData tlData = (LoginCommonData) threadLocalComp.getThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME);
             // 这里如果有 那么就比较一下
-            if (tlData != null){
+            if (tlData != null) {
                 if (!unSignData.equals(tlData)) {
                     response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                     return false;
                 }
-            }
-            else
+            } else
             // 如果没有 就去redis里比较一下 version 这个version会在登陆的时候随机生成
             {
                 String version = redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
-                if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))){
+                if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))) {
                     response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
                     return false;
                 }
