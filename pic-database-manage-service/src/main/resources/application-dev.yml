@@ -1,0 +1,62 @@
+# 数据库连接配置
+spring:
+  redis:
+    # 连接超时时间
+    timeout: 10
+    # 连接redis端口
+    port: 6379
+    # 主机地址
+    host: 127.0.0.1
+    password:
+    jedis:
+      pool:
+        #最大连接数据库连接数,设 0 为没有限制
+        max-active: 8
+        #最大等待连接中的数量,设 0 为没有限制
+        max-idle: 8
+        #最大建立连接等待时间。如果超过此时间将接到异常。设为-1表示无限制。
+        max-wait: -1
+        #最小等待连接中的数量,设 0 为没有限制
+        min-idle: 0
+  datasource:
+    url: jdbc:mysql://localhost:3306/LoadRunnerX
+    username: yxl
+    password: "yxl"
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    # 使用Druid连接池
+    type: com.alibaba.druid.pool.DruidDataSource
+    # Druid连接池配置
+    initial-size: 5
+    min-idle: 5
+    max-active: 20
+    filters: stat,wall
+    # 配置Druid数据源监控
+    datasource:
+      web-stat-filter:
+        enabled: true
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-username: yxl
+        login-password: "yxl"
+
+
+#mapper.xml配置
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+
+mybatis-plus:
+  global-config:
+    db-config:
+      table-prefix: sys_
+  #      id-type: auto
+
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+server:
+  port: 18080
+
+
+
+
