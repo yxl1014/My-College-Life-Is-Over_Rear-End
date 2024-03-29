@@ -27,16 +27,6 @@ public class UserController {
     @Autowired
     private IUserService userService;
 
-    /**
-     * $$考虑添加LoginRequest实体类，来对应前端传来的jsonBody中的各个属性  同理RegisterRequest
-     *
-     * @param user:
-     * @paramType: [java.lang.Object]
-     * @returnType: org.springframework.web.servlet.ModelAndView
-     * @author: GodHammer
-     * @date: 2023-11-26 下午9:07
-     * @version: v1.0
-     */
     @PostMapping("/login")
     @ControllerLog(url = "/login",msg = "登录",roleType = RoleType.PROVIDER)
     @ApiOperation("登录---通过各种方式的登录，成功后返回Token UUID 这个UUID存储于redis中")

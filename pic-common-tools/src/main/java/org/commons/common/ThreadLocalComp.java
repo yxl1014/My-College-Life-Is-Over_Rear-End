@@ -1,6 +1,8 @@
 package org.commons.common;
 
+import org.commons.domain.LoginCommonData;
 import org.commons.domain.constData.MagicMathConstData;
+import org.commons.domain.constData.ThreadLocalConstData;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
@@ -28,6 +30,11 @@ public class ThreadLocalComp {
             return null;
         }
         return THREAD_LOCAL.get().get(key);
+    }
+
+    public LoginCommonData getLoginCommonData()
+    {
+        return (LoginCommonData) getThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME);
     }
 
     public void removeThreadLocalData(String key) {

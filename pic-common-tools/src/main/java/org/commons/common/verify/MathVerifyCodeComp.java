@@ -79,7 +79,7 @@ public class MathVerifyCodeComp {
         graphics.setFont(new Font("黑体", Font.BOLD, 26));
         graphics.drawString(text, 10, 28);
 
-        // 画50个噪点 TODO YXL 像这里这个常量大多数情况下公司的的操作是放在常量池，但是这里只有这一个用的地方 所以我没加
+        // 画50个噪点
         int pointCount = 50;
         for (int i = 0; i < pointCount; ++ i)
         {

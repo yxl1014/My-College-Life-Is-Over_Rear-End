@@ -42,4 +42,8 @@ public class User {
     private String userSecAnswerTwo;
     private String userSecProblemThree;
     private String userSecAnswerThree;
+
+    public User(String userId) {
+        this.userId = userId;
+    }
 }

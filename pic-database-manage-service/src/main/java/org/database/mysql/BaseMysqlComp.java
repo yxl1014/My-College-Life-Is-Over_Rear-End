@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import lombok.Getter;
 import org.commons.exception.FormatException;
 import org.database.mysql.domain.*;
+import org.database.mysql.domain.task.Task;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.entity.MysqlOptType;
 import org.database.mysql.entity.MysqlResultType;
@@ -40,11 +41,13 @@ public class BaseMysqlComp {
     private final TransactionRecordMapper transactionRecordMapper;
     private final UserMapper userMapper;
     private final UserRoleRefMapper userRoleRefMapper;
+    private final TaskMapper taskMapper;
+    private final TaskUserRefMapper taskUserRefMapper;
 
     public BaseMysqlComp(AnnouncementMapper announcementMapper, MailInnerMapper mailInnerMapper,
                          PowerMapper powerMapper, RoleMapper roleMapper,
                          RolePowerRefMapper rolePowerRefMapper, TransactionRecordMapper transactionRecordMapper,
-                         UserMapper userMapper, UserRoleRefMapper userRoleRefMapper, MysqlCommonUtil mysqlCommonUtil) {
+                         UserMapper userMapper, UserRoleRefMapper userRoleRefMapper, MysqlCommonUtil mysqlCommonUtil, TaskMapper taskMapper, TaskUserRefMapper taskUserRefMapper) {
         this.announcementMapper = announcementMapper;
         this.mailInnerMapper = mailInnerMapper;
         this.powerMapper = powerMapper;
@@ -54,6 +57,8 @@ public class BaseMysqlComp {
         this.userMapper = userMapper;
         this.userRoleRefMapper = userRoleRefMapper;
         this.mysqlCommonUtil = mysqlCommonUtil;
+        this.taskMapper = taskMapper;
+        this.taskUserRefMapper = taskUserRefMapper;
     }
 
 
@@ -223,6 +228,10 @@ public class BaseMysqlComp {
             return userMapper;
         } else if (clz.equals(UserRoleRef.class)) {
             return userRoleRefMapper;
+        } else if (clz.equals(Task.class)) {
+            return taskMapper;
+        } else if (clz.equals(TaskUserRef.class)) {
+            return taskUserRefMapper;
         }
         throw new IllegalStateException("Unexpected value: " + clz);
     }

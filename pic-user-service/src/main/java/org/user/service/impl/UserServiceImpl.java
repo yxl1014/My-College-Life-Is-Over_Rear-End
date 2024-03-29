@@ -97,7 +97,6 @@ public class UserServiceImpl implements IUserService {
         user.setUserPassword(PasswordEncrypt.hashPassword(user.getUserPassword()));
         // 创建时间
         user.setUserCreateTime(new Timestamp(System.currentTimeMillis()));
-        //TODO 这里还要加上用户默认的角色 等易佳佳了
         user.setUserFlag((short) 1);
         builder.setIn(user);
         Integer ok = baseMysqlComp.insert(builder);

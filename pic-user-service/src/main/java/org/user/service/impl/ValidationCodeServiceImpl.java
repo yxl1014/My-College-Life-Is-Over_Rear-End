@@ -62,7 +62,7 @@ public class ValidationCodeServiceImpl implements IValidationCodeService {
             return new ReBody(RepCode.R_TooFast);
         }
 
-        //TODO: 发送验证码到手机的 代码
+        //TODO 发送验证码到手机的 代码
         String code = VerifyCodeGenerator.genNumberVerityCode();
         String uuid = UuidGenerator.getCustomUuid();
 

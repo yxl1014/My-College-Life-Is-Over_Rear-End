@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * TODO 这个太老了 可以看一下最新的
  *
  * @author yxl17
  * @Package : org.commons.common.verify

@@ -110,7 +110,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 return false;
             }
             // 这个是本地threadlocal存的
-            LoginCommonData tlData = (LoginCommonData) threadLocalComp.getThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME);
+            LoginCommonData tlData = threadLocalComp.getLoginCommonData();
             // 这里如果有 那么就比较一下
             if (tlData != null) {
                 if (!unSignData.equals(tlData)) {

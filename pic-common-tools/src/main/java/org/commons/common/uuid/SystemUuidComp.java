@@ -33,8 +33,6 @@ public class SystemUuidComp {
     /**
      * @param username 用户名
      * @return 带-的uuid 可以通过uuid反解出来username
-     * TODO YXL 我都写这么明白了是吧 之后只需要吧数据拼成一个string  然后传进来 不就可以通过uuid反解出你想要的数据了
-     * TODO YXL 他其实就是把数据md5了 然后再生成uuid 想要反解 第一步把uuid反解成md5 再反解md5 数据就出来了
      */
     public String genUserUuidByUserName(String username){
         UUID uuid = UUID.nameUUIDFromBytes(username.getBytes(StandardCharsets.UTF_8));
