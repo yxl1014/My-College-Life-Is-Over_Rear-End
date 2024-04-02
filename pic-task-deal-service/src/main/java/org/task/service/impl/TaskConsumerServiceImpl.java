@@ -14,13 +14,18 @@ import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.User;
 import org.database.mysql.domain.task.Task;
 import org.database.mysql.domain.task.TaskPoJo;
+import org.database.mysql.domain.task.TaskShell;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
 import org.springframework.stereotype.Service;
+import org.task.common.net.TaskShellCheckComp;
+import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
 import org.task.service.ITaskConsumerService;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,15 +46,18 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     private final ITaskBaseService taskBaseService;
 
+    private final TaskShellCheckComp shellCheckComp;
+
     final
     ThreadLocalComp threadLocalComp;
 
-    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp) {
+    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.taskBaseService = taskBaseService;
         this.threadLocalComp = threadLocalComp;
+        this.shellCheckComp = shellCheckComp;
     }
 
     @SneakyThrows
@@ -86,7 +94,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         task.setTaskCreateTime(System.currentTimeMillis());
 
         MysqlBuilder<Task> taskMysql = new MysqlBuilder<>(Task.class);
-        taskMysql.setIn(task);
+        taskMysql.setCondition(task);
         Integer suc = baseMysqlComp.insert(taskMysql);
         if (suc != 1) {
             return new ReBody(RepCode.R_Fail);
@@ -113,7 +121,12 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             return new ReBody(RepCode.R_TaskIsRunning);
         }
 
-        //TODO YXL 校验脚本是否正确 先主动连接一下 看看能不能连上
+        HashMap<Integer, Boolean> successMap = new HashMap<>();
+
+        for (TaskShell taskShell : taskPoJo.getTaskShell()) {
+            boolean success = shellCheckComp.checkTaskShell(taskShell);
+            successMap.put(taskShell.getShellIndex(), success);
+        }
 
         Task update = new Task();
         update.setTaskId(taskPoJo.getTaskId());
@@ -122,11 +135,28 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         if (!success) {
             return new ReBody(RepCode.R_UpdateDbFailed);
         }
-        return new ReBody(RepCode.R_Ok);
+        return new ReBody(RepCode.R_Ok, successMap);
     }
 
     @Override
     public ReBody listTasks(List<String> taskIds) {
         return taskBaseService.listTasks(taskIds);
+    }
+
+    @Override
+    public ReBody listConsumerTask(TaskQueryRequest queryRequest) {
+        Task task = new Task(queryRequest.getTaskPoJo());
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null) {
+            return new ReBody(RepCode.R_LoginTimeout);
+        }
+        task.setTaskAuthorId(commonData.getUserId());
+        List<Task> tasks = taskMysqlComp.selectTasks(task, queryRequest.getPage(), queryRequest.getPageSize());
+        List<TaskPoJo> result = new ArrayList<>();
+        for (Task task1 : tasks) {
+            TaskPoJo taskPoJo = new TaskPoJo(task1);
+            result.add(taskPoJo);
+        }
+        return new ReBody(RepCode.R_Ok, result);
     }
 }

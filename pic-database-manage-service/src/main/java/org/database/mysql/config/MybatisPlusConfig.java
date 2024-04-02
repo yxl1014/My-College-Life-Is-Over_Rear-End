@@ -1,25 +1,29 @@
 package org.database.mysql.config;
 
+import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
 /**
  * 这个东西是 同一个库结构 然后有多个库 桶hash平均分配做的 所以这里我们没用
+ *
  * @author yxl17
  * @Package : org.mysql.config
  * @Create on : 2023/12/17 14:33
  **/
-//@Configuration
+@Configuration
 public class MybatisPlusConfig {
-    /*public static ThreadLocal<String> TableName = new ThreadLocal<>();
 
     @Bean
-    public MybatisPlusInterceptor mybatisPlusInterceptor() {
-        MybatisPlusInterceptor mybatisPlusInterceptor = new MybatisPlusInterceptor();
-        DynamicTableNameInnerInterceptor dynamicTableNameInnerInterceptor = new DynamicTableNameInnerInterceptor();
-        HashMap<String, TableNameHandler> map = new HashMap<String, TableNameHandler>(2) {{
-            put(TableName.get(), ((sql, tableName) -> TableName.get()));
-        }};
-        dynamicTableNameInnerInterceptor.setTableNameHandlerMap(map);
-        mybatisPlusInterceptor.addInnerInterceptor(dynamicTableNameInnerInterceptor);
-        TableName.remove();
-        return mybatisPlusInterceptor;
-    }*/
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
+    }
+
+//    @Bean
+//    public MybatisPlusInterceptor mybatisPlusInterceptor() {
+//        MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
+//        interceptor.addInnerInterceptor(new PaginationInnerInterceptor(DbType.MYSQL));//如果配置多个插件,切记分页最后添加
+//        //interceptor.addInnerInterceptor(new PaginationInnerInterceptor()); 如果有多数据源可以不配具体类型 否则都建议配上具体的DbType
+//        return interceptor;
+//    }
 }

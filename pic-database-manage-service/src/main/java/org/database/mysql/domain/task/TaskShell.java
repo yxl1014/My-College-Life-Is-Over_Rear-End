@@ -3,6 +3,7 @@ package org.database.mysql.domain.task;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.database.mysql.domain.task.shell.HttpType;
 import org.database.mysql.domain.task.shell.ShellExpect;
 import org.database.mysql.domain.task.shell.ShellType;
 
@@ -26,9 +27,10 @@ public class TaskShell {
     private int shellPort;
     private ShellType shellType;
     private String shellUrl;
+    private HttpType shellHttpType;
     private int shellPreCondition;
-    private Map<String, Object> shellHeader;
-    private Map<String, Object> shellParam;
+    private Map<String, String> shellHeader;
+    private Map<String, String> shellParam;
     private String shellBody;
     private List<ShellExpect> shellExpect;
 }

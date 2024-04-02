@@ -2,6 +2,7 @@ package org.task.service;
 
 import org.commons.response.ReBody;
 import org.database.mysql.domain.task.TaskPoJo;
+import org.task.entity.TaskQueryRequest;
 
 import java.util.List;
 
@@ -17,4 +18,6 @@ public interface ITaskConsumerService{
     ReBody updateTaskShell(TaskPoJo taskPoJo);
 
     ReBody listTasks(List<String> taskIds);
+
+    ReBody listConsumerTask(TaskQueryRequest queryRequest);
 }

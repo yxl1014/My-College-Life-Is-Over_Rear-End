@@ -12,8 +12,8 @@
 任务持续时间  long
 任务测试结果（Json格式化后的TaskResult）  MEDIUMTEXT
 TaskShell
-Tips:http协议就是ip+端口+url+参数头+参数，tcp协议ip+端口+请求体（暂时先只支持这种）
-{编号，IP，端口，协议类型，url，前置条件，参数头<Key,Value>，参数<Key,Value>，请求体，预计结果(结果格式、字段、目标值)}
+Tips:http协议就是请求类型+ip+端口+url+参数头+参数，tcp协议ip+端口+请求体（暂时先只支持这种）
+{编号，IP，端口，协议类型，url，前置条件，请求类型，参数头<Key,Value>，参数<Key,Value>，请求体，预计结果(结果格式、字段、目标值)}
 
 TaskResult
 {

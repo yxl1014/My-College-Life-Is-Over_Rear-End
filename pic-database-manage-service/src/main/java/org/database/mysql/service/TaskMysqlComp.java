@@ -5,6 +5,7 @@ import org.apache.logging.log4j.util.Strings;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.task.Task;
 import org.database.mysql.domain.task.TaskPoJo;
+import org.database.mysql.entity.ConditionType;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.mapper.TaskMapper;
 import org.springframework.stereotype.Component;
@@ -51,17 +52,43 @@ public class TaskMysqlComp {
         Task in = new Task();
         MysqlBuilder<Task> taskMysqlBuilder = new MysqlBuilder<>(Task.class);
         in.setTaskId(taskId);
-        taskMysqlBuilder.setIn(in);
+        taskMysqlBuilder.setCondition(in);
         return baseMysqlComp.selectOne(taskMysqlBuilder);
     }
 
     @SneakyThrows
+    public List<Task> selectTasks(Task in, ConditionType conditionType, int offset, int limit) {
+        MysqlBuilder<Task> taskMysqlBuilder = new MysqlBuilder<>(Task.class);
+        taskMysqlBuilder.setCondition(in);
+        taskMysqlBuilder.setQueryType(conditionType);
+        return baseMysqlComp.selectPage(taskMysqlBuilder, offset, limit);
+    }
+
+    @SneakyThrows
+    public List<Task> selectTasks(Task in, int offset, int limit) {
+        return selectTasks(in, ConditionType.EQ, offset, limit);
+    }
+
+    @SneakyThrows
+    public List<Task> selectTasks(Task in, ConditionType conditionType) {
+        MysqlBuilder<Task> taskMysqlBuilder = new MysqlBuilder<>(Task.class);
+        taskMysqlBuilder.setCondition(in);
+        taskMysqlBuilder.setQueryType(conditionType);
+        return baseMysqlComp.selectList(taskMysqlBuilder);
+    }
+
+    @SneakyThrows
+    public List<Task> selectTasks(Task in) {
+        return selectTasks(in, ConditionType.EQ);
+    }
+
+    @SneakyThrows
     public boolean updateTaskByTaskId(Task task) {
-        if (Strings.isEmpty(task.getTaskId())){
+        if (Strings.isEmpty(task.getTaskId())) {
             return false;
         }
         MysqlBuilder<Task> mysqlBuilder = new MysqlBuilder<>(Task.class);
-        mysqlBuilder.setIn(new Task(task.getTaskId()));
+        mysqlBuilder.setCondition(new Task(task.getTaskId()));
         mysqlBuilder.setUpdate(task);
         Integer update = baseMysqlComp.update(mysqlBuilder);
         return update == 1;

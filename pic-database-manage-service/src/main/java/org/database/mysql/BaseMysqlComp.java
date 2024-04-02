@@ -4,10 +4,12 @@ import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import lombok.Getter;
 import org.commons.exception.FormatException;
 import org.database.mysql.domain.*;
 import org.database.mysql.domain.task.Task;
+import org.database.mysql.entity.ConditionType;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.entity.MysqlOptType;
 import org.database.mysql.entity.MysqlResultType;
@@ -59,6 +61,18 @@ public class BaseMysqlComp {
         this.mysqlCommonUtil = mysqlCommonUtil;
         this.taskMapper = taskMapper;
         this.taskUserRefMapper = taskUserRefMapper;
+    }
+
+    public <T> List<T> selectPage(MysqlBuilder<T> mysqlBuilder, int pageIndex, int pageSize) throws FormatException, IllegalAccessException {
+        mysqlBuilder.setOptType(MysqlOptType.SELECT);
+        mysqlBuilder.setPage(true);
+        mysqlBuilder.setPageIndex(pageIndex);
+        mysqlBuilder.setPageSize(pageSize);
+        Object o = doOpt(mysqlBuilder);
+        if (o == null) {
+            return null;
+        }
+        return (List<T>) o;
     }
 
 
@@ -121,14 +135,16 @@ public class BaseMysqlComp {
         switch (mysqlBuilder.getOptType()) {
             case DELETE: {
                 QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getIn(), mysqlBuilder.getNoEqual());
+                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getQueryType());
                 return baseMapper.delete(queryWrapper);
             }
             case SELECT: {
                 QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getIn(), mysqlBuilder.getNoEqual());
+                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getQueryType());
                 buildQueryWrapperOutData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getOut());
-                if (mysqlBuilder.getResultType() == MysqlResultType.LIST) {
+                if (mysqlBuilder.isPage()) {
+                    return baseMapper.selectPage(new Page<T>(mysqlBuilder.getPageIndex(), mysqlBuilder.getPageSize()), queryWrapper).getRecords();
+                } else if (mysqlBuilder.getResultType() == MysqlResultType.LIST) {
                     return baseMapper.selectList(queryWrapper);
                 } else {
                     return baseMapper.selectOne(queryWrapper);
@@ -136,12 +152,12 @@ public class BaseMysqlComp {
             }
             case UPDATE: {
                 UpdateWrapper<T> updateWrapper = new UpdateWrapper<>();
-                buildUpdateWrapperData(updateWrapper, mysqlBuilder.getClz(), mysqlBuilder.getIn(), mysqlBuilder.getNoEqual());
+                buildUpdateWrapperData(updateWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual());
                 return baseMapper.update(mysqlBuilder.getUpdate(), updateWrapper);
             }
 
             case INSERT: {
-                return baseMapper.insert(mysqlBuilder.getIn());
+                return baseMapper.insert(mysqlBuilder.getCondition());
             }
             default:
                 return null;
@@ -172,14 +188,31 @@ public class BaseMysqlComp {
         }
     }
 
-    private <T> void buildQueryWrapperData(QueryWrapper<T> queryWrapper, Class<T> clz, T in, T noEqual) throws IllegalAccessException, FormatException {
+    private <T> void buildQueryWrapperData(QueryWrapper<T> queryWrapper, Class<T> clz, T in, T noEqual, ConditionType type) throws IllegalAccessException, FormatException {
         Field[] fields = clz.getDeclaredFields();
         if (in != null) {
             for (Field field : fields) {
                 field.setAccessible(true);
                 Object o = field.get(in);
                 if (o != null) {
-                    queryWrapper.eq(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
+                    switch (type) {
+                        case IN: {
+                            queryWrapper.in(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
+                            break;
+                        }
+                        case EQ: {
+                            queryWrapper.eq(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
+                            break;
+                        }
+                        case LIKE: {
+                            queryWrapper.like(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
+                            break;
+                        }
+                        case NEQ:{
+                            queryWrapper.ne(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
+                            break;
+                        }
+                    }
                 }
             }
         }

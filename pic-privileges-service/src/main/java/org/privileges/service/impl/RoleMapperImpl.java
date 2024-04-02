@@ -63,10 +63,10 @@ public class RoleMapperImpl {
             } else {
                 Role role1 = new Role();
                 MysqlBuilder<Role> builder = new MysqlBuilder<>(Role.class);
-                builder.setIn(role1);
+                builder.setCondition(role1);
 
                 MysqlBuilder<Role> insertRole = new MysqlBuilder<>(Role.class);
-                insertRole.setIn(role);
+                insertRole.setCondition(role);
 
                 if (roleMapper.selectById(role.getRoleId()) != null || baseMysqlComp.selectOne(builder) != null) {
                     logMessage.build(LogEnum.ROLE_EXISTS);
@@ -99,7 +99,7 @@ public class RoleMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<Role> selectOneRole = new MysqlBuilder<>(Role.class);
-                selectOneRole.setIn(role);
+                selectOneRole.setCondition(role);
                 if (baseMysqlComp.selectOne(selectOneRole) == null) {
                     logMessage.build(LogEnum.ROLE_NO_EXISTS);
                     log.warn(logMessage.log());
@@ -157,7 +157,7 @@ public class RoleMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<Role> deleteRole = new MysqlBuilder<>(Role.class);
-                deleteRole.setIn(role);
+                deleteRole.setCondition(role);
                 if (baseMysqlComp.selectOne(deleteRole) == null) {
                     logMessage.build(LogEnum.ROLE_NO_EXISTS);
                     log.warn(logMessage.log());
@@ -187,7 +187,7 @@ public class RoleMapperImpl {
             } else {
                 MysqlBuilder<Role> updateRole = new MysqlBuilder<>(Role.class);
                 Role role1 = roleMapper.selectById(role.getRoleId());
-                updateRole.setIn(role1);
+                updateRole.setCondition(role1);
                 updateRole.setUpdate(role);
                 if (roleMapper.selectById(role.getRoleId()) == null) {
                     logMessage.build(LogEnum.ROLE_NO_EXISTS);
@@ -229,7 +229,7 @@ public class RoleMapperImpl {
                         log.warn(logMessage.log());
                     } else {
                         MysqlBuilder<UserRoleRef> grantRoleToUser = new MysqlBuilder<>(UserRoleRef.class);
-                        grantRoleToUser.setIn(userRoleRef);
+                        grantRoleToUser.setCondition(userRoleRef);
                         if (baseMysqlComp.selectOne(grantRoleToUser) != null) {
                             logMessage1.build(LogEnum.USER_HAS_ROLE);
                             log.warn(logMessage1.log());
@@ -274,7 +274,7 @@ public class RoleMapperImpl {
                         log.warn(logMessage.log());
                     } else {
                         MysqlBuilder<UserRoleRef> revokeRoleFromUser = new MysqlBuilder<>(UserRoleRef.class);
-                        revokeRoleFromUser.setIn(userRoleRef);
+                        revokeRoleFromUser.setCondition(userRoleRef);
                         if (baseMysqlComp.selectOne(revokeRoleFromUser) == null) {
                             logMessage1.build(LogEnum.USER_NO_ROLE);
                             log.warn(logMessage1.log());
@@ -322,7 +322,7 @@ public class RoleMapperImpl {
                         log.warn(logMessage1.log());
                     } else {
                         MysqlBuilder<RolePowerRef> grantDoPowerToRole = new MysqlBuilder<>(RolePowerRef.class);
-                        grantDoPowerToRole.setIn(rolePowerRef);
+                        grantDoPowerToRole.setCondition(rolePowerRef);
                         if (baseMysqlComp.selectOne(grantDoPowerToRole) != null) {
                             logMessage.build(LogEnum.ROLE_HAS_POWER);
                             log.warn(logMessage.log());
@@ -373,7 +373,7 @@ public class RoleMapperImpl {
 
                     } else {
                         MysqlBuilder<RolePowerRef> grantSeePowerToRole = new MysqlBuilder<>(RolePowerRef.class);
-                        grantSeePowerToRole.setIn(rolePowerRef);
+                        grantSeePowerToRole.setCondition(rolePowerRef);
                         if (baseMysqlComp.selectOne(grantSeePowerToRole) != null) {
                             logMessage.build(LogEnum.ROLE_HAS_POWER);
                             log.warn(logMessage.log());
@@ -418,7 +418,7 @@ public class RoleMapperImpl {
                         log.warn(logMessage1.log());
                     } else {
                         MysqlBuilder<RolePowerRef> revokePowerFromRole = new MysqlBuilder<>(RolePowerRef.class);
-                        revokePowerFromRole.setIn(rolePowerRef);
+                        revokePowerFromRole.setCondition(rolePowerRef);
                         if (baseMysqlComp.selectOne(revokePowerFromRole) == null) {
                             logMessage.build(LogEnum.ROLE_NO_POWER);
                             log.warn(logMessage.log());

@@ -10,6 +10,7 @@ import org.commons.response.ReBody;
 import org.database.mysql.domain.task.TaskPoJo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
 import org.task.service.ITaskConsumerService;
 import org.task.service.ITaskProviderService;
@@ -67,6 +68,15 @@ public class TaskController {
     @NeedCheck
     public ReBody updateTaskShell(@RequestBody TaskPoJo poJo) {
         return taskConsumerService.updateTaskShell(poJo);
+    }
+
+    @GetMapping("listConsumerTask")
+    @ControllerLog(url = "/listConsumerTask", msg = "获取任务发布者的任务", roleType = RoleType.CONSUMER)
+    @ApiOperation("获取任务发布者的任务")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody listConsumerTask(@RequestBody TaskQueryRequest queryRequest) {
+        return taskConsumerService.listConsumerTask(queryRequest);
     }
     // ===============================任务发布者===============================
 }
