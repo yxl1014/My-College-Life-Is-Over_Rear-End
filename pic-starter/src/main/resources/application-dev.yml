@@ -19,9 +19,9 @@ spring:
         #最小等待连接中的数量,设 0 为没有限制
         min-idle: 0
   datasource:
-    url: jdbc:mysql://localhost:3306/LoadRunnerX
-    username: yxl
-    password: "yxl"
+    url: jdbc:mysql://127.0.0.1:3306/LoadRunnerX
+    username: root
+    password: "123456"
     driver-class-name: com.mysql.cj.jdbc.Driver
     # 使用Druid连接池
     type: com.alibaba.druid.pool.DruidDataSource
@@ -37,8 +37,8 @@ spring:
       stat-view-servlet:
         enabled: true
         url-pattern: /druid/*
-        login-username: yxl
-        login-password: "yxl"
+        login-username: root
+        login-password: "123456"
   mvc:
     path match:
       #这里配置的这个参数是为了解决spring boot和swagger版本不兼容的问题
@@ -68,8 +68,8 @@ smtp_hostname_126 : smtp.126.com
 smtp_port_126 : 25
 smtp_hostname_qq : smtp.qq.com
 smtp_port_qq : 587
-email_username_zy : 2624773733@qq.com
-email_password_zy : rgxfiootentddjch
+email_username_zy : 123
+email_password_zy : 123
 
 
 token_secret : 1
