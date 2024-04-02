@@ -14,13 +14,16 @@ import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.User;
 import org.database.mysql.domain.task.Task;
 import org.database.mysql.domain.task.TaskPoJo;
+import org.database.mysql.domain.task.TaskShell;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
 import org.springframework.stereotype.Service;
+import org.task.common.net.TaskShellCheckComp;
 import org.task.service.ITaskBaseService;
 import org.task.service.ITaskConsumerService;
 
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -41,15 +44,18 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     private final ITaskBaseService taskBaseService;
 
+    private final TaskShellCheckComp shellCheckComp;
+
     final
     ThreadLocalComp threadLocalComp;
 
-    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp) {
+    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.taskBaseService = taskBaseService;
         this.threadLocalComp = threadLocalComp;
+        this.shellCheckComp = shellCheckComp;
     }
 
     @SneakyThrows
@@ -113,7 +119,12 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             return new ReBody(RepCode.R_TaskIsRunning);
         }
 
-        //TODO YXL 校验脚本是否正确 先主动连接一下 看看能不能连上
+        HashMap<Integer, Boolean> successMap = new HashMap<>();
+
+        for (TaskShell taskShell : taskPoJo.getTaskShell()) {
+            boolean success = shellCheckComp.checkTaskShell(taskShell);
+            successMap.put(taskShell.getShellIndex(), success);
+        }
 
         Task update = new Task();
         update.setTaskId(taskPoJo.getTaskId());
@@ -122,7 +133,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         if (!success) {
             return new ReBody(RepCode.R_UpdateDbFailed);
         }
-        return new ReBody(RepCode.R_Ok);
+        return new ReBody(RepCode.R_Ok, successMap);
     }
 
     @Override

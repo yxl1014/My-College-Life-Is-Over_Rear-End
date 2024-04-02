@@ -28,6 +28,7 @@
         <module>pic-mq-connection-service</module>
         <module>pic-common-tools</module>
         <module>pic-admin-service</module>
+        <module>test-demo</module>
     </modules>
     <packaging>pom</packaging>
 
