@@ -29,7 +29,7 @@ public class UserMysqlComp {
     @SneakyThrows
     public User getUserId(User user) {
         MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
-        mysqlBuilder.setIn(user);
+        mysqlBuilder.setCondition(user);
         User out = new User();
         out.setUserId("a");
         mysqlBuilder.setOut(out);
@@ -41,7 +41,7 @@ public class UserMysqlComp {
         User user = new User();
         user.setUserId(userId);
         MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
-        mysqlBuilder.setIn(user);
+        mysqlBuilder.setCondition(user);
         return mysqlComp.selectOne(mysqlBuilder);
     }
 
@@ -50,7 +50,7 @@ public class UserMysqlComp {
         User user = new User();
         user.setUserName(username);
         MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
-        mysqlBuilder.setIn(user);
+        mysqlBuilder.setCondition(user);
         return mysqlComp.selectOne(mysqlBuilder);
     }
 
@@ -81,7 +81,7 @@ public class UserMysqlComp {
             return false;
         }
         MysqlBuilder<User> mysqlBuilder = new MysqlBuilder<>(User.class);
-        mysqlBuilder.setIn(new User(user.getUserId()));
+        mysqlBuilder.setCondition(new User(user.getUserId()));
         mysqlBuilder.setUpdate(user);
         Integer update = mysqlComp.update(mysqlBuilder);
         return update == 1;

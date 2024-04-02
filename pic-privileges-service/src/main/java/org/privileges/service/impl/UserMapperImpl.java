@@ -12,7 +12,6 @@ import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.mapper.PowerMapper;
 import org.database.mysql.mapper.RoleMapper;
 import org.database.mysql.mapper.UserMapper;
-import org.database.mysql.mapper.UserRoleRefMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -61,7 +60,7 @@ public class UserMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<User> insertUser = new MysqlBuilder<>(User.class);
-                insertUser.setIn(user);
+                insertUser.setCondition(user);
 
                 MysqlBuilder<User> builder = new MysqlBuilder<>(User.class);
                 User user1 = new User();
@@ -139,7 +138,7 @@ public class UserMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<User> selectOneUser = new MysqlBuilder<>(User.class);
-                selectOneUser.setIn(user);
+                selectOneUser.setCondition(user);
                 if (baseMysqlComp.selectOne(selectOneUser) == null) {
                     logMessage.build(LogEnum.USER_NO_Exists);
                     log.error(logMessage.log());
@@ -183,7 +182,7 @@ public class UserMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<User> deleteUser = new MysqlBuilder<>(User.class);
-                deleteUser.setIn(user);
+                deleteUser.setCondition(user);
                 if (baseMysqlComp.selectOne(deleteUser) == null) {
                     logMessage.build(LogEnum.USER_NO_Exists);
                     log.error(logMessage.log());
@@ -219,7 +218,7 @@ public class UserMapperImpl {
                 } else {
                     MysqlBuilder<User> updateUser = new MysqlBuilder<>(User.class);
                     User user1 = userMapper.selectById(user.getUserId());
-                    updateUser.setIn(user1);
+                    updateUser.setCondition(user1);
                     updateUser.setUpdate(user);
                     baseMysqlComp.update(updateUser);
                 }
@@ -255,7 +254,7 @@ public class UserMapperImpl {
                 log.warn("用户名不存在，请重新输入");
             } else {
                 MysqlBuilder<User> loginUser = new MysqlBuilder<>(User.class);
-                loginUser.setIn(user);
+                loginUser.setCondition(user);
                 return baseMysqlComp.selectOne(loginUser) != null;
 
             }
@@ -289,7 +288,7 @@ public class UserMapperImpl {
                 log.warn("用户邮箱不存在，请重新输入");
             } else {
                 MysqlBuilder<User> loginUser = new MysqlBuilder<>(User.class);
-                loginUser.setIn(user);
+                loginUser.setCondition(user);
                 return baseMysqlComp.selectOne(loginUser) != null;
 
             }
@@ -324,7 +323,7 @@ public class UserMapperImpl {
                 log.warn("用户电话不存在，请重新输入");
             } else {
                 MysqlBuilder<User> loginUser = new MysqlBuilder<>(User.class);
-                loginUser.setIn(user);
+                loginUser.setCondition(user);
                 return baseMysqlComp.selectOne(loginUser) != null;
 
             }
@@ -352,7 +351,7 @@ public class UserMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<User> isUserWhatToRole = new MysqlBuilder<>(User.class);
-                isUserWhatToRole.setIn(user);
+                isUserWhatToRole.setCondition(user);
                 if (baseMysqlComp.selectOne(isUserWhatToRole) == null) {
                     logMessage.build(LogEnum.USER_NO_Exists);
                     log.error(logMessage.log());
@@ -360,7 +359,7 @@ public class UserMapperImpl {
                     UserRoleRef userRoleRef1 = new UserRoleRef();
                     userRoleRef1.setRefUserId(user.getUserId());
                     MysqlBuilder<UserRoleRef> builder = new MysqlBuilder<>(UserRoleRef.class);
-                    builder.setIn(userRoleRef1);
+                    builder.setCondition(userRoleRef1);
                     return baseMysqlComp.selectOne(builder).getRefRoleId();
                 }
             }

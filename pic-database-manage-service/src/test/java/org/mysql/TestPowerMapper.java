@@ -56,7 +56,7 @@ public class TestPowerMapper {
         User user = new User();
         user.setUserName("xxx");
         user.setUserPassword("123456");
-        builder.setIn(user);
+        builder.setCondition(user);
 
         User out = new User();
         out.setUserId("xxx");
@@ -74,7 +74,7 @@ public class TestPowerMapper {
         MysqlBuilder<Power> builder = new MysqlBuilder<>(Power.class);
         Power power = new Power();
         power.setPowerId(20);
-        builder.setIn(power);
+        builder.setCondition(power);
         try {
             System.out.println(mysqlComp.delete(builder));
         } catch (FormatException | IllegalAccessException e) {
@@ -88,7 +88,7 @@ public class TestPowerMapper {
         MysqlBuilder<Power> builder = new MysqlBuilder<>(Power.class);
         Power power = new Power();
         power.setPowerId(21);
-        builder.setIn(power);
+        builder.setCondition(power);
 
         Power update = new Power();
         update.setPowerName("用户");

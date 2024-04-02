@@ -151,7 +151,7 @@ public class FindPasswordService {
         User update = new User();
         update.setUserPassword(PasswordEncrypt.hashPassword(request.getPassword()));
         MysqlBuilder<User> builder = new MysqlBuilder<>(User.class);
-        builder.setIn(in);
+        builder.setCondition(in);
         builder.setUpdate(update);
         Integer updated = mysqlComp.update(builder);
         return new ReBody(updated == 1 ? RepCode.R_Ok : RepCode.R_Fail);

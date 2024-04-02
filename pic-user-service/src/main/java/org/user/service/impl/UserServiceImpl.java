@@ -98,7 +98,7 @@ public class UserServiceImpl implements IUserService {
         // 创建时间
         user.setUserCreateTime(new Timestamp(System.currentTimeMillis()));
         user.setUserFlag((short) 1);
-        builder.setIn(user);
+        builder.setCondition(user);
         Integer ok = baseMysqlComp.insert(builder);
         return new ReBody(ok == 1 ? RepCode.R_Ok : RepCode.R_Fail);
     }

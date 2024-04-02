@@ -20,9 +20,11 @@ import org.database.mysql.service.TaskMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
 import org.springframework.stereotype.Service;
 import org.task.common.net.TaskShellCheckComp;
+import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
 import org.task.service.ITaskConsumerService;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -92,7 +94,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         task.setTaskCreateTime(System.currentTimeMillis());
 
         MysqlBuilder<Task> taskMysql = new MysqlBuilder<>(Task.class);
-        taskMysql.setIn(task);
+        taskMysql.setCondition(task);
         Integer suc = baseMysqlComp.insert(taskMysql);
         if (suc != 1) {
             return new ReBody(RepCode.R_Fail);
@@ -139,5 +141,22 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
     @Override
     public ReBody listTasks(List<String> taskIds) {
         return taskBaseService.listTasks(taskIds);
+    }
+
+    @Override
+    public ReBody listConsumerTask(TaskQueryRequest queryRequest) {
+        Task task = new Task(queryRequest.getTaskPoJo());
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null) {
+            return new ReBody(RepCode.R_LoginTimeout);
+        }
+        task.setTaskAuthorId(commonData.getUserId());
+        List<Task> tasks = taskMysqlComp.selectTasks(task, queryRequest.getPage(), queryRequest.getPageSize());
+        List<TaskPoJo> result = new ArrayList<>();
+        for (Task task1 : tasks) {
+            TaskPoJo taskPoJo = new TaskPoJo(task1);
+            result.add(taskPoJo);
+        }
+        return new ReBody(RepCode.R_Ok, result);
     }
 }

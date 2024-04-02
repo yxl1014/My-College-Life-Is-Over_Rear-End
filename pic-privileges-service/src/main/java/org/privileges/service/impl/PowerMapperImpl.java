@@ -57,7 +57,7 @@ public class PowerMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<Power> insertPower = new MysqlBuilder<>(Power.class);
-                insertPower.setIn(power);
+                insertPower.setCondition(power);
                 if (powerMapper.selectById(power.getPowerId()) != null) {
                     logMessage.build(LogEnum.POWER_EXISTS);
                     log.error(logMessage.log());
@@ -87,7 +87,7 @@ public class PowerMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<Power> selectOnePower = new MysqlBuilder<>(Power.class);
-                selectOnePower.setIn(power);
+                selectOnePower.setCondition(power);
                 Power selectedPower = baseMysqlComp.selectOne(selectOnePower);
 
                 if (selectedPower == null) {
@@ -129,7 +129,7 @@ public class PowerMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<Power> deletePower = new MysqlBuilder<>(Power.class);
-                deletePower.setIn(power);
+                deletePower.setCondition(power);
                 if (baseMysqlComp.selectOne(deletePower) == null) {
                     logMessage.build(LogEnum.POWER_NO_EXISTS);
                     log.error(logMessage.log());
@@ -160,7 +160,7 @@ public class PowerMapperImpl {
             } else {
                 MysqlBuilder<Power> updatePower = new MysqlBuilder<>(Power.class);
                 Power power1 = powerMapper.selectById(power.getPowerId());
-                updatePower.setIn(power1);
+                updatePower.setCondition(power1);
                 updatePower.setUpdate(power);
                 if (powerMapper.selectById(power.getPowerId()) == null) {
                     logMessage.build(LogEnum.POWER_NO_EXISTS);
@@ -191,7 +191,7 @@ public class PowerMapperImpl {
                 log.warn(logMessage.log());
             } else {
                 MysqlBuilder<RolePowerRef> getRolePowers = new MysqlBuilder<>(RolePowerRef.class);
-                getRolePowers.setIn(rolePowerRef);
+                getRolePowers.setCondition(rolePowerRef);
                 if (roleMapper.selectById(rolePowerRef.getRefRoleId()) == null) {
                     logMessage.build(LogEnum.POWER_NO_EXISTS);
                     log.warn(logMessage.log());
