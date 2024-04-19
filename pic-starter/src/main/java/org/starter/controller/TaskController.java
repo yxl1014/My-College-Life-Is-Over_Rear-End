@@ -78,5 +78,16 @@ public class TaskController {
     public ReBody listConsumerTask(@RequestBody TaskQueryRequest queryRequest) {
         return taskConsumerService.listConsumerTask(queryRequest);
     }
+
+    @GetMapping("c_updateTaskState")
+    @ControllerLog(url = "/c_updateTaskState", msg = "发布者修改任务状态", roleType = RoleType.CONSUMER)
+    @ApiOperation("发布者修改任务状态")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody updateTaskState(@RequestBody TaskPoJo poJo) {
+        return taskConsumerService.updateTaskState(poJo);
+    }
+
+
     // ===============================任务发布者===============================
 }

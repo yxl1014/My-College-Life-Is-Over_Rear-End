@@ -20,4 +20,6 @@ public interface ITaskConsumerService{
     ReBody listTasks(List<String> taskIds);
 
     ReBody listConsumerTask(TaskQueryRequest queryRequest);
+
+    ReBody updateTaskState(TaskPoJo poJo);
 }

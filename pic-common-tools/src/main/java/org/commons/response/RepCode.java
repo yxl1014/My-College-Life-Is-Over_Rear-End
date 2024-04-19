@@ -65,6 +65,7 @@ public enum RepCode {
     R_UserNotIsThisTaskAuthor(551,"该用户不是发布者"),
     R_TaskNotFound(552,"任务未找到"),
     R_TaskIsRunning(553,"任务正在运行"),
+    R_TaskStateUpdateError(554,"任务状态修改不被允许"),
     //-----------------------任务相关 551-600---------------------
 
     //-----------------------验证相关 601-650---------------------
