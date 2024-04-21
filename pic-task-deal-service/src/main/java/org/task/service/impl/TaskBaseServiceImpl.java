@@ -5,9 +5,12 @@ import org.commons.log.LogComp;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
+import org.database.mysql.domain.task.Task;
 import org.database.mysql.domain.task.TaskPoJo;
+import org.database.mysql.entity.ConditionType;
 import org.database.mysql.service.TaskMysqlComp;
 import org.springframework.stereotype.Service;
+import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
 
 import java.util.List;
@@ -39,5 +42,12 @@ public class TaskBaseServiceImpl implements ITaskBaseService {
         }
         List<TaskPoJo> result = taskMysqlComp.selectTasksByTaskIds(taskIds);
         return new ReBody(RepCode.R_Ok, result);
+    }
+
+    @Override
+    public ReBody listAllTasks(TaskQueryRequest queryRequest) {
+        List<Task> tasks = taskMysqlComp.selectTasks(new Task(queryRequest.getTaskPoJo()), ConditionType.LIKE, queryRequest.getPage(), queryRequest.getPageSize());
+        List<TaskPoJo> poJoList = taskMysqlComp.taskToPojo(tasks);
+        return new ReBody(RepCode.R_Ok, poJoList);
     }
 }

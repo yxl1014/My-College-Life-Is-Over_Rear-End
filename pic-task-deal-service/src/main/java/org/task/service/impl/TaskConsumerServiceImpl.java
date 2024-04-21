@@ -5,6 +5,7 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.commons.common.GsonUtil;
 import org.commons.common.ThreadLocalComp;
+import org.commons.common.random.VerifyCodeGenerator;
 import org.commons.common.uuid.UuidGenerator;
 import org.commons.domain.LoginCommonData;
 import org.commons.log.LogComp;
@@ -49,8 +50,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     private final TaskShellCheckComp shellCheckComp;
 
-    final
-    ThreadLocalComp threadLocalComp;
+    private final ThreadLocalComp threadLocalComp;
 
     public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp) {
         this.userMysqlComp = userMysqlComp;
@@ -93,6 +93,13 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         String taskId = UuidGenerator.getCustomUuid();
         task.setTaskId(taskId);
         task.setTaskCreateTime(System.currentTimeMillis());
+
+        //如果任务名为null 就给他随机生成一个
+        if (Strings.isEmpty(task.getTaskName())) {
+            task.setTaskName("TestTask" + VerifyCodeGenerator.genNumberVerityCode());
+        }
+        //初始化任务状态
+        task.setTaskState(TaskState.PLANNING.ordinal());
 
         MysqlBuilder<Task> taskMysql = new MysqlBuilder<>(Task.class);
         taskMysql.setCondition(task);

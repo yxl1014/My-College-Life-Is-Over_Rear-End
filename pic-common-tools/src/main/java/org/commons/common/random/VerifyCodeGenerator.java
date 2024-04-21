@@ -1,4 +1,4 @@
-package org.user.tools;
+package org.commons.common.random;
 
 
 import cn.hutool.captcha.CaptchaUtil;
@@ -6,8 +6,8 @@ import cn.hutool.captcha.LineCaptcha;
 import cn.hutool.core.codec.Base64;
 import cn.hutool.core.img.ImgUtil;
 import org.commons.common.uuid.UuidGenerator;
+import org.commons.domain.inner.DigitOperaCode;
 import org.springframework.util.FastByteArrayOutputStream;
-import org.user.entity.inner.DigitOperaCode;
 
 import java.util.Random;
 

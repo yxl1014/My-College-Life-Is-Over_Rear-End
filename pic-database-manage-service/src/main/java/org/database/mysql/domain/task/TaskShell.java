@@ -22,13 +22,13 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskShell {
-    private int shellIndex;
+    private Integer shellIndex;
     private String shellIp;
-    private int shellPort;
+    private Integer shellPort;
     private ShellType shellType;
     private String shellUrl;
     private HttpType shellHttpType;
-    private int shellPreCondition;
+    private Integer shellPreCondition;
     private Map<String, String> shellHeader;
     private Map<String, String> shellParam;
     private String shellBody;

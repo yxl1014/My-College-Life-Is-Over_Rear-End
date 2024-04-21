@@ -5,9 +5,11 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
 import org.commons.common.ThreadLocalComp;
 import org.commons.common.encrypt.PasswordEncrypt;
+import org.commons.common.random.VerifyCodeGenerator;
 import org.commons.common.uuid.UuidGenerator;
 import org.commons.common.verify.JWTUtil;
 import org.commons.domain.LoginCommonData;
+import org.commons.domain.RoleType;
 import org.commons.domain.constData.MagicMathConstData;
 import org.commons.domain.constData.RedisConstData;
 import org.commons.domain.constData.ThreadLocalConstData;
@@ -23,7 +25,6 @@ import org.springframework.stereotype.Service;
 import org.user.entity.request.VerityRequest;
 import org.user.entity.response.LoginResponse;
 import org.user.service.IUserService;
-import org.user.tools.VerifyCodeGenerator;
 
 import java.sql.Timestamp;
 
@@ -97,7 +98,7 @@ public class UserServiceImpl implements IUserService {
         user.setUserPassword(PasswordEncrypt.hashPassword(user.getUserPassword()));
         // 创建时间
         user.setUserCreateTime(new Timestamp(System.currentTimeMillis()));
-        user.setUserFlag((short) 1);
+        user.setUserFlag((short) RoleType.PROVIDER.ordinal());
         builder.setCondition(user);
         Integer ok = baseMysqlComp.insert(builder);
         return new ReBody(ok == 1 ? RepCode.R_Ok : RepCode.R_Fail);

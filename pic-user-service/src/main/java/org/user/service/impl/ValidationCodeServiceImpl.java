@@ -2,22 +2,22 @@ package org.user.service.impl;
 
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.commons.common.random.VerifyCodeGenerator;
 import org.commons.common.uuid.UuidGenerator;
 import org.commons.common.verify.RegexValidator;
 import org.commons.domain.constData.MagicMathConstData;
 import org.commons.domain.constData.RedisConstData;
+import org.commons.domain.inner.DigitOperaCode;
 import org.commons.log.LogComp;
 import org.commons.log.LogType;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.redis.RedisComp;
 import org.springframework.stereotype.Service;
-import org.user.entity.inner.DigitOperaCode;
 import org.user.entity.request.VerityRequest;
 import org.user.entity.response.VerityCodeResponse;
 import org.user.service.IValidationCodeService;
 import org.user.service.common.MailSendComp;
-import org.user.tools.VerifyCodeGenerator;
 
 /**
  * @author yxl17

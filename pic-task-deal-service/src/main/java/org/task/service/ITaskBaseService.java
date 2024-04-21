@@ -1,6 +1,7 @@
 package org.task.service;
 
 import org.commons.response.ReBody;
+import org.task.entity.TaskQueryRequest;
 
 import java.util.List;
 
@@ -13,4 +14,6 @@ import java.util.List;
  **/
 public interface ITaskBaseService {
     ReBody listTasks(List<String> taskIds);
+
+    ReBody listAllTasks(TaskQueryRequest queryRequest);
 }

@@ -17,13 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class TaskUserResult {
     private String testUserId;
-    private long testStartTime;
-    private long testEndTime;
-    private long testTime;
-    private long testCount;
-    private long testSuccessCount;
-    private long testFailCount;
-    private long testReqFailCount;
-    private long testExpectedFailCount;
+    private Long testStartTime;
+    private Long testEndTime;
+    private Long testTime;
+    private Long testCount;
+    private Long testSuccessCount;
+    private Long testFailCount;
+    private Long testReqFailCount;
+    private Long testExpectedFailCount;
     private String testFailMsg;
 }

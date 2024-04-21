@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"yxl1014\",\r\n    \"userTelephone\":\"17551097327\",\r\n    \"userPassword\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"test\",\r\n    \"userTelephone\":\"17551097327\",\r\n    \"userPassword\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"yxl1014\",\r\n    \"userPassword\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"test\",\r\n    \"userPassword\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -166,13 +166,13 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo3MDYwODQsXCJ0aW1lc3RhbXBcIjoxNzExNjgzMDI3NzgxfSIsIjMiOjE3MTE5NDIyMjc4MTl9.FZVX0KbvdxhMT4Yp69g2e5nac11pYaocOCz_k3Uuv6E",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM5Njk3MjQ5MjAsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThmLTAxMDgtNzc2Mi05YWFjLWIxMDhlMzc3YTI3NlwiLFwidmVyc2lvblwiOjUwODMxNixcInRpbWVzdGFtcFwiOjE3MTM3MTA1MjQzMTd9In0.1aNUPdaxOWXLC0X74UNZFPXo9UAKsdKGBK5XoP2XRq8",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"taskAuthorId\":\"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n    \"taskType\": 1,\r\n    \"taskMoney\": 256.1\r\n}",
+									"raw": "{\r\n    \"taskAuthorId\":\"0000018f-0108-7762-9aac-b108e377a276\",\r\n    \"taskType\": 1,\r\n    \"taskMoney\": 256.1\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -323,7 +323,43 @@
 				},
 				{
 					"name": "provider",
-					"item": []
+					"item": [
+						{
+							"name": "接受任务",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM5Njk4MTc0MzgsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThmLTAxMDgtNzc2Mi05YWFjLWIxMDhlMzc3YTI3NlwiLFwidmVyc2lvblwiOjgyODYzNCxcInRpbWVzdGFtcFwiOjE3MTM3MTA2MTc0MzZ9In0.N2ULsMJ6RHGaZgcMEKbHGe10PJzjvjFmf34dTNAyEC4",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskId\":\"0000018f-0118-116e-b8c1-07f32d7fd622\"\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/activeTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"activeTask"
+									]
+								}
+							},
+							"response": []
+						}
+					]
 				},
 				{
 					"name": "获取任务",
@@ -352,6 +388,38 @@
 							"path": [
 								"task",
 								"listTasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取任务-模糊查询",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:18080/task/listAllTasks",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"task",
+								"listAllTasks"
 							]
 						}
 					},

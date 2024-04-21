@@ -21,11 +21,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskResult {
-    private long allTestTime;
-    private long allTestCount;
-    private long allSuccessCount;
-    private long allFailCount;
-    private long allReqFailCount;
-    private long allExpectedFailCount;
+    private Long allTestTime;
+    private Long allTestCount;
+    private Long allSuccessCount;
+    private Long allFailCount;
+    private Long allReqFailCount;
+    private Long allExpectedFailCount;
     private List<TaskUserResult> allUserResults;
 }

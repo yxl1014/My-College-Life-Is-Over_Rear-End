@@ -162,6 +162,77 @@ LOCK TABLES `sys_role_power_ref` WRITE;
 UNLOCK TABLES;
 
 --
+-- Table structure for table `sys_task`
+--
+
+DROP TABLE IF EXISTS `sys_task`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sys_task` (
+  `task_id` varchar(135) NOT NULL,
+  `task_author_id` varchar(135) NOT NULL COMMENT '发布者ID',
+  `task_name` varchar(200) DEFAULT NULL COMMENT '任务名',
+  `task_money` double NOT NULL DEFAULT '0' COMMENT '报酬',
+  `task_create_time` bigint NOT NULL COMMENT '发布时间',
+  `task_type` int NOT NULL DEFAULT '0' COMMENT '（0、一直发，1、某个时间点发，2、间隔时间发）',
+  `task_shell` mediumtext COMMENT '脚本（Json序列化后的List<TaskShell>）',
+  `task_state` int DEFAULT NULL COMMENT '状态 (0、规划中，1、报名中，2、测试中，3、暂停，4、结束)',
+  `task_start_time` bigint DEFAULT NULL,
+  `task_end_time` bigint DEFAULT NULL,
+  `task_test_time` bigint DEFAULT NULL COMMENT '任务持续时间',
+  `task_test_result` mediumtext COMMENT '任务测试结果',
+  PRIMARY KEY (`task_id`),
+  KEY `sys_task_task_author_id_index` (`task_author_id`),
+  KEY `sys_task_task_state_index` (`task_state`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_task`
+--
+
+LOCK TABLES `sys_task` WRITE;
+/*!40000 ALTER TABLE `sys_task` DISABLE KEYS */;
+INSERT INTO `sys_task` VALUES ('0000018f-0111-4370-91c0-29b2040c53f5','0000018e-5bb6-bb16-9651-ffc19428eaa7',NULL,256.1,1713709859697,1,NULL,0,NULL,NULL,NULL,NULL),('0000018f-0118-030c-b7b9-b7c5a7da27e7','0000018e-5bb6-bb16-9651-ffc19428eaa7','TestTask918385',256.1,1713710301964,1,NULL,0,NULL,NULL,NULL,NULL),('0000018f-0118-116e-b8c1-07f32d7fd622','0000018e-5bb6-bb16-9651-ffc19428eaa7','TestTask809598',256.1,1713710305646,1,NULL,1,NULL,NULL,NULL,NULL),('0000018f-0118-92f7-b9b1-f3f1c16b85ca','0000018e-5bb6-bb16-9651-ffc19428eaa7','TestTask628748',256.1,1713710338807,1,NULL,0,NULL,NULL,NULL,NULL);
+/*!40000 ALTER TABLE `sys_task` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `sys_task_user_ref`
+--
+
+DROP TABLE IF EXISTS `sys_task_user_ref`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `sys_task_user_ref` (
+  `ref_id` int NOT NULL AUTO_INCREMENT,
+  `ref_user_id` varchar(135) NOT NULL,
+  `ref_task_id` varchar(135) NOT NULL,
+  `ref_all_req` bigint DEFAULT '0',
+  `ref_success_req` bigint DEFAULT '0',
+  `ref_start_time` bigint DEFAULT NULL,
+  `ref_end_time` bigint DEFAULT NULL,
+  `ref_test_time` bigint DEFAULT NULL,
+  `ref_state` int DEFAULT '0' COMMENT '（0、等待中，1、测试中，2、暂停，3、结束测试）',
+  PRIMARY KEY (`ref_id`),
+  KEY `sys_task_user_ref_8_ref_state_index` (`ref_state`),
+  KEY `sys_task_user_ref_8_ref_task_id_index` (`ref_task_id`),
+  KEY `sys_task_user_ref_8_ref_user_id_index` (`ref_user_id`),
+  KEY `sys_task_user_ref_8_ref_user_id_ref_task_id_index` (`ref_user_id`,`ref_task_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `sys_task_user_ref`
+--
+
+LOCK TABLES `sys_task_user_ref` WRITE;
+/*!40000 ALTER TABLE `sys_task_user_ref` DISABLE KEYS */;
+INSERT INTO `sys_task_user_ref` VALUES (1,'0000018f-0108-7762-9aac-b108e377a276','0000018f-0118-116e-b8c1-07f32d7fd622',0,0,0,0,0,0);
+/*!40000 ALTER TABLE `sys_task_user_ref` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
 -- Table structure for table `sys_transaction_record`
 --
 
@@ -239,7 +310,7 @@ CREATE TABLE `sys_user` (
 
 LOCK TABLES `sys_user` WRITE;
 /*!40000 ALTER TABLE `sys_user` DISABLE KEYS */;
-INSERT INTO `sys_user` VALUES ('0000018c-15ca-9551-815c-8f276e84cbf7','HammerRay','18666666666','nnn.aaa@kkk.edu.cn','Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:6M8IIkdVpE2gLfH3ktvKWCHw66W2i9qQu57C30OdJGE=','HammerRay','男','1970-01-01','410522333355558888',NULL,'tute','河南','192.168.56.1',0,'66666666666666','2023-11-28 19:57:27','你在哪上学？','tute','你的名字？','zy','你的学号','0304210226'),('0000018c-24aa-c0e8-86b5-7950b37cd707','John',NULL,NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:QhWaoLYX/Cy602Xt+7S3HhR7KKs6Aco/efIylzxSJqU=',NULL,NULL,'2003-09-10',NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 17:16:59',NULL,NULL,NULL,NULL,NULL,NULL),('0000018c-24de-fba3-8c72-be182a4d8055','zhangsan1',NULL,NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:Y2/TzAFnqYDlnJRO33LMre0iTpsqEA+9gZS0Fj6xfUM=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 18:14:02','1+1','2','2+2','4',NULL,NULL),('0000018c-251b-4676-bd25-17bad9ba3899','zhangsan2','13333333333',NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:fqZz5s/8MZsfjluPlnh7ZLX9itHw/ed7ZXngHJFhRMc=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 19:19:54','1+1','2','2+2','4',NULL,NULL),('0000018c-251c-61fa-afdc-bf912500d0f0','zhangsan3',NULL,'133@qq.com','Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:fqZz5s/8MZsfjluPlnh7ZLX9itHw/ed7ZXngHJFhRMc=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 19:21:06','1+1','2','2+2','4',NULL,NULL),('0000018e-5bb6-bb16-9651-ffc19428eaa7','yxl1014','17551097327',NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:zWKf2mIyGC8D7XtkBzZUR5WNECDstOIWI6CDcOqKzkc=',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,0,NULL,'2024-03-20 19:54:46',NULL,NULL,NULL,NULL,NULL,NULL);
+INSERT INTO `sys_user` VALUES ('0000018c-15ca-9551-815c-8f276e84cbf7','HammerRay','18666666666','nnn.aaa@kkk.edu.cn','Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:6M8IIkdVpE2gLfH3ktvKWCHw66W2i9qQu57C30OdJGE=','HammerRay','男','1970-01-01','410522333355558888',NULL,'tute','河南','192.168.56.1',0,'66666666666666','2023-11-28 19:57:27','你在哪上学？','tute','你的名字？','zy','你的学号','0304210226'),('0000018c-24aa-c0e8-86b5-7950b37cd707','John',NULL,NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:QhWaoLYX/Cy602Xt+7S3HhR7KKs6Aco/efIylzxSJqU=',NULL,NULL,'2003-09-10',NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 17:16:59',NULL,NULL,NULL,NULL,NULL,NULL),('0000018c-24de-fba3-8c72-be182a4d8055','zhangsan1',NULL,NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:Y2/TzAFnqYDlnJRO33LMre0iTpsqEA+9gZS0Fj6xfUM=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 18:14:02','1+1','2','2+2','4',NULL,NULL),('0000018c-251b-4676-bd25-17bad9ba3899','zhangsan2','13333333333',NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:fqZz5s/8MZsfjluPlnh7ZLX9itHw/ed7ZXngHJFhRMc=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 19:19:54','1+1','2','2+2','4',NULL,NULL),('0000018c-251c-61fa-afdc-bf912500d0f0','zhangsan3',NULL,'133@qq.com','Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:fqZz5s/8MZsfjluPlnh7ZLX9itHw/ed7ZXngHJFhRMc=',NULL,NULL,NULL,NULL,NULL,NULL,NULL,NULL,0,NULL,'2023-12-01 19:21:06','1+1','2','2+2','4',NULL,NULL),('0000018e-5bb6-bb16-9651-ffc19428eaa7','yxl1014','17551097327',NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:zWKf2mIyGC8D7XtkBzZUR5WNECDstOIWI6CDcOqKzkc=',NULL,NULL,NULL,NULL,98975.59999999998,NULL,NULL,NULL,1,NULL,'2024-03-20 19:54:46',NULL,NULL,NULL,NULL,NULL,NULL),('0000018f-0108-7762-9aac-b108e377a276','test','13340744119',NULL,'Wy0xMTYsIC0xMTgsIDI1LCAtMzksIDg1LCAtMzksIC0xMjcsIC0xMTAsIDU0LCA2MSwgLTEwMCwgLTEsIDg3LCAtNjgsIDQ4LCA1Ml0=:zWKf2mIyGC8D7XtkBzZUR5WNECDstOIWI6CDcOqKzkc=',NULL,NULL,NULL,NULL,0,NULL,NULL,NULL,0,NULL,'2024-04-21 22:21:23',NULL,NULL,NULL,NULL,NULL,NULL);
 /*!40000 ALTER TABLE `sys_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -278,4 +349,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-03-28 15:56:12
+-- Dump completed on 2024-04-21 22:47:55

@@ -21,6 +21,7 @@ import java.util.List;
 public class TaskPoJo {
     private String taskId;
     private String taskAuthorId;
+    private String taskName;
     private Double taskMoney;
     private Long taskCreateTime;
     private Integer taskType;
@@ -40,6 +41,9 @@ public class TaskPoJo {
         }
         if (!Strings.isEmpty(task.getTaskAuthorId())) {
             this.taskAuthorId = task.getTaskAuthorId();
+        }
+        if (!Strings.isEmpty(task.getTaskName())){
+            this.taskName = task.getTaskName();
         }
         if (task.getTaskMoney() != null) {
             this.taskMoney = task.getTaskMoney();
