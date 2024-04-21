@@ -83,6 +83,11 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(NeedCheck.class)) {
             Cookie[] cookies = request.getCookies();
             Cookie cookie = null;
+            if (cookies == null)
+            {
+                response.sendError(RepCode.R_TokenError.getCode(), "访问未携带token");
+                return false;
+            }
             for (Cookie c : cookies) {
                 if ("token".equals(c.getName())) {
                     cookie = c;

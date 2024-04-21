@@ -98,7 +98,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjoxNDI1NzYsXCJ0aW1lc3RhbXBcIjoxNzEyMDQzMzQwNTM4fSIsIjMiOjE3MTIzMDI1NDA1NzR9.kiM5jvcRoZISF7r1YwazP2o226qWj8Dsj2hGjzZp66s",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM1NDA0MDIyMDEsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThlLTViYjYtYmIxNi05NjUxLWZmYzE5NDI4ZWFhN1wiLFwidmVyc2lvblwiOjM1MjA5NSxcInRpbWVzdGFtcFwiOjE3MTMyODEyMDExODN9In0.W_ExP3UEA9o9EW-yacEB2eEGrmh1d1zrr9t7lCSATJ8",
 								"type": "text"
 							}
 						],
@@ -157,46 +157,173 @@
 			"name": "任务相关",
 			"item": [
 				{
-					"name": "创建任务",
-					"request": {
-						"method": "POST",
-						"header": [
-							{
-								"key": "Cookie",
-								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo3MDYwODQsXCJ0aW1lc3RhbXBcIjoxNzExNjgzMDI3NzgxfSIsIjMiOjE3MTE5NDIyMjc4MTl9.FZVX0KbvdxhMT4Yp69g2e5nac11pYaocOCz_k3Uuv6E",
-								"type": "text"
-							}
-						],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"taskAuthorId\":\"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n    \"taskType\": 1,\r\n    \"taskMoney\": 256.1\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
+					"name": "consumer",
+					"item": [
+						{
+							"name": "创建任务",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo3MDYwODQsXCJ0aW1lc3RhbXBcIjoxNzExNjgzMDI3NzgxfSIsIjMiOjE3MTE5NDIyMjc4MTl9.FZVX0KbvdxhMT4Yp69g2e5nac11pYaocOCz_k3Uuv6E",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskAuthorId\":\"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n    \"taskType\": 1,\r\n    \"taskMoney\": 256.1\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/createTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"createTask"
+									],
+									"query": [
+										{
+											"key": "Cookie",
+											"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo3MDYwODQsXCJ0aW1lc3RhbXBcIjoxNzExNjgzMDI3NzgxfSIsIjMiOjE3MTE5NDIyMjc4MTl9.FZVX0KbvdxhMT4Yp69g2e5nac11pYaocOCz_k3Uuv6E",
+											"disabled": true
+										}
+									]
 								}
-							}
+							},
+							"response": []
 						},
-						"url": {
-							"raw": "http://localhost:18080/task/createTask",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "18080",
-							"path": [
-								"task",
-								"createTask"
-							],
-							"query": [
-								{
-									"key": "Cookie",
-									"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo3MDYwODQsXCJ0aW1lc3RhbXBcIjoxNzExNjgzMDI3NzgxfSIsIjMiOjE3MTE5NDIyMjc4MTl9.FZVX0KbvdxhMT4Yp69g2e5nac11pYaocOCz_k3Uuv6E",
-									"disabled": true
+						{
+							"name": "添加任务脚本",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjoxNDI1NzYsXCJ0aW1lc3RhbXBcIjoxNzEyMDQzMzQwNTM4fSIsIjMiOjE3MTIzMDI1NDA1NzR9.kiM5jvcRoZISF7r1YwazP2o226qWj8Dsj2hGjzZp66s",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\",\r\n    \"taskShell\": [\r\n        {\r\n            \"shellIndex\": 1,\r\n            \"shellIp\": \"127.0.0.1\",\r\n            \"shellPort\": 8080,\r\n            \"shellType\": 0,\r\n            \"shellUrl\": \"/test/get\",\r\n            \"shellPreCondition\": 0,\r\n            \"shellHttpType\": 1\r\n        },\r\n        {\r\n            \"shellIndex\": 2,\r\n            \"shellIp\": \"127.0.0.1\",\r\n            \"shellPort\": 8080,\r\n            \"shellType\": 0,\r\n            \"shellPreCondition\": 1,\r\n            \"shellBody\": \"aaa\",\r\n            \"shellUrl\": \"/test/post\",\r\n            \"shellParam\": {\r\n                \"username\": \"aaa\"\r\n            },\r\n            \"shellHttpType\": 0,\r\n            \"shellExpect\": [\r\n                {\r\n                    \"expectType\": 0,\r\n                    \"expectValue\": \"code\",\r\n                    \"expectTarget\": \"200\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/updateTaskShell",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"updateTaskShell"
+									]
 								}
-							]
+							},
+							"response": []
+						},
+						{
+							"name": "获取发布的任务",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo4NTk0NTYsXCJ0aW1lc3RhbXBcIjoxNzEzNTE3ODU2MTU1fSIsIjMiOjE3MTM3NzcwNTYxODV9.DbbYjN29kbZgvSL9xxC0JvySdFGiYYTma6pXuTKHMvQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskPoJo\": {\r\n        \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\"\r\n    },\r\n    \"page\": 1,\r\n    \"pageSize\": 2\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/listConsumerTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"listConsumerTask"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "更新任务状态",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo4NTk0NTYsXCJ0aW1lc3RhbXBcIjoxNzEzNTE3ODU2MTU1fSIsIjMiOjE3MTM3NzcwNTYxODV9.DbbYjN29kbZgvSL9xxC0JvySdFGiYYTma6pXuTKHMvQ",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\",\r\n    \"taskState\": 0\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/c_updateTaskState",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"c_updateTaskState"
+									],
+									"query": [
+										{
+											"key": "",
+											"value": null,
+											"disabled": true
+										}
+									]
+								}
+							},
+							"response": []
 						}
-					},
-					"response": []
+					]
+				},
+				{
+					"name": "provider",
+					"item": []
 				},
 				{
 					"name": "获取任务",
@@ -229,21 +356,72 @@
 						}
 					},
 					"response": []
+				}
+			]
+		},
+		{
+			"name": "验证相关",
+			"item": [
+				{
+					"name": "获取图片验证码",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:18080/valida_code/get_picture",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"valida_code",
+								"get_picture"
+							]
+						}
+					},
+					"response": []
 				},
 				{
-					"name": "添加任务脚本",
+					"name": "获得手机验证码",
 					"request": {
-						"method": "POST",
+						"method": "GET",
 						"header": [
 							{
-								"key": "Cookie",
-								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjoxNDI1NzYsXCJ0aW1lc3RhbXBcIjoxNzEyMDQzMzQwNTM4fSIsIjMiOjE3MTIzMDI1NDA1NzR9.kiM5jvcRoZISF7r1YwazP2o226qWj8Dsj2hGjzZp66s",
-								"type": "text"
+								"key": "",
+								"value": "",
+								"type": "text",
+								"disabled": true
 							}
 						],
+						"url": {
+							"raw": "localhost:18080/valida_code/get_phone?phoneNum=17551097327",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"valida_code",
+								"get_phone"
+							],
+							"query": [
+								{
+									"key": "phoneNum",
+									"value": "17551097327"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "验证图片验证码",
+					"request": {
+						"method": "POST",
+						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\",\r\n    \"taskShell\": [\r\n        {\r\n            \"shellIndex\": 1,\r\n            \"shellIp\": \"127.0.0.1\",\r\n            \"shellPort\": 8080,\r\n            \"shellType\": 0,\r\n            \"shellUrl\": \"/test/get\",\r\n            \"shellPreCondition\": 0,\r\n            \"shellHttpType\": 1\r\n        },\r\n        {\r\n            \"shellIndex\": 2,\r\n            \"shellIp\": \"127.0.0.1\",\r\n            \"shellPort\": 8080,\r\n            \"shellType\": 0,\r\n            \"shellPreCondition\": 1,\r\n            \"shellBody\": \"aaa\",\r\n            \"shellUrl\": \"/test/post\",\r\n            \"shellParam\": {\r\n                \"username\": \"aaa\"\r\n            },\r\n            \"shellHttpType\": 0,\r\n            \"shellExpect\": [\r\n                {\r\n                    \"expectType\": 0,\r\n                    \"expectValue\": \"code\",\r\n                    \"expectTarget\": \"200\"\r\n                }\r\n            ]\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"uuid\":\"0000018f-00e7-8576-a754-90b84598574d\",\r\n    \"code\":\"94\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -251,15 +429,15 @@
 							}
 						},
 						"url": {
-							"raw": "http://localhost:18080/task/updateTaskShell",
+							"raw": "http://localhost:18080/valida_code/verity_picture_code",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
 							"port": "18080",
 							"path": [
-								"task",
-								"updateTaskShell"
+								"valida_code",
+								"verity_picture_code"
 							]
 						}
 					},
