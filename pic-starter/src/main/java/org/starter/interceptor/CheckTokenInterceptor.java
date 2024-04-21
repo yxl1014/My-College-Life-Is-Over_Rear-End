@@ -83,6 +83,11 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
         if (method.isAnnotationPresent(NeedCheck.class)) {
             Cookie[] cookies = request.getCookies();
             Cookie cookie = null;
+            if (cookies == null)
+            {
+                response.setStatus(401);
+                return false;
+            }
             for (Cookie c : cookies) {
                 if ("token".equals(c.getName())) {
                     cookie = c;
@@ -90,23 +95,23 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                 }
             }
             if (cookie == null) {
-                response.sendError(RepCode.R_TokenError.getCode(), "访问未携带token");
+                response.setStatus(401);
                 return false;
             }
             //1、验证cookie的有效期
             if (cookie.getMaxAge() != -1 && System.currentTimeMillis() >= cookie.getMaxAge()) {
-                response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
+                response.setStatus(401);
                 return false;
             }
             String token = cookie.getValue();
             if (token == null) {
-                response.sendError(RepCode.R_TokenError.getCode(), "访问未携带token");
+                response.setStatus(401);
                 return false;
             }
             // 这个是解出来的数据
             LoginCommonData unSignData = jwtUtil.unSign(token, LoginCommonData.class);
             if (unSignData == null) {
-                response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
+                response.setStatus(401);
                 return false;
             }
             // 这个是本地threadlocal存的
@@ -114,7 +119,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             // 这里如果有 那么就比较一下
             if (tlData != null) {
                 if (!unSignData.equals(tlData)) {
-                    response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
+                    response.setStatus(401);
                     return false;
                 }
             } else
@@ -122,7 +127,7 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             {
                 String version = redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
                 if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))) {
-                    response.sendError(RepCode.R_TokenError.getCode(), RepCode.R_TokenError.getMsg());
+                    response.setStatus(401);
                     return false;
                 }
                 // 完事没问题了 就set进ThreadLocal
@@ -130,11 +135,11 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             }
             User user = userMysqlComp.findUserByUserId(unSignData.getUserId());
             if (user == null) {
-                response.sendError(RepCode.R_UserNotFound.getCode(), RepCode.R_UserNotFound.getMsg());
+                response.setStatus(401);
                 return false;
             }
             if (user.getUserFlag() < controllerLog.roleType().ordinal()) {
-                response.sendError(RepCode.R_UserPrivilegesNotEnough.getCode(), RepCode.R_UserPrivilegesNotEnough.getMsg());
+                response.setStatus(403);
                 return false;
             }
             return true;

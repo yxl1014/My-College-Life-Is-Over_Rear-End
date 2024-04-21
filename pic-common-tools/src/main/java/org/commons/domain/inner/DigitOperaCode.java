@@ -1,6 +1,5 @@
-package org.user.entity.inner;
+package org.commons.domain.inner;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -21,7 +20,6 @@ public class DigitOperaCode{
      * 验证码的uuid
      */
     @ApiModelProperty("验证码的Uuid")
-    @JsonProperty("uuid")
     private String uuid;
     /**
      * 运算的结果
@@ -32,13 +30,11 @@ public class DigitOperaCode{
      *
      */
     @ApiModelProperty("运算的式子 比如 5 + 6 = ？")
-    @JsonProperty("operationFormula")
     private String operationFormula;
     /**
      * operationFormula＋上图片 之和的base64编码
      */
     @ApiModelProperty("base64编码的图片的字符串")
-    @JsonProperty("base64Img")
     private String base64Img;
 
     @Override

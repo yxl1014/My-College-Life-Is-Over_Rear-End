@@ -17,6 +17,7 @@ public class Task {
     @TableId
     private String taskId;
     private String taskAuthorId;
+    private String taskName;
     private Double taskMoney;
     private Long taskCreateTime;
     private Integer taskType;
@@ -36,6 +37,9 @@ public class Task {
         }
         if (!Strings.isEmpty(poJo.getTaskAuthorId())) {
             this.taskAuthorId = poJo.getTaskAuthorId();
+        }
+        if (!Strings.isEmpty(poJo.getTaskName())){
+            this.taskName = poJo.getTaskName();
         }
         if (poJo.getTaskMoney() != null) {
             this.taskMoney = poJo.getTaskMoney();

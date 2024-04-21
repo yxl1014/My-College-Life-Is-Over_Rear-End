@@ -93,4 +93,15 @@ public class TaskMysqlComp {
         Integer update = baseMysqlComp.update(mysqlBuilder);
         return update == 1;
     }
+
+    public List<TaskPoJo> taskToPojo(List<Task> tasks){
+        List<TaskPoJo> poJoList = new ArrayList<>();
+        if (tasks == null){
+            return poJoList;
+        }
+        for (Task task:tasks){
+            poJoList.add(new TaskPoJo(task));
+        }
+        return poJoList;
+    }
 }

@@ -22,7 +22,7 @@ import java.io.IOException;
  */
 @RestController
 @Api(tags = "获取验证码接口")
-@RequestMapping("valida_code")
+@RequestMapping("/valida_code")
 public class ValidationCodeController {
 
     @Autowired
@@ -36,7 +36,7 @@ public class ValidationCodeController {
      * @author: GodHammer
      * @date: 2023-11-23 下午9:59
      */
-    @GetMapping("get_picture")
+    @GetMapping("/get_picture")
     @ApiOperation("获取图形验证码")
     @ControllerLog(url = "/get_picture",msg = "获取图形验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "获取图形验证码成功", response = ReBody.class)
@@ -44,7 +44,7 @@ public class ValidationCodeController {
         return validationCodeService.genMathVerityCode();
     }
 
-    @GetMapping("get_phone")
+    @GetMapping("/get_phone")
     @ApiOperation("获取手机验证码")
     @ControllerLog(url = "/get_phone",msg = "获取手机验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "获取手机验证码成功", response = ReBody.class)
@@ -52,7 +52,7 @@ public class ValidationCodeController {
         return validationCodeService.genTelVerityCode(phoneNum);
     }
 
-    @GetMapping("get_email")
+    @GetMapping("/get_email")
     @ApiOperation("获取邮箱验证码")
     @ControllerLog(url = "/get_email",msg = "获取邮箱验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "获取邮箱验证码成功", response = ReBody.class)
@@ -61,7 +61,7 @@ public class ValidationCodeController {
     }
 
 
-    @PostMapping("verity_picture_code")
+    @PostMapping("/verity_picture_code")
     @ApiOperation("验证图形验证码")
     @ControllerLog(url = "/verity_picture_code",msg = "验证图形验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "验证图形验证码成功", response = ReBody.class)
@@ -69,7 +69,7 @@ public class ValidationCodeController {
         return validationCodeService.verityCode(verityRequest, 1);
     }
 
-    @PostMapping("verity_tel_code")
+    @PostMapping("/verity_tel_code")
     @ApiOperation("验证电话验证码")
     @ControllerLog(url = "/verity_tel_code",msg = "验证电话验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "验证电话验证码成功", response = ReBody.class)
@@ -77,7 +77,7 @@ public class ValidationCodeController {
         return validationCodeService.verityCode(verityRequest, 2);
     }
 
-    @PostMapping("verity_email_code")
+    @PostMapping("/verity_email_code")
     @ApiOperation("验证邮箱验证码")
     @ControllerLog(url = "/verity_email_code",msg = "验证邮箱验证码",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "验证邮箱验证码成功", response = ReBody.class)

@@ -19,10 +19,10 @@ public class TaskUserRef {
     private Integer refId;
     private String refUserId;
     private String refTaskId;
-    private long refAllReq;
-    private long refSuccessReq;
-    private long refStartTime;
-    private long refEndTime;
-    private long refTestTime;
-    private int refState;
+    private Long refAllReq;
+    private Long refSuccessReq;
+    private Long refStartTime;
+    private Long refEndTime;
+    private Long refTestTime;
+    private Integer refState;
 }

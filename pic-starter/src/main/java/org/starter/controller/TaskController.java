@@ -46,9 +46,27 @@ public class TaskController {
     public ReBody listTasks(@RequestBody List<String> taskIds) {
         return taskBaseService.listTasks(taskIds);
     }
+
+    @GetMapping("/listAllTasks")
+    @ControllerLog(url = "/listAllTasks", msg = "获取任务(模糊查询)", roleType = RoleType.PROVIDER)
+    @ApiOperation("获取任务(模糊查询)")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    public ReBody listAllTasks(@RequestBody TaskQueryRequest queryRequest) {
+        return taskBaseService.listAllTasks(queryRequest);
+    }
+
+
     // =================================通=用=================================
 
     // ===============================任务测试者===============================
+    @PostMapping("/activeTask")
+    @ControllerLog(url = "/activeTask", msg = "接受任务", roleType = RoleType.PROVIDER)
+    @ApiOperation("接受任务")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody activeTask(@RequestBody TaskPoJo poJo) {
+        return taskProviderService.activeTask(poJo.getTaskId());
+    }
     // ===============================任务测试者===============================
 
     // ===============================任务发布者===============================
@@ -78,5 +96,16 @@ public class TaskController {
     public ReBody listConsumerTask(@RequestBody TaskQueryRequest queryRequest) {
         return taskConsumerService.listConsumerTask(queryRequest);
     }
+
+    @GetMapping("c_updateTaskState")
+    @ControllerLog(url = "/c_updateTaskState", msg = "发布者修改任务状态", roleType = RoleType.CONSUMER)
+    @ApiOperation("发布者修改任务状态")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody updateTaskState(@RequestBody TaskPoJo poJo) {
+        return taskConsumerService.updateTaskState(poJo);
+    }
+
+
     // ===============================任务发布者===============================
 }
