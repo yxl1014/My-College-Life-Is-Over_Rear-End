@@ -11,13 +11,18 @@ import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.TaskUserRef;
 import org.database.mysql.domain.task.Task;
+import org.database.mysql.domain.task.TaskRefPojo;
 import org.database.mysql.domain.task.TaskState;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
+import org.database.mysql.service.TaskRefMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
 import org.springframework.stereotype.Service;
+import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
 import org.task.service.ITaskProviderService;
+
+import java.util.List;
 
 /**
  * @author yxl17
@@ -38,12 +43,15 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
     private final ThreadLocalComp threadLocalComp;
 
-    public TaskProviderServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp) {
+    private final TaskRefMysqlComp taskRefMysqlComp;
+
+    public TaskProviderServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskRefMysqlComp taskRefMysqlComp) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.taskBaseService = taskBaseService;
         this.threadLocalComp = threadLocalComp;
+        this.taskRefMysqlComp = taskRefMysqlComp;
     }
 
     @SneakyThrows
@@ -72,5 +80,21 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
             return new ReBody(RepCode.R_UpdateDbFailed);
         }
         return new ReBody(RepCode.R_Ok);
+    }
+
+    @Override
+    public ReBody listProviderTask(TaskQueryRequest queryRequest) {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null) {
+            return new ReBody(RepCode.R_LoginTimeout);
+        }
+        TaskUserRef ref = new TaskUserRef();
+        ref.setRefUserId(commonData.getUserId());
+
+        TaskUserRef taskUserRef = queryRequest.getTaskUserRef();
+        ref.setRefTaskId(taskUserRef.getRefTaskId());
+        ref.setRefState(taskUserRef.getRefState());
+        List<TaskRefPojo> taskRefPoJos = taskRefMysqlComp.selectTasks(ref, queryRequest.getPage(), queryRequest.getPageSize());
+        return new ReBody(RepCode.R_Ok, taskRefPoJos);
     }
 }

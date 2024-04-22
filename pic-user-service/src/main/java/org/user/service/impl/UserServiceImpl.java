@@ -71,7 +71,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ReBody logOff(String uuid) {
+    public ReBody logOff() {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        // TODO YXL 这里需要将所有测试中的任务暂停
+
         return null;
     }
 
@@ -166,12 +172,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ReBody userInfo(String uuid) {
-        if (Strings.isEmpty(uuid)) {
-            return new ReBody(RepCode.R_ParamNull);
+    public ReBody userInfo() {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
         }
-        User user = userMysqlComp.findUserByUserId(uuid);
-        if (user == null){
+        User user = userMysqlComp.findUserByUserId(commonData.getUserId());
+        if (user == null) {
             return new ReBody(RepCode.R_UserNotFound);
         }
         // 将一些 不能返回的数据设为null
@@ -180,6 +187,31 @@ public class UserServiceImpl implements IUserService {
         user.setUserSecAnswerTwo(null);
         user.setUserSecAnswerThree(null);
         return new ReBody(RepCode.R_Ok, user);
+    }
+
+    @Override
+    public ReBody upRole(User user) {
+        if (Strings.isEmpty(user.getUserIp()) || Strings.isEmpty(user.getUserCompany())
+                || Strings.isEmpty(user.getUserHome()) || Strings.isEmpty(user.getUserIdCard())) {
+            return new ReBody(RepCode.R_ParamNull);
+        }
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        User update = new User();
+        update.setUserIp(user.getUserIp());
+        update.setUserCompany(user.getUserCompany());
+        update.setUserHome(user.getUserHome());
+        update.setUserIdCard(user.getUserIdCard());
+        update.setUserId(commonData.getUserId());
+        update.setUserFlag((short) RoleType.CONSUMER.ordinal());
+
+        boolean suc = userMysqlComp.updateUserByUserId(update);
+        if (!suc) {
+            return new ReBody(RepCode.R_UpdateDbFailed);
+        }
+        return new ReBody(RepCode.R_Ok);
     }
 
     /**

@@ -67,6 +67,14 @@ public class TaskController {
     public ReBody activeTask(@RequestBody TaskPoJo poJo) {
         return taskProviderService.activeTask(poJo.getTaskId());
     }
+    @GetMapping("listProviderTask")
+    @ControllerLog(url = "/listProviderTask", msg = "获取任务测试者接受的任务", roleType = RoleType.CONSUMER)
+    @ApiOperation("获取任务测试者接受的任务")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody listProviderTask(@RequestBody TaskQueryRequest queryRequest) {
+        return taskProviderService.listProviderTask(queryRequest);
+    }
     // ===============================任务测试者===============================
 
     // ===============================任务发布者===============================
