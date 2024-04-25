@@ -53,4 +53,12 @@ public interface IUserService {
 
 
     ReBody upRole(User user);
+
+
+    /**
+     * 修改用户信息
+     * @param user 用户
+     * @return 成功否
+     */
+    ReBody updateUserInfo(User user);
 }

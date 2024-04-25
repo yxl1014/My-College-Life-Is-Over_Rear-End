@@ -87,4 +87,13 @@ public class UserController {
     public ReBody upRole(@RequestBody User user) {
         return userService.upRole(user);
     }
+
+
+    @PostMapping("/updateUserInfo")
+    @ControllerLog(url = "/updateUserInfo",msg = "修改用户信息",roleType = RoleType.PROVIDER)
+    @ApiOperation("修改用户信息")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    public ReBody updateUserInfo(@RequestBody User user) {
+        return userService.updateUserInfo(user);
+    }
 }

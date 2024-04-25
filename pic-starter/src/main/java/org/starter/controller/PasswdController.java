@@ -44,7 +44,7 @@ public class PasswdController {
     @ApiOperation("检查用户是否存在")
     @ControllerLog(url = "/checkExist",msg = "检查用户是否存在",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "请求成功", response = ReBody.class)
-    public ReBody checkExist(@ApiParam("用户名") @RequestParam("string") String string) {
+    public ReBody checkExist(@ApiParam("用户名") @RequestParam("userId") String string) {
         return findPasswordService.checkExist(string);
     }
 

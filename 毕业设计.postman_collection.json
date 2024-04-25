@@ -1,10 +1,10 @@
 {
 	"info": {
-		"_postman_id": "f9b081d5-306d-4639-b619-918169133666",
+		"_postman_id": "bbe45f9d-4c19-4092-8589-297e5aef595a",
 		"name": "毕业设计",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "27345352",
-		"_collection_link": "https://universal-firefly-150336.postman.co/workspace/runner'X~e45bb2a2-6ac4-42bc-a3db-4497ca80cb35/collection/27345352-f9b081d5-306d-4639-b619-918169133666?action=share&source=collection_link&creator=27345352"
+		"_collection_link": "https://universal-firefly-150336.postman.co/workspace/runner'X~e45bb2a2-6ac4-42bc-a3db-4497ca80cb35/collection/27345352-bbe45f9d-4c19-4092-8589-297e5aef595a?action=share&source=collection_link&creator=27345352"
 	},
 	"item": [
 		{
@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"test\",\r\n    \"userTelephone\":\"17551097327\",\r\n    \"userPassword\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"userTelephone\":\"110\",\r\n    \"userPassword\":\"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"test\",\r\n    \"userPassword\":\"123456\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"userPassword\":\"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -506,6 +506,287 @@
 							"path": [
 								"valida_code",
 								"verity_picture_code"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获得邮箱验证码",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:18080/valida_code/get_email?emailAddr=1627419257@qq.com",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"valida_code",
+								"get_email"
+							],
+							"query": [
+								{
+									"key": "emailAddr",
+									"value": "1627419257@qq.com"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "找回密码",
+			"item": [
+				{
+					"name": "第一步:查询用户是否存在",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "localhost:18080/passwd/checkExist?userId=zhangsan1",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"passwd",
+								"checkExist"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "zhangsan1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "第二步:第一种(密保问题)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pwdUuid\": \"第一步返回的uuid\",\r\n    \"answerOne\": \"密保问题1答案\",\r\n    \"answerTwo\": \"密保问题2答案\",\r\n    \"type\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/passwd/findPasswordRequest",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"passwd",
+								"findPasswordRequest"
+							],
+							"query": [
+								{
+									"key": "userId",
+									"value": "zhangsan1",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "第二步:第二种(手机号验证)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pwdUuid\": \"第一步返回的uuid\",\r\n    \"uuid\": \"获取手机验证码返回的uuid\",\r\n    \"code\": \"验证码\",\r\n    \"type\": 2\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/passwd/findPasswordRequest",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"passwd",
+								"findPasswordRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "第二步:第三种(邮箱验证)",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"pwdUuid\": \"第一步返回的uuid\",\r\n    \"uuid\": \"获取邮箱验证码返回的uuid\",\r\n    \"code\": \"验证码\",\r\n    \"type\": 3\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/passwd/findPasswordRequest",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"passwd",
+								"findPasswordRequest"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "第三步:修改密码",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"uuid\":\"第二步data里的那个uuid\",\r\n    \"password\":\"123456\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/passwd/findUpdatePwdRequest",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"passwd",
+								"findUpdatePwdRequest"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "管理员相关",
+			"item": [
+				{
+					"name": "充值",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4Zi0xNDA2LTdmMTUtYWEyNy01Y2M4NDFmZmEwNWFcIixcInZlcnNpb25cIjo1NjkzMzcsXCJ0aW1lc3RhbXBcIjoxNzE0MDMwNDcyNjEyfSIsIjMiOjE3MTQyODk2NzI4MDV9.BLm3knnG-Mwcb64PbVr6ooSKvTcFYh7noQy7jJ0EhWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0000018f-0108-7762-9aac-b108e377a276\",\r\n    \"userMoney\": 12345.67\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/admin/recharge",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"admin",
+								"recharge"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "设为管理员",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4Zi0xNDA2LTdmMTUtYWEyNy01Y2M4NDFmZmEwNWFcIixcInZlcnNpb25cIjo1NjkzMzcsXCJ0aW1lc3RhbXBcIjoxNzE0MDMwNDcyNjEyfSIsIjMiOjE3MTQyODk2NzI4MDV9.BLm3knnG-Mwcb64PbVr6ooSKvTcFYh7noQy7jJ0EhWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/admin/makeAdmin",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"admin",
+								"makeAdmin"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "重置随机密码",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4Zi0xNDA2LTdmMTUtYWEyNy01Y2M4NDFmZmEwNWFcIixcInZlcnNpb25cIjo1NjkzMzcsXCJ0aW1lc3RhbXBcIjoxNzE0MDMwNDcyNjEyfSIsIjMiOjE3MTQyODk2NzI4MDV9.BLm3knnG-Mwcb64PbVr6ooSKvTcFYh7noQy7jJ0EhWI",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"userId\": \"0000018f-0108-7762-9aac-b108e377a276\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/admin/resetPassword",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"admin",
+								"resetPassword"
 							]
 						}
 					},
