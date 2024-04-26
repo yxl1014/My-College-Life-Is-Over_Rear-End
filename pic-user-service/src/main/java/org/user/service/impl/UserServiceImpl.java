@@ -250,7 +250,7 @@ public class UserServiceImpl implements IUserService {
         if (updatePwd) {
             commonUserComp.AfterChangePassword(commonData.getUserId());
         }
-        return null;
+        return new ReBody(RepCode.R_Ok);
     }
 
 

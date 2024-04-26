@@ -92,6 +92,7 @@ public class UserController {
     @PostMapping("/updateUserInfo")
     @ControllerLog(url = "/updateUserInfo",msg = "修改用户信息",roleType = RoleType.PROVIDER)
     @ApiOperation("修改用户信息")
+    @NeedCheck
     @ApiResponse(code = 200, message = "成功", response = ReBody.class)
     public ReBody updateUserInfo(@RequestBody User user) {
         return userService.updateUserInfo(user);
