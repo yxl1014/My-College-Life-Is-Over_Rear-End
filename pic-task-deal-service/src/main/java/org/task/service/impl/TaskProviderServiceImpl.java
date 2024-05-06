@@ -156,7 +156,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     break;
                 }
 
-                code = updateToPause(task,taskUserRef);
+                code = updateToPause(task, taskUserRef);
                 break;
             }
             case END: {
@@ -164,7 +164,11 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     code = RepCode.R_TaskRefIsEnd;
                     break;
                 }
-                //TODO YXL 这里得理清楚
+                if (taskUserRef.getRefState() == TaskState.PAUSE.ordinal()) {
+                    code = updateToEnd(task, taskUserRef, true);
+                } else {
+                    code = updateToEnd(task, taskUserRef, false);
+                }
                 break;
             }
             case WAITING: {
@@ -181,13 +185,12 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
     /**
      * 测试者开始任务
-     * @param task 任务
+     *
+     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
     private RepCode updateToTesting(Task task, TaskUserRef taskUserRef) {
-        //TODO YXL
-
         // 改数据库
         TaskUserRef update = new TaskUserRef();
         update.setRefTaskId(taskUserRef.getRefTaskId());
@@ -204,7 +207,8 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
     /**
      * 测试者暂停任务
-     * @param task 任务
+     *
+     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
@@ -227,13 +231,20 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
     }
 
     /**
-     * 测试者暂停任务
-     * @param task 任务
+     * 测试者结束任务
+     *
+     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
-    private RepCode updateToEnd(Task task, TaskUserRef taskUserRef) {
-        //TODO YXL
+    private RepCode updateToEnd(Task task, TaskUserRef taskUserRef, boolean fromPause) {
+        if (fromPause) {
+            RepCode code = updateToPause(task, taskUserRef);
+            if (code != RepCode.R_Ok) {
+                return code;
+            }
+        }
+        //TODO 走暂停到结束的逻辑
         return RepCode.R_Ok;
     }
 }

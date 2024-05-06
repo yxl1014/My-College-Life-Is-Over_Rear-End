@@ -1,0 +1,178 @@
+<mxfile host="Electron" modified="2024-05-06T12:50:18.351Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="tV8zybmzoNAbku9deOiJ" version="24.2.5" type="device">
+  <diagram id="E1RbzKcjCFXv2dUBZcez" name="第 1 页">
+    <mxGraphModel dx="1434" dy="2013" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="V35GF3UXTLSnZJR6X2XD-2" value="发布者" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="170" y="138" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="V35GF3UXTLSnZJR6X2XD-3" value="报名中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="180" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="V35GF3UXTLSnZJR6X2XD-4" value="测试中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="330" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-1" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="V35GF3UXTLSnZJR6X2XD-3" target="V35GF3UXTLSnZJR6X2XD-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="230" y="260" as="sourcePoint" />
+            <mxPoint x="280" y="210" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="280" y="260" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-2" value="&lt;div&gt;1、创建接受测试结果的队列&lt;/div&gt;&lt;div&gt;2、创建收集并处理结果的线程&lt;/div&gt;&lt;div&gt;3、修改任务开始时间和状态&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="-90" width="180" height="160" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-3" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="240" as="sourcePoint" />
+            <mxPoint x="440" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-4" value="暂停" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="620" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-5" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" source="V35GF3UXTLSnZJR6X2XD-4" target="Dr9uVZA06aBnP4XryDoQ-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="420" y="280" as="sourcePoint" />
+            <mxPoint x="470" y="230" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="470" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-6" value="&lt;div&gt;1、修改任务结束时间、持续时间、状态&lt;/div&gt;&lt;div&gt;2、将所有正在测试该任务的用户的状态都改为暂停&lt;/div&gt;&lt;div&gt;3、将队列中的数据消费完（消费完只的是，测试时间在结束之前的）&lt;/div&gt;&lt;div&gt;4、关闭队列&lt;/div&gt;&lt;div&gt;5、关闭线程&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="390" y="340" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-7" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-6" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="250" as="sourcePoint" />
+            <mxPoint x="630" y="260" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-9" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" source="Dr9uVZA06aBnP4XryDoQ-4" target="V35GF3UXTLSnZJR6X2XD-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="460" y="90" as="sourcePoint" />
+            <mxPoint x="510" y="40" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="490" y="130" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-10" value="" style="endArrow=classic;html=1;rounded=0;entryX=1.007;entryY=0.539;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="490" y="150" as="sourcePoint" />
+            <mxPoint x="280" y="350" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-11" value="结束" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="920" y="180" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-13" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="640" y="220" as="sourcePoint" />
+            <mxPoint x="930" y="220" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="760" y="280" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-14" value="&lt;div&gt;1、如果是从测试到结束、将测试-&amp;gt;暂停的所有步骤执行一遍&lt;/div&gt;&lt;div&gt;2、统计所有任务用户关联表中的数据整合出来&lt;/div&gt;&lt;div&gt;3、通过整合出来的数据给测试用户发放奖励&lt;/div&gt;&lt;div&gt;4、修改任务的任务持续时间、状态、测试结果。&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="680" y="340" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-15" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="779.6600000000001" y="250" as="sourcePoint" />
+            <mxPoint x="779.6600000000001" y="340" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-16" value="测试者" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="170" y="830" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-17" value="等待中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="180" y="902" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-18" value="测试中" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="320" y="902" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-19" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="195" y="942" as="sourcePoint" />
+            <mxPoint x="345" y="942" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="275" y="982" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-20" value="&lt;div&gt;&lt;span style=&quot;background-color: initial;&quot;&gt;1、修改关联表开始时间和状态&lt;/span&gt;&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="180" y="650" width="180" height="120" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-21" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-20" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="270" y="960" as="sourcePoint" />
+            <mxPoint x="530" y="810" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-22" value="暂停" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="610" y="902" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-23" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="340" y="942" as="sourcePoint" />
+            <mxPoint x="630" y="942" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="460" y="1002" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-24" value="&lt;div&gt;1、修改关联表结束时间、持续时间、状态&lt;/div&gt;&lt;div&gt;2、将队列中的数据消费完（消费完只的是，测试时间在结束之前的）&lt;/div&gt;&lt;div&gt;3、修改关联表测试结果相关数据&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="380" y="1060" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-25" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-24" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="970" as="sourcePoint" />
+            <mxPoint x="580" y="1000" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-27" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="625" y="902" as="sourcePoint" />
+            <mxPoint x="335" y="902" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="475" y="852" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-28" value="" style="endArrow=classic;html=1;rounded=0;entryX=1;entryY=0.5;entryDx=0;entryDy=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-20" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="480" y="880" as="sourcePoint" />
+            <mxPoint x="510" y="740" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-29" value="结束" style="ellipse;whiteSpace=wrap;html=1;aspect=fixed;" parent="1" vertex="1">
+          <mxGeometry x="810" y="902" width="40" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-30" value="" style="curved=1;endArrow=classic;html=1;rounded=0;exitX=0.5;exitY=1;exitDx=0;exitDy=0;entryX=0.387;entryY=0.968;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" source="Dr9uVZA06aBnP4XryDoQ-22" target="Dr9uVZA06aBnP4XryDoQ-29" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="1030" as="sourcePoint" />
+            <mxPoint x="780" y="980" as="targetPoint" />
+            <Array as="points">
+              <mxPoint x="730" y="980" />
+            </Array>
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-31" value="1、如果是从测试到结束，将测试-&amp;gt;暂停的都来一遍&lt;div&gt;2、将数据同步到任务测试结果当中&lt;/div&gt;" style="rounded=0;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="640" y="1060" width="200" height="170" as="geometry" />
+        </mxCell>
+        <mxCell id="Dr9uVZA06aBnP4XryDoQ-32" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.455;entryY=0.012;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="Dr9uVZA06aBnP4XryDoQ-31" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="730" y="960" as="sourcePoint" />
+            <mxPoint x="730" y="1050" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
