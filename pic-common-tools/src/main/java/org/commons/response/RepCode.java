@@ -69,6 +69,11 @@ public enum RepCode {
     R_TaskIsRunning(553, "任务正在运行"),
     R_TaskStateUpdateError(554, "任务状态修改不被允许"),
     R_TaskCanNotRegister(555, "任务当前不可接受"),
+    R_TaskIsAction(556,"任务已经被接受"),
+    R_TaskIsNotAction(557,"任务已经未被接受"),
+    R_TaskIsNotRunning(558,"任务未在测试状态中"),
+    R_TaskRefIsEnd(559,"你已结束该任务"),
+    R_TaskRefNotTest(560,"你未开始该任务"),
     //-----------------------任务相关 551-600---------------------
 
     //-----------------------验证相关 601-650---------------------

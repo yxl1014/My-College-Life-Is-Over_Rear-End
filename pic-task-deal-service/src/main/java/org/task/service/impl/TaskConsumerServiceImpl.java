@@ -170,7 +170,8 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     @Override
     public ReBody updateTaskState(TaskPoJo poJo) {
-        if (Strings.isEmpty(poJo.getTaskId()) || poJo.getTaskState() == null) {
+        Integer taskState = poJo.getTaskState();
+        if (Strings.isEmpty(poJo.getTaskId()) || taskState == null) {
             return new ReBody(RepCode.R_ParamNull);
         }
         Task task = taskMysqlComp.selectTaskByTaskId(poJo.getTaskId());
@@ -182,13 +183,13 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             return new ReBody(RepCode.R_UserNotIsThisTaskAuthor);
         }
         // 如果本来就是直接返回成功
-        if (task.getTaskState().equals(poJo.getTaskState())) {
+        if (task.getTaskState().equals(taskState)) {
             return new ReBody(RepCode.R_Ok);
         }
-        if (poJo.getTaskState() < 0 || poJo.getTaskState() >= TaskState.values().length) {
+        if (taskState < 0 || taskState >= TaskState.values().length) {
             return new ReBody(RepCode.R_ParamError);
         }
-        RepCode code = updateTaskState(TaskState.values()[poJo.getTaskState()], task);
+        RepCode code = updateTaskState(TaskState.values()[taskState], task);
         Task newTask = taskMysqlComp.selectTaskByTaskId(task.getTaskId());
         return new ReBody(code, newTask);
     }

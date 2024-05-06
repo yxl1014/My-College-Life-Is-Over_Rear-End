@@ -1,6 +1,7 @@
 package org.task.service;
 
 import org.commons.response.ReBody;
+import org.database.mysql.domain.task.TaskPoJo;
 import org.task.entity.TaskQueryRequest;
 
 /**
@@ -27,4 +28,8 @@ public interface ITaskProviderService {
      * @return 返回
      */
     ReBody listProviderTask(TaskQueryRequest queryRequest);
+
+
+
+    ReBody updateTaskState(TaskPoJo poJo);
 }
