@@ -249,6 +249,9 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         update.setTaskId(task.getTaskId());
         update.setTaskState(TaskState.TESTING.ordinal());
         long time = System.currentTimeMillis();
+        if (task.getTaskType() > 1) {
+            time += MagicMathConstData.TASK_TO_TEST_TIME;
+        }
         update.setTaskStartTime(time);
         boolean success = taskMysqlComp.updateTaskByTaskId(update);
         if (!success) {
@@ -286,7 +289,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTaskRefByTaskIdAndState(task.getTaskId(), PTaskState.TESTING)) {
             taskUserRef.setRefState(PTaskState.PAUSE.ordinal());
             boolean suc = taskRefMysqlComp.updateTaskUserRefByRefId(taskUserRef);
-            if (!suc){
+            if (!suc) {
                 logger.error("update DB Failed!!!");
             }
         }
@@ -295,7 +298,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         new Thread(() -> {
             // 关闭队列
             long startTime = System.currentTimeMillis();
-            while (!queueFactory.removeQueueIfEmpty(getQueueName(task.getTaskId()))){
+            while (!queueFactory.removeQueueIfEmpty(getQueueName(task.getTaskId()))) {
                 // 强制关闭
                 if (MagicMathConstData.TASK_MORE_CLOSE_TIME + startTime > System.currentTimeMillis()) {
                     queueFactory.removeQueue(getQueueName(task.getTaskId()));

@@ -68,4 +68,10 @@ public class MagicMathConstData {
      */
     public static final long TASK_MORE_CLOSE_TIME = 10000;
 
+
+    /**
+     * 间断测试时间间隔 5s
+     */
+    public static final long TASK_TO_TEST_TIME = 5000;
+
 }
