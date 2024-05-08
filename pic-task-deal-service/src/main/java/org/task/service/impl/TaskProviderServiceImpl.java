@@ -197,7 +197,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
         update.setRefUserId(taskUserRef.getRefUserId());
         update.setRefState(PTaskState.TESTING.ordinal());
         update.setRefStartTime(System.currentTimeMillis());
-        boolean b = taskRefMysqlComp.updateTaskUserRef(update);
+        boolean b = taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
         if (!b) {
             return RepCode.R_UpdateDbFailed;
         }
@@ -213,8 +213,6 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
      * @return 返回
      */
     private RepCode updateToPause(Task task, TaskUserRef taskUserRef) {
-        //TODO YXL
-
         // 改数据库
         TaskUserRef update = new TaskUserRef();
         update.setRefTaskId(taskUserRef.getRefTaskId());
@@ -223,7 +221,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
         update.setRefEndTime(System.currentTimeMillis());
         update.setRefTestTime(taskUserRef.getRefTestTime() + update.getRefEndTime() - taskUserRef.getRefStartTime());
         // 还得统计一下呢
-        boolean b = taskRefMysqlComp.updateTaskUserRef(update);
+        boolean b = taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
         if (!b) {
             return RepCode.R_UpdateDbFailed;
         }
@@ -244,7 +242,15 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                 return code;
             }
         }
-        //TODO 走暂停到结束的逻辑
+        TaskUserRef update = new TaskUserRef();
+        update.setRefTaskId(taskUserRef.getRefTaskId());
+        update.setRefUserId(taskUserRef.getRefUserId());
+        update.setRefState(PTaskState.END.ordinal());
+        // 还得统计一下呢
+        boolean b = taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
+        if (!b) {
+            return RepCode.R_UpdateDbFailed;
+        }
         return RepCode.R_Ok;
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-@SpringBootApplication(scanBasePackages = {"org.database", "org.privileges", "org.commons"})
+@SpringBootApplication(scanBasePackages = {"org.database", "org.privileges", "org.commons", "org.mq"})
 @SpringBootConfiguration
 public class TaskApplication {
     public static void main(String[] args) {

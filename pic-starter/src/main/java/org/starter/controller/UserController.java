@@ -84,6 +84,7 @@ public class UserController {
     @ControllerLog(url = "/upRole",msg = "成为任务发布者",roleType = RoleType.PROVIDER)
     @ApiOperation("成为任务发布者")
     @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
     public ReBody upRole(@RequestBody User user) {
         return userService.upRole(user);
     }

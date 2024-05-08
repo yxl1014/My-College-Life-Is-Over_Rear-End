@@ -44,4 +44,28 @@ public class MagicMathConstData {
      * redis无需value常量
      */
     public static final String MAGIC_REDIS_TIMEOUT = "1";
+
+
+    /**
+     * 默认队列大小
+     */
+    public static final int DEFAULT_QUEUE_CAPACITY = 1024;
+
+
+    /*
+     *  任务测试结果接受队列前缀
+     * */
+    public static final String TASK_TEST_RESULT_OPT_QUEUE_PREFIX = "TTROQP";
+
+    /*
+     *  关闭任务测试结果队列线程名前缀
+     * */
+    public static final String TASK_TEST_RESULT_CLOSE_THREAD_PREFIX = "TTRCTP";
+
+
+    /**
+     * 关闭任务队列多让他处理十秒，如果十秒处理不完也丢弃
+     */
+    public static final long TASK_MORE_CLOSE_TIME = 10000;
+
 }

@@ -39,7 +39,7 @@ public class TaskController {
 
 
     // =================================通=用=================================
-    @GetMapping("/listTasks")
+    @PostMapping("/listTasks")
     @ControllerLog(url = "/listTasks", msg = "获取任务", roleType = RoleType.PROVIDER)
     @ApiOperation("获取任务")
     @ApiResponse(code = 200, message = "成功", response = ReBody.class)

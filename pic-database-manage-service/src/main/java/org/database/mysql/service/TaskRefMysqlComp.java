@@ -3,6 +3,7 @@ package org.database.mysql.service;
 import lombok.SneakyThrows;
 import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.TaskUserRef;
+import org.database.mysql.domain.task.PTaskState;
 import org.database.mysql.domain.task.TaskPoJo;
 import org.database.mysql.domain.task.TaskRefPojo;
 import org.database.mysql.entity.ConditionType;
@@ -67,7 +68,7 @@ public class TaskRefMysqlComp {
     }
 
     @SneakyThrows
-    public boolean updateTaskUserRef(TaskUserRef taskUserRef) {
+    public boolean updateTaskUserRefByTaskIdAndUerId(TaskUserRef taskUserRef) {
         MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
         TaskUserRef in = new TaskUserRef();
         in.setRefTaskId(taskUserRef.getRefTaskId());
@@ -75,5 +76,29 @@ public class TaskRefMysqlComp {
         taskMysqlBuilder.setCondition(in);
         taskMysqlBuilder.setUpdate(taskUserRef);
         return baseMysqlComp.update(taskMysqlBuilder) == 1;
+    }
+
+    @SneakyThrows
+    public boolean updateTaskUserRefByRefId(TaskUserRef taskUserRef) {
+        MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
+        TaskUserRef in = new TaskUserRef();
+        in.setRefId(taskUserRef.getRefId());
+        taskMysqlBuilder.setCondition(in);
+        taskMysqlBuilder.setUpdate(taskUserRef);
+        return baseMysqlComp.update(taskMysqlBuilder) == 1;
+    }
+
+    @SneakyThrows
+    public List<TaskUserRef> selectTaskRefByTaskIdAndState(String taskId, PTaskState state) {
+        MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
+        TaskUserRef ref = new TaskUserRef();
+        ref.setRefTaskId(taskId);
+        ref.setRefState(state.ordinal());
+        taskMysqlBuilder.setCondition(ref);
+
+        TaskUserRef out = new TaskUserRef();
+        out.setRefId(1);
+        out.setRefState(1);
+        return baseMysqlComp.selectList(taskMysqlBuilder);
     }
 }

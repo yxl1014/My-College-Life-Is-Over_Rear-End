@@ -74,6 +74,7 @@ public enum RepCode {
     R_TaskIsNotRunning(558,"任务未在测试状态中"),
     R_TaskRefIsEnd(559,"你已结束该任务"),
     R_TaskRefNotTest(560,"你未开始该任务"),
+    R_TaskCreateResultQueueFail(561,"创建任务结果队列失败"),
     //-----------------------任务相关 551-600---------------------
 
     //-----------------------验证相关 601-650---------------------
