@@ -55,6 +55,14 @@ public class TaskController {
         return taskBaseService.listAllTasks(queryRequest);
     }
 
+    @GetMapping("/listAllTasksBetween")
+    @ControllerLog(url = "/listAllTasksBetween", msg = "获取任务(区间查询)", roleType = RoleType.PROVIDER)
+    @ApiOperation("获取任务(区间查询)")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    public ReBody listAllTasksBetween(@RequestBody TaskQueryRequest queryRequest) {
+        return taskBaseService.listAllTasksBetween(queryRequest);
+    }
+
 
     // =================================通=用=================================
 

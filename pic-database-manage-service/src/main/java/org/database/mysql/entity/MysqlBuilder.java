@@ -17,6 +17,7 @@ public class MysqlBuilder<T> {
     private T noEqual;//查询条件中的！=子句
     private T out;//查询条件中的out子句
     private T update;//表示更新操作的数据
+    private T between;//区间查询
     private boolean page;//是否分页
     private int pageIndex;//页下标
     private int pageSize;//页大小

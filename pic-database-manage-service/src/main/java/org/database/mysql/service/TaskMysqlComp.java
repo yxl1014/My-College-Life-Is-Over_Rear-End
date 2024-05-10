@@ -61,6 +61,15 @@ public class TaskMysqlComp {
     }
 
     @SneakyThrows
+    public List<Task> selectBetweenTasks(Task task, Task other, Integer page, Integer pageSize) {
+        MysqlBuilder<Task> taskMysqlBuilder = new MysqlBuilder<>(Task.class);
+        taskMysqlBuilder.setCondition(task);
+        taskMysqlBuilder.setBetween(other);
+        taskMysqlBuilder.setQueryType(ConditionType.BWT);
+        return baseMysqlComp.selectPage(taskMysqlBuilder, page, pageSize);
+    }
+
+    @SneakyThrows
     public List<Task> selectTasks(Task in, int offset, int limit) {
         return selectTasks(in, ConditionType.EQ, offset, limit);
     }

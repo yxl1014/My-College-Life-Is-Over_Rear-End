@@ -216,7 +216,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             if (nowState == TaskState.TESTING) {
                 switch (state) {
                     case PAUSE:
-                        code = updateTaskStateToPause(task);
+                        code = updateTaskStateToPause(task, false);
                         break;
                     case END:
                         code = updateTaskStateToEnd(task, taskState == TaskState.PAUSE.ordinal());
@@ -270,13 +270,13 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
      *
      * @param task 任务
      */
-    private RepCode updateTaskStateToPause(Task task) {
+    private RepCode updateTaskStateToPause(Task task, boolean fromEnd) {
         logger.info("任务状态从测试中到暂停");
 
         //更新数据库
         Task update = new Task();
         update.setTaskId(task.getTaskId());
-        update.setTaskState(TaskState.PAUSE.ordinal());
+        update.setTaskState(fromEnd ? TaskState.END.ordinal() : TaskState.PAUSE.ordinal());
         long time = System.currentTimeMillis();
         update.setTaskEndTime(time);
         update.setTaskTestTime(task.getTaskTestTime() + task.getTaskEndTime() - time);
@@ -319,7 +319,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
      */
     private RepCode updateTaskStateToEnd(Task task, boolean fromPause) {
         if (fromPause) {
-            RepCode code = updateTaskStateToPause(task);
+            RepCode code = updateTaskStateToPause(task, true);
             if (code != RepCode.R_Ok) {
                 return code;
             }

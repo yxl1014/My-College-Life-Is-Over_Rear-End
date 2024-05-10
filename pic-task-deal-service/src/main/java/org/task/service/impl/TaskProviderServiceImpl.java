@@ -90,12 +90,12 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
         if (commonData == null) {
             return new ReBody(RepCode.R_LoginTimeout);
         }
-        TaskUserRef ref = new TaskUserRef();
+        TaskUserRef ref = queryRequest.getTaskUserRef();
+        if(ref == null)
+        {
+            ref = new TaskUserRef();
+        }
         ref.setRefUserId(commonData.getUserId());
-
-        TaskUserRef taskUserRef = queryRequest.getTaskUserRef();
-        ref.setRefTaskId(taskUserRef.getRefTaskId());
-        ref.setRefState(taskUserRef.getRefState());
         List<TaskRefPojo> taskRefPoJos = taskRefMysqlComp.selectTasks(ref, queryRequest.getPage(), queryRequest.getPageSize());
         return new ReBody(RepCode.R_Ok, taskRefPoJos);
     }

@@ -16,4 +16,6 @@ public interface ITaskBaseService {
     ReBody listTasks(List<String> taskIds);
 
     ReBody listAllTasks(TaskQueryRequest queryRequest);
+
+    ReBody listAllTasksBetween(TaskQueryRequest queryRequest);
 }

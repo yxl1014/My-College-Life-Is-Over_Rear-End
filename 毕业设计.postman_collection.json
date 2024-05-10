@@ -17,7 +17,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"userTelephone\":\"110\",\r\n    \"userPassword\":\"admin\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"testesttes\",\r\n    \"userTelephone\":\"120\",\r\n    \"userSysEmail\":\"\",\r\n    \"userPassword\":\"admin\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -44,7 +44,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"userName\":\"admin\",\r\n    \"userPassword\":\"admin\"\r\n}",
+							"raw": "{\r\n    \"userName\":\"yxl1014\",\r\n    \"userPassword\":\"123456\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -98,12 +98,12 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM1NDA0MDIyMDEsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThlLTViYjYtYmIxNi05NjUxLWZmYzE5NDI4ZWFhN1wiLFwidmVyc2lvblwiOjM1MjA5NSxcInRpbWVzdGFtcFwiOjE3MTMyODEyMDExODN9In0.W_ExP3UEA9o9EW-yacEB2eEGrmh1d1zrr9t7lCSATJ8",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo0Mjg5MzAsXCJ0aW1lc3RhbXBcIjoxNzE0MTAwMzU0MTc2fSIsIjMiOjE3MTQzNTk1NTQ4NDZ9.m1nW39Bas44DjxbPs7R_CENfNAsDKPIqwb7xHym7HDg",
 								"type": "text"
 							}
 						],
 						"url": {
-							"raw": "localhost:18080/userInfo?uuid=0000018e-5bb6-bb16-9651-ffc19428eaa7",
+							"raw": "localhost:18080/userInfo",
 							"host": [
 								"localhost"
 							],
@@ -114,8 +114,60 @@
 							"query": [
 								{
 									"key": "uuid",
-									"value": "0000018e-5bb6-bb16-9651-ffc19428eaa7"
+									"value": "0000018e-5bb6-bb16-9651-ffc19428eaa7",
+									"disabled": true
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "修改用户信息",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Cookie",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo0Mjg5MzAsXCJ0aW1lc3RhbXBcIjoxNzE0MTAwMzU0MTc2fSIsIjMiOjE3MTQzNTk1NTQ4NDZ9.m1nW39Bas44DjxbPs7R_CENfNAsDKPIqwb7xHym7HDg",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n        \"userSysEmail\": \"123@qq.com\",\r\n        \"userNickName\": \"qweqwe\",\r\n        \"userSecProblemOne\": \"1\",\r\n        \"userSecAnswerOne\": \"1\",\r\n        \"userSecProblemTwo\": \"2\",\r\n        \"userSecAnswerTwo\": \"2\"\r\n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "localhost:18080/updateUserInfo",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"updateUserInfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "用户成为发布者",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "localhost:18080/updateUserInfo",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"updateUserInfo"
 							]
 						}
 					},
@@ -358,6 +410,38 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "获取接受的所有任务",
+							"protocolProfileBehavior": {
+								"disableBodyPruning": true
+							},
+							"request": {
+								"method": "GET",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/listProviderTask",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"listProviderTask"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
@@ -420,6 +504,38 @@
 							"path": [
 								"task",
 								"listAllTasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "获取任务-区间查询",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"taskPoJo\": {\r\n        \"taskMoney\": 150\r\n    },\r\n    \"otherTask\": {\r\n        \"taskMoney\": 300\r\n    },\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:18080/task/listAllTasksBetween",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "18080",
+							"path": [
+								"task",
+								"listAllTasksBetween"
 							]
 						}
 					},

@@ -50,4 +50,11 @@ public class TaskBaseServiceImpl implements ITaskBaseService {
         List<TaskPoJo> poJoList = taskMysqlComp.taskToPojo(tasks);
         return new ReBody(RepCode.R_Ok, poJoList);
     }
+
+    @Override
+    public ReBody listAllTasksBetween(TaskQueryRequest queryRequest) {
+        List<Task> tasks = taskMysqlComp.selectBetweenTasks(new Task(queryRequest.getTaskPoJo()),new Task(queryRequest.getOtherTask()), queryRequest.getPage(), queryRequest.getPageSize());
+        List<TaskPoJo> poJoList = taskMysqlComp.taskToPojo(tasks);
+        return new ReBody(RepCode.R_Ok, poJoList);
+    }
 }

@@ -17,4 +17,5 @@ public class TaskQueryRequest {
     private Integer pageSize = 10;
     private TaskPoJo taskPoJo;
     private TaskUserRef taskUserRef;
+    private TaskPoJo otherTask;
 }
