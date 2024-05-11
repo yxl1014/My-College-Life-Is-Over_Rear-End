@@ -24,6 +24,9 @@ public class TaskUserRef {
     private String refTaskId;
     private Long refAllReq;
     private Long refSuccessReq;
+    private Long refFailedReq;
+    private Long refFailedCode;
+    private Long refFailedTarget;
     private Long refStartTime;
     private Long refEndTime;
     private Long refTestTime;

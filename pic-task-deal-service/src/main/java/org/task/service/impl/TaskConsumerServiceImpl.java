@@ -3,6 +3,8 @@ package org.task.service.impl;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.async.LocalThreadFactory;
+import org.async.runnable.TaskResultOptRunnable;
 import org.commons.common.GsonUtil;
 import org.commons.common.ThreadLocalComp;
 import org.commons.common.random.VerifyCodeGenerator;
@@ -58,7 +60,9 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
     private final QueueFactory queueFactory;
     private final TaskRefMysqlComp taskRefMysqlComp;
 
-    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp, QueueFactory queueFactory, TaskRefMysqlComp taskRefMysqlComp) {
+    private final LocalThreadFactory threadFactory;
+
+    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp, QueueFactory queueFactory, TaskRefMysqlComp taskRefMysqlComp, LocalThreadFactory threadFactory) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
@@ -67,20 +71,24 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         this.shellCheckComp = shellCheckComp;
         this.queueFactory = queueFactory;
         this.taskRefMysqlComp = taskRefMysqlComp;
+        this.threadFactory = threadFactory;
     }
 
     @SneakyThrows
     @Override
     public ReBody createTask(TaskPoJo taskPoJo) {
-        if (Strings.isEmpty(taskPoJo.getTaskAuthorId())) {
-            return new ReBody(RepCode.R_ParamNull);
-        }
-
         if (taskPoJo.getTaskType() < 0 || taskPoJo.getTaskType() > 2) {
             return new ReBody(RepCode.R_ParamNull);
         }
 
-        User user = userMysqlComp.findUserByUserId(taskPoJo.getTaskAuthorId());
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+
+        String userId = commonData.getUserId();
+
+        User user = userMysqlComp.findUserByUserId(userId);
         if (user == null) {
             return new ReBody(RepCode.R_UserNotFound);
         }
@@ -99,6 +107,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
         Task task = new Task(taskPoJo);
         String taskId = UuidGenerator.getCustomUuid();
+        task.setTaskAuthorId(user.getUserId());
         task.setTaskId(taskId);
         task.setTaskCreateTime(System.currentTimeMillis());
 
@@ -224,6 +233,16 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
                 }
             } else if (state == TaskState.TESTING) {
                 code = updateTaskStateToTesting(task);
+            } else if (nowState == TaskState.PLANNING) {
+                //更新数据库
+                Task update = new Task();
+                update.setTaskId(task.getTaskId());
+                update.setTaskState(TaskState.REGISTER.ordinal());
+                boolean success = taskMysqlComp.updateTaskByTaskId(update);
+                if (!success) {
+                    return RepCode.R_UpdateDbFailed;
+                }
+                return RepCode.R_Ok;
             }
         }
         return code;
@@ -243,6 +262,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         if (queue == null) {
             return RepCode.R_TaskCreateResultQueueFail;
         }
+        threadFactory.StartIsNullOrCreate(getThreadName(task.getTaskId()), new TaskResultOptRunnable(queue, taskRefMysqlComp));
 
         //更新数据库
         Task update = new Task();
@@ -279,7 +299,8 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         update.setTaskState(fromEnd ? TaskState.END.ordinal() : TaskState.PAUSE.ordinal());
         long time = System.currentTimeMillis();
         update.setTaskEndTime(time);
-        update.setTaskTestTime(task.getTaskTestTime() + task.getTaskEndTime() - time);
+        Long taskTestTime = task.getTaskTestTime();
+        update.setTaskTestTime(taskTestTime == null ? 0 : taskTestTime + task.getTaskEndTime() - time);
         boolean success = taskMysqlComp.updateTaskByTaskId(update);
         if (!success) {
             return RepCode.R_UpdateDbFailed;
@@ -307,6 +328,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             }
 
             //关闭执行线程
+            threadFactory.CloseThread(getThreadName(task.getTaskId()));
         }, MagicMathConstData.TASK_TEST_RESULT_CLOSE_THREAD_PREFIX + task.getTaskId()
         ).start();
         return RepCode.R_Ok;
@@ -340,5 +362,9 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     private String getQueueName(String taskId) {
         return MagicMathConstData.TASK_TEST_RESULT_OPT_QUEUE_PREFIX + taskId;
+    }
+
+    private String getThreadName(String taskId) {
+        return MagicMathConstData.TASK_RESULT_OPTION_THREAD_PREFIX + taskId;
     }
 }

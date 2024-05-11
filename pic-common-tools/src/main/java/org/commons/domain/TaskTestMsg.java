@@ -15,6 +15,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TaskTestMsg {
+    private String taskId; // 任务ID
+    private String userId;// 用户ID
     private Long testTime;//测试时间
     private Integer testState; // 测试结果 0：成功  1：请求成功  2：预计结果不同
     private Long testCostTime; // 测试响应时间

@@ -3,6 +3,7 @@ package org.mq;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.logging.Logger;
 
 /**
  * 队列工厂
@@ -14,6 +15,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class QueueFactory {
+    private final Logger logger = Logger.getLogger(this.getClass().getName());
     private final ConcurrentHashMap<String, MyQueue> queueMap = new ConcurrentHashMap<>();
 
     /**
@@ -26,6 +28,7 @@ public class QueueFactory {
     public <T> MyQueue<T> getOrCreateQueue(String queueName) {
         MyQueue<T> myQueue = (MyQueue<T>) queueMap.get(queueName);
         if (myQueue == null) {
+            logger.info("Creating new queue " + queueName);
             myQueue = new MyQueue<>();
             queueMap.put(queueName, myQueue);
         }

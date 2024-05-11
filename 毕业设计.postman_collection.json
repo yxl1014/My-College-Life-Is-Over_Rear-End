@@ -98,7 +98,7 @@
 						"header": [
 							{
 								"key": "Cookie",
-								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo0Mjg5MzAsXCJ0aW1lc3RhbXBcIjoxNzE0MTAwMzU0MTc2fSIsIjMiOjE3MTQzNTk1NTQ4NDZ9.m1nW39Bas44DjxbPs7R_CENfNAsDKPIqwb7xHym7HDg",
+								"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
 								"type": "text"
 							}
 						],
@@ -218,7 +218,7 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM5Njk3MjQ5MjAsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThmLTAxMDgtNzc2Mi05YWFjLWIxMDhlMzc3YTI3NlwiLFwidmVyc2lvblwiOjUwODMxNixcInRpbWVzdGFtcFwiOjE3MTM3MTA1MjQzMTd9In0.1aNUPdaxOWXLC0X74UNZFPXo9UAKsdKGBK5XoP2XRq8",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
 										"type": "text"
 									}
 								],
@@ -290,21 +290,18 @@
 						},
 						{
 							"name": "获取发布的任务",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo4NTk0NTYsXCJ0aW1lc3RhbXBcIjoxNzEzNTE3ODU2MTU1fSIsIjMiOjE3MTM3NzcwNTYxODV9.DbbYjN29kbZgvSL9xxC0JvySdFGiYYTma6pXuTKHMvQ",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"taskPoJo\": {\r\n        \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\"\r\n    },\r\n    \"page\": 1,\r\n    \"pageSize\": 2\r\n}",
+									"raw": "{\r\n    \"taskPoJo\": {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\"\r\n    },\r\n    \"page\": 1,\r\n    \"pageSize\": 2\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -328,21 +325,18 @@
 						},
 						{
 							"name": "更新任务状态",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
-								"method": "GET",
+								"method": "POST",
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo4NTk0NTYsXCJ0aW1lc3RhbXBcIjoxNzEzNTE3ODU2MTU1fSIsIjMiOjE3MTM3NzcwNTYxODV9.DbbYjN29kbZgvSL9xxC0JvySdFGiYYTma6pXuTKHMvQ",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"taskId\": \"0000018e-8917-8a2a-bbcb-09ee0eedb1b3\",\r\n    \"taskState\": 0\r\n}",
+									"raw": "{\r\n    \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n    \"taskState\": 3\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -383,13 +377,13 @@
 								"header": [
 									{
 										"key": "Cookie",
-										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJFWFAiOjE3MTM5Njk4MTc0MzgsInBheWxvYWQiOiJ7XCJ1c2VySWRcIjpcIjAwMDAwMThmLTAxMDgtNzc2Mi05YWFjLWIxMDhlMzc3YTI3NlwiLFwidmVyc2lvblwiOjgyODYzNCxcInRpbWVzdGFtcFwiOjE3MTM3MTA2MTc0MzZ9In0.N2ULsMJ6RHGaZgcMEKbHGe10PJzjvjFmf34dTNAyEC4",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
 										"type": "text"
 									}
 								],
 								"body": {
 									"mode": "raw",
-									"raw": "{\r\n    \"taskId\":\"0000018f-0118-116e-b8c1-07f32d7fd622\"\r\n}",
+									"raw": "{\r\n    \"taskId\":\"0000018f-678e-bc7c-8069-1a0cc1159fb4\"\r\n}",
 									"options": {
 										"raw": {
 											"language": "json"
@@ -413,12 +407,15 @@
 						},
 						{
 							"name": "获取接受的所有任务",
-							"protocolProfileBehavior": {
-								"disableBodyPruning": true
-							},
 							"request": {
-								"method": "GET",
-								"header": [],
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
+										"type": "text"
+									}
+								],
 								"body": {
 									"mode": "raw",
 									"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
@@ -442,16 +439,48 @@
 								}
 							},
 							"response": []
+						},
+						{
+							"name": "推送测试结果",
+							"request": {
+								"method": "POST",
+								"header": [
+									{
+										"key": "Cookie",
+										"value": "token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyIyIjoie1widXNlcklkXCI6XCIwMDAwMDE4ZS01YmI2LWJiMTYtOTY1MS1mZmMxOTQyOGVhYTdcIixcInZlcnNpb25cIjo1NDM4ODksXCJ0aW1lc3RhbXBcIjoxNzE1NDI5MTUzMTQ5fSIsIjMiOjE3MTU2ODgzNTM3MDV9.RmZbRgE2I1_W-VGjgFeelgBcgxLmXx6srGfibZLo-6I",
+										"type": "text"
+									}
+								],
+								"body": {
+									"mode": "raw",
+									"raw": "[\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 0,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    },\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 0,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    },\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 1,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    },\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 1,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    },\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 2,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    },\r\n    {\r\n        \"taskId\": \"0000018f-678e-bc7c-8069-1a0cc1159fb4\",\r\n        \"userId\": \"0000018e-5bb6-bb16-9651-ffc19428eaa7\",\r\n        \"testTime\": 11111,\r\n        \"testState\": 2,\r\n        \"testCostTime\": 30,\r\n        \"testError\": \"xxxx\"\r\n    }\r\n]",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:18080/task/pushTaskResult",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "18080",
+									"path": [
+										"task",
+										"pushTaskResult"
+									]
+								}
+							},
+							"response": []
 						}
 					]
 				},
 				{
 					"name": "获取任务",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
@@ -479,15 +508,12 @@
 				},
 				{
 					"name": "获取任务-模糊查询",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
+							"raw": "{\r\n    \"taskPoJo\":{\r\n        \"taskName\":\"test\"\r\n    },\r\n    \"page\": 1,\r\n    \"pageSize\": 10\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -511,11 +537,8 @@
 				},
 				{
 					"name": "获取任务-区间查询",
-					"protocolProfileBehavior": {
-						"disableBodyPruning": true
-					},
 					"request": {
-						"method": "GET",
+						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",

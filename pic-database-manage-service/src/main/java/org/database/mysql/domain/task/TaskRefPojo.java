@@ -28,6 +28,9 @@ public class TaskRefPojo {
     private Integer taskState;
     private Long refAllReq;
     private Long refSuccessReq;
+    private Long refFailedReq;
+    private Long refFailedCode;
+    private Long refFailedTarget;
     private Long refStartTime;
     private Long refEndTime;
     private Long refTestTime;
@@ -89,6 +92,15 @@ public class TaskRefPojo {
         }
         if (ref.getRefSuccessReq() != null) {
             this.refSuccessReq = ref.getRefSuccessReq();
+        }
+        if (ref.getRefFailedReq() != null) {
+            this.refFailedReq = ref.getRefFailedReq();
+        }
+        if (ref.getRefFailedCode() != null) {
+            this.refFailedCode = ref.getRefFailedCode();
+        }
+        if (ref.getRefFailedTarget() != null) {
+            this.refFailedTarget = ref.getRefFailedTarget();
         }
         if (ref.getRefStartTime() != null) {
             this.refStartTime = ref.getRefStartTime();

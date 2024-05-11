@@ -74,4 +74,10 @@ public class MagicMathConstData {
      */
     public static final long TASK_TO_TEST_TIME = 5000;
 
+
+    /**
+     * 线程工厂任务结果集处理线程前缀
+     */
+    public static final String TASK_RESULT_OPTION_THREAD_PREFIX = "TROTP";
+
 }

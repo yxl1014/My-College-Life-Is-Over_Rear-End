@@ -3,8 +3,11 @@ package org.task.service.impl;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.async.LocalThreadFactory;
 import org.commons.common.ThreadLocalComp;
 import org.commons.domain.LoginCommonData;
+import org.commons.domain.TaskTestMsg;
+import org.commons.domain.constData.MagicMathConstData;
 import org.commons.log.LogComp;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
@@ -15,6 +18,8 @@ import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
 import org.database.mysql.service.TaskRefMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
+import org.mq.MyQueue;
+import org.mq.QueueFactory;
 import org.springframework.stereotype.Service;
 import org.task.entity.TaskQueryRequest;
 import org.task.service.ITaskBaseService;
@@ -43,13 +48,16 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
     private final TaskRefMysqlComp taskRefMysqlComp;
 
-    public TaskProviderServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskRefMysqlComp taskRefMysqlComp) {
+    private final QueueFactory queueFactory;
+
+    public TaskProviderServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskRefMysqlComp taskRefMysqlComp, LocalThreadFactory threadFactory, QueueFactory queueFactory) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.taskBaseService = taskBaseService;
         this.threadLocalComp = threadLocalComp;
         this.taskRefMysqlComp = taskRefMysqlComp;
+        this.queueFactory = queueFactory;
     }
 
     @SneakyThrows
@@ -132,6 +140,20 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
         RepCode code = updateTaskState(PTaskState.values()[taskState], task, taskUserRef);
         return new ReBody(code);
+    }
+
+    @Override
+    public ReBody pushTaskResult(List<TaskTestMsg> msg) {
+        if (msg == null || msg.isEmpty()){
+            return new ReBody(RepCode.R_ParamNull);
+        }
+        TaskTestMsg taskTestMsg = msg.get(0);
+        MyQueue<Object> queue = queueFactory.getQueue(getQueueName(taskTestMsg.getTaskId()));
+        if (queue == null){
+            return new ReBody(RepCode.R_WhyNull);
+        }
+        queue.push(msg);
+        return new ReBody(RepCode.R_Ok);
     }
 
     private RepCode updateTaskState(PTaskState value, Task task, TaskUserRef taskUserRef) {
@@ -252,5 +274,10 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
             return RepCode.R_UpdateDbFailed;
         }
         return RepCode.R_Ok;
+    }
+
+
+    private String getQueueName(String taskId) {
+        return MagicMathConstData.TASK_TEST_RESULT_OPT_QUEUE_PREFIX + taskId;
     }
 }
