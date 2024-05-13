@@ -99,8 +99,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
             return new ReBody(RepCode.R_LoginTimeout);
         }
         TaskUserRef ref = queryRequest.getTaskUserRef();
-        if(ref == null)
-        {
+        if (ref == null) {
             ref = new TaskUserRef();
         }
         ref.setRefUserId(commonData.getUserId());
@@ -144,16 +143,24 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
 
     @Override
     public ReBody pushTaskResult(List<TaskTestMsg> msg) {
-        if (msg == null || msg.isEmpty()){
+        if (msg == null || msg.isEmpty()) {
             return new ReBody(RepCode.R_ParamNull);
         }
         TaskTestMsg taskTestMsg = msg.get(0);
+        TaskUserRef taskUserRef = taskRefMysqlComp.selectTaskByIdAndUserId(taskTestMsg.getTaskId(), taskTestMsg.getUserId());
+        if (taskUserRef == null) {
+            return new ReBody(RepCode.R_TaskIsNotAction);
+        }
+        if (taskUserRef.getRefState() != PTaskState.TESTING.ordinal()) {
+            return new ReBody(RepCode.R_TaskIsRunning, taskUserRef);
+        }
+
         MyQueue<Object> queue = queueFactory.getQueue(getQueueName(taskTestMsg.getTaskId()));
-        if (queue == null){
+        if (queue == null) {
             return new ReBody(RepCode.R_WhyNull);
         }
         queue.push(msg);
-        return new ReBody(RepCode.R_Ok);
+        return new ReBody(RepCode.R_Ok, taskUserRef);
     }
 
     private RepCode updateTaskState(PTaskState value, Task task, TaskUserRef taskUserRef) {
@@ -169,7 +176,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     break;
                 }
 
-                code = updateToTesting(task, taskUserRef);
+                code = updateToTesting(taskUserRef);
                 break;
             }
             case PAUSE: {
@@ -178,7 +185,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     break;
                 }
 
-                code = updateToPause(task, taskUserRef);
+                code = updateToPause(taskUserRef);
                 break;
             }
             case END: {
@@ -187,9 +194,9 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     break;
                 }
                 if (taskUserRef.getRefState() == TaskState.PAUSE.ordinal()) {
-                    code = updateToEnd(task, taskUserRef, true);
+                    code = updateToEnd(taskUserRef, true);
                 } else {
-                    code = updateToEnd(task, taskUserRef, false);
+                    code = updateToEnd(taskUserRef, false);
                 }
                 break;
             }
@@ -208,11 +215,10 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
     /**
      * 测试者开始任务
      *
-     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
-    private RepCode updateToTesting(Task task, TaskUserRef taskUserRef) {
+    private RepCode updateToTesting(TaskUserRef taskUserRef) {
         // 改数据库
         TaskUserRef update = new TaskUserRef();
         update.setRefTaskId(taskUserRef.getRefTaskId());
@@ -230,11 +236,10 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
     /**
      * 测试者暂停任务
      *
-     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
-    private RepCode updateToPause(Task task, TaskUserRef taskUserRef) {
+    private RepCode updateToPause(TaskUserRef taskUserRef) {
         // 改数据库
         TaskUserRef update = new TaskUserRef();
         update.setRefTaskId(taskUserRef.getRefTaskId());
@@ -253,13 +258,12 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
     /**
      * 测试者结束任务
      *
-     * @param task        任务
      * @param taskUserRef 测试者任务
      * @return 返回
      */
-    private RepCode updateToEnd(Task task, TaskUserRef taskUserRef, boolean fromPause) {
+    private RepCode updateToEnd(TaskUserRef taskUserRef, boolean fromPause) {
         if (fromPause) {
-            RepCode code = updateToPause(task, taskUserRef);
+            RepCode code = updateToPause(taskUserRef);
             if (code != RepCode.R_Ok) {
                 return code;
             }

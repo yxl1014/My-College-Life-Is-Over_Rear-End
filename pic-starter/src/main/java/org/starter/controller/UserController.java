@@ -62,6 +62,15 @@ public class UserController {
         return userService.logOff();
     }
 
+    @GetMapping("/leave")
+    @ControllerLog(url = "/leave",msg = "离开->指退出界面也暂停任务",roleType = RoleType.PROVIDER)
+    @NeedCheck
+    @ApiOperation("离开->指退出界面也暂停任务")
+    @ApiResponse(code = 200, message = "离开->指退出界面也暂停任务,可以绵密登录", response = ReBody.class)
+    public ReBody leave() {
+        return userService.leave();
+    }
+
     @PostMapping("/register")
     @ControllerLog(url = "/register",msg = "注册",roleType = RoleType.PROVIDER)
     @ApiOperation("注册 返回注册好的账户的uuid，可做注册后自动登录")

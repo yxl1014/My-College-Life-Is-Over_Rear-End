@@ -61,4 +61,6 @@ public interface IUserService {
      * @return 成功否
      */
     ReBody updateUserInfo(User user);
+
+    ReBody leave();
 }

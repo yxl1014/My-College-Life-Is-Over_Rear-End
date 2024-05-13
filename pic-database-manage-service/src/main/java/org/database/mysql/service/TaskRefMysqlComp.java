@@ -56,6 +56,34 @@ public class TaskRefMysqlComp {
         return taskRefPoJos;
     }
 
+    @SneakyThrows
+    public List<TaskUserRef> selectTasksByTaskId(String taskId) {
+        MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
+        TaskUserRef in = new TaskUserRef();
+        in.setRefTaskId(taskId);
+        taskMysqlBuilder.setCondition(in);
+        return baseMysqlComp.selectList(taskMysqlBuilder);
+    }
+
+    @SneakyThrows
+    public List<TaskUserRef> selectTasksByUserId(String userId) {
+        MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
+        TaskUserRef in = new TaskUserRef();
+        in.setRefUserId(userId);
+        taskMysqlBuilder.setCondition(in);
+        return baseMysqlComp.selectList(taskMysqlBuilder);
+    }
+
+    @SneakyThrows
+    public List<TaskUserRef> selectTasksByUserIdAndState(String userId, PTaskState state) {
+        MysqlBuilder<TaskUserRef> taskMysqlBuilder = new MysqlBuilder<>(TaskUserRef.class);
+        TaskUserRef in = new TaskUserRef();
+        in.setRefUserId(userId);
+        in.setRefState(state.ordinal());
+        taskMysqlBuilder.setCondition(in);
+        return baseMysqlComp.selectList(taskMysqlBuilder);
+    }
+
 
     @SneakyThrows
     public TaskUserRef selectTaskByIdAndUserId(String taskId, String userId) {
