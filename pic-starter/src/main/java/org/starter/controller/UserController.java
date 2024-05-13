@@ -2,7 +2,6 @@ package org.starter.controller;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import org.commons.annotation.ControllerLog;
 import org.commons.annotation.NeedCheck;
@@ -10,7 +9,10 @@ import org.commons.domain.RoleType;
 import org.commons.response.ReBody;
 import org.database.mysql.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 import org.user.entity.request.VerityRequest;
 import org.user.service.IUserService;
 
@@ -56,8 +58,8 @@ public class UserController {
     @NeedCheck
     @ApiOperation("登出---redis中删除相关UUID")
     @ApiResponse(code = 200, message = "登出成功", response = ReBody.class)
-    public ReBody logout(@RequestParam @ApiParam("用户的uuid") String uuid) {
-        return userService.logOff(uuid);
+    public ReBody logout() {
+        return userService.logOff();
     }
 
     @PostMapping("/register")
@@ -74,7 +76,26 @@ public class UserController {
     @NeedCheck
     @ControllerLog(url = "/userInfo",msg = "获取用户信息",roleType = RoleType.PROVIDER)
     @ApiResponse(code = 200, message = "", response = ReBody.class)
-    public ReBody userInfo( @RequestParam("uuid") @ApiParam("用户的uuid") String uuid) {
-        return userService.userInfo(uuid);
+    public ReBody userInfo() {
+        return userService.userInfo();
+    }
+
+    @PostMapping("/upRole")
+    @ControllerLog(url = "/upRole",msg = "成为任务发布者",roleType = RoleType.PROVIDER)
+    @ApiOperation("成为任务发布者")
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    @NeedCheck
+    public ReBody upRole(@RequestBody User user) {
+        return userService.upRole(user);
+    }
+
+
+    @PostMapping("/updateUserInfo")
+    @ControllerLog(url = "/updateUserInfo",msg = "修改用户信息",roleType = RoleType.PROVIDER)
+    @ApiOperation("修改用户信息")
+    @NeedCheck
+    @ApiResponse(code = 200, message = "成功", response = ReBody.class)
+    public ReBody updateUserInfo(@RequestBody User user) {
+        return userService.updateUserInfo(user);
     }
 }

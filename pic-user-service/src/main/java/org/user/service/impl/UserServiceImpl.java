@@ -25,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.user.entity.request.VerityRequest;
 import org.user.entity.response.LoginResponse;
 import org.user.service.IUserService;
+import org.user.service.common.CommonUserComp;
 
 import java.sql.Timestamp;
 
@@ -46,12 +47,15 @@ public class UserServiceImpl implements IUserService {
 
     private final ThreadLocalComp threadLocalComp;
 
-    public UserServiceImpl(RedisComp redisComp, UserMysqlComp userMysqlComp, BaseMysqlComp baseMysqlComp, JWTUtil jwtUtil, ThreadLocalComp threadLocalComp) {
+    private final CommonUserComp commonUserComp;
+
+    public UserServiceImpl(RedisComp redisComp, UserMysqlComp userMysqlComp, BaseMysqlComp baseMysqlComp, JWTUtil jwtUtil, ThreadLocalComp threadLocalComp, CommonUserComp commonUserComp) {
         this.redisComp = redisComp;
         this.userMysqlComp = userMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.jwtUtil = jwtUtil;
         this.threadLocalComp = threadLocalComp;
+        this.commonUserComp = commonUserComp;
     }
 
     @Override
@@ -71,7 +75,15 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ReBody logOff(String uuid) {
+    public ReBody logOff() {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        // TODO YXL 这里需要将所有测试中的任务暂停
+
+        afterLogoff(commonData.getUserId());
+
         return null;
     }
 
@@ -166,12 +178,13 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public ReBody userInfo(String uuid) {
-        if (Strings.isEmpty(uuid)) {
-            return new ReBody(RepCode.R_ParamNull);
+    public ReBody userInfo() {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
         }
-        User user = userMysqlComp.findUserByUserId(uuid);
-        if (user == null){
+        User user = userMysqlComp.findUserByUserId(commonData.getUserId());
+        if (user == null) {
             return new ReBody(RepCode.R_UserNotFound);
         }
         // 将一些 不能返回的数据设为null
@@ -180,6 +193,79 @@ public class UserServiceImpl implements IUserService {
         user.setUserSecAnswerTwo(null);
         user.setUserSecAnswerThree(null);
         return new ReBody(RepCode.R_Ok, user);
+    }
+
+    @Override
+    public ReBody upRole(User user) {
+        if (Strings.isEmpty(user.getUserIp()) || Strings.isEmpty(user.getUserCompany())
+                || Strings.isEmpty(user.getUserHome()) || Strings.isEmpty(user.getUserIdCard())) {
+            return new ReBody(RepCode.R_ParamNull);
+        }
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        User update = new User();
+        update.setUserIp(user.getUserIp());
+        update.setUserCompany(user.getUserCompany());
+        update.setUserHome(user.getUserHome());
+        update.setUserIdCard(user.getUserIdCard());
+        update.setUserId(commonData.getUserId());
+        update.setUserFlag((short) RoleType.CONSUMER.ordinal());
+
+        boolean suc = userMysqlComp.updateUserByUserId(update);
+        if (!suc) {
+            return new ReBody(RepCode.R_UpdateDbFailed);
+        }
+        return new ReBody(RepCode.R_Ok);
+    }
+
+    @Override
+    public ReBody updateUserInfo(User user) {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        user.setUserId(commonData.getUserId());
+        if (!Strings.isEmpty(user.getUserName()) && userMysqlComp.checkUserByUsername(user.getUserName())) {
+            return new ReBody(RepCode.R_UserIsExist);
+        }
+        if (!Strings.isEmpty(user.getUserTelephone()) && userMysqlComp.checkUserByTel(user.getUserTelephone())) {
+            return new ReBody(RepCode.R_UserIsExist);
+        }
+        if (!Strings.isEmpty(user.getUserSysEmail()) && userMysqlComp.checkUserByEmail(user.getUserSysEmail())) {
+            return new ReBody(RepCode.R_UserIsExist);
+        }
+        // 不让自己修改权限
+        user.setUserFlag(null);
+        boolean updatePwd = false;
+        if (!Strings.isEmpty(user.getUserPassword())) {
+            updatePwd = true;
+            user.setUserPassword(PasswordEncrypt.hashPassword(user.getUserPassword()));
+        }
+        boolean suc = userMysqlComp.updateUserByUserId(user);
+        if (!suc) {
+            return new ReBody(RepCode.R_Fail);
+        }
+        if (updatePwd) {
+            commonUserComp.AfterChangePassword(commonData.getUserId());
+        }
+        return new ReBody(RepCode.R_Ok);
+    }
+
+
+    /**
+     * 退出登录操作
+     *
+     * @param userId 用户ID
+     */
+    private void afterLogoff(String userId) {
+        //1、将redis中的version删除
+        redisComp.del(RedisConstData.USER_LOGIN_VERSION + userId);
+        //2、将threadLocal中的commonData删除
+        threadLocalComp.removeThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME);
+        //3、移除登录用户
+        redisComp.del(RedisConstData.USER_ONLINE + userId);
     }
 
     /**

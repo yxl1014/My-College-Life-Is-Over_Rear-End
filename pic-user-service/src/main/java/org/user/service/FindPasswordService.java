@@ -13,11 +13,11 @@ import org.database.mysql.domain.User;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.UserMysqlComp;
 import org.database.redis.RedisComp;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.user.entity.request.FindPasswordRequest;
 import org.user.entity.request.FindUpdatePwdRequest;
 import org.user.entity.response.CheckExistResponse;
+import org.user.service.common.CommonUserComp;
 
 /**
  * @description: 找回密码服务
@@ -27,14 +27,20 @@ import org.user.entity.response.CheckExistResponse;
 @Service
 public class FindPasswordService {
 
-    @Autowired
-    private BaseMysqlComp mysqlComp;
+    private final BaseMysqlComp mysqlComp;
 
-    @Autowired
-    private UserMysqlComp userMysqlComp;
+    private final UserMysqlComp userMysqlComp;
 
-    @Autowired
-    private RedisComp redisComp;
+    private final RedisComp redisComp;
+
+    private final CommonUserComp commonUserComp;
+
+    public FindPasswordService(BaseMysqlComp mysqlComp, UserMysqlComp userMysqlComp, RedisComp redisComp, CommonUserComp commonUserComp) {
+        this.mysqlComp = mysqlComp;
+        this.userMysqlComp = userMysqlComp;
+        this.redisComp = redisComp;
+        this.commonUserComp = commonUserComp;
+    }
 
     /**
      * 判断用户是否存在
@@ -69,6 +75,9 @@ public class FindPasswordService {
         }
         // 验证第一步的uuid
         String userId = redisComp.get(RedisConstData.FIND_PASSWORD_1 + request.getPwdUuid());
+        if (Strings.isEmpty(userId)) {
+            return new ReBody(RepCode.R_UserUpdatePasswordTimeOut);
+        }
         switch (request.getType()) {
             case 1:
                 User user = userMysqlComp.findUserByUserId(userId);
@@ -154,7 +163,12 @@ public class FindPasswordService {
         builder.setCondition(in);
         builder.setUpdate(update);
         Integer updated = mysqlComp.update(builder);
-        return new ReBody(updated == 1 ? RepCode.R_Ok : RepCode.R_Fail);
+        if (updated != 1) {
+            return new ReBody(RepCode.R_Fail);
+        }
+
+        commonUserComp.AfterChangePassword(userId);
+        return new ReBody(RepCode.R_Ok);
     }
 
     private void findPwdTempUuidSetRedis(String key, String uuid, String value) {

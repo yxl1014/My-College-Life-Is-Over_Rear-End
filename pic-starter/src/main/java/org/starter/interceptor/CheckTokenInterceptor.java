@@ -116,6 +116,14 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
             }
             // 这个是本地threadlocal存的
             LoginCommonData tlData = threadLocalComp.getLoginCommonData();
+
+            //先去redis里比一下
+            String version = redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
+            if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))) {
+                response.setStatus(401);
+                return false;
+            }
+
             // 这里如果有 那么就比较一下
             if (tlData != null) {
                 if (!unSignData.equals(tlData)) {
@@ -123,14 +131,8 @@ public class CheckTokenInterceptor implements HandlerInterceptor {
                     return false;
                 }
             } else
-            // 如果没有 就去redis里比较一下 version 这个version会在登陆的时候随机生成
             {
-                String version = redisComp.get(RedisConstData.USER_LOGIN_VERSION + unSignData.getUserId());
-                if (Strings.isEmpty(version) || !version.equals(String.valueOf(unSignData.getVersion()))) {
-                    response.setStatus(401);
-                    return false;
-                }
-                // 完事没问题了 就set进ThreadLocal
+                // 如果没有 就set进ThreadLocal
                 threadLocalComp.setThreadLocalData(ThreadLocalConstData.USER_COMMON_DATA_NAME, unSignData);
             }
             User user = userMysqlComp.findUserByUserId(unSignData.getUserId());

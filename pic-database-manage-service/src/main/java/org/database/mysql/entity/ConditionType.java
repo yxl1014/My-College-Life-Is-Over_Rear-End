@@ -8,5 +8,5 @@ package org.database.mysql.entity;
 
 
 public enum ConditionType {
-    EQ, IN, LIKE, NEQ,
+    EQ, IN, LIKE, NEQ, BWT
 }

@@ -135,12 +135,12 @@ public class BaseMysqlComp {
         switch (mysqlBuilder.getOptType()) {
             case DELETE: {
                 QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getQueryType());
+                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getBetween(), mysqlBuilder.getQueryType());
                 return baseMapper.delete(queryWrapper);
             }
             case SELECT: {
                 QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getQueryType());
+                buildQueryWrapperData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getCondition(), mysqlBuilder.getNoEqual(), mysqlBuilder.getBetween(), mysqlBuilder.getQueryType());
                 buildQueryWrapperOutData(queryWrapper, mysqlBuilder.getClz(), mysqlBuilder.getOut());
                 if (mysqlBuilder.isPage()) {
                     return baseMapper.selectPage(new Page<T>(mysqlBuilder.getPageIndex(), mysqlBuilder.getPageSize()), queryWrapper).getRecords();
@@ -188,29 +188,46 @@ public class BaseMysqlComp {
         }
     }
 
-    private <T> void buildQueryWrapperData(QueryWrapper<T> queryWrapper, Class<T> clz, T in, T noEqual, ConditionType type) throws IllegalAccessException, FormatException {
+    private <T> void buildQueryWrapperData(QueryWrapper<T> queryWrapper, Class<T> clz, T in, T noEqual, T between, ConditionType type) throws IllegalAccessException, FormatException {
         Field[] fields = clz.getDeclaredFields();
         if (in != null) {
-            for (Field field : fields) {
-                field.setAccessible(true);
-                Object o = field.get(in);
-                if (o != null) {
-                    switch (type) {
-                        case IN: {
-                            queryWrapper.in(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
-                            break;
-                        }
-                        case EQ: {
-                            queryWrapper.eq(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
-                            break;
-                        }
-                        case LIKE: {
-                            queryWrapper.like(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
-                            break;
-                        }
-                        case NEQ:{
-                            queryWrapper.ne(mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName()), o);
-                            break;
+            if (type == ConditionType.BWT) {
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Object left = field.get(in);
+                    Object right = field.get(between);
+                    String name = mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName());
+                    if (left != null && right != null) {
+                        queryWrapper.between(name, left, right);
+                    } else if (left != null) {
+                        queryWrapper.le(name, left);
+                    } else if (right != null) {
+                        queryWrapper.ge(name, right);
+                    }
+                }
+            } else {
+                for (Field field : fields) {
+                    field.setAccessible(true);
+                    Object o = field.get(in);
+                    if (o != null) {
+                        String name = mysqlCommonUtil.javaFieldName2MysqlColumnsName(field.getName());
+                        switch (type) {
+                            case IN: {
+                                queryWrapper.in(name, o);
+                                break;
+                            }
+                            case EQ: {
+                                queryWrapper.eq(name, o);
+                                break;
+                            }
+                            case LIKE: {
+                                queryWrapper.like(name, o);
+                                break;
+                            }
+                            case NEQ: {
+                                queryWrapper.ne(name, o);
+                                break;
+                            }
                         }
                     }
                 }

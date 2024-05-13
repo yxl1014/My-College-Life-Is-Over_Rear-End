@@ -3,23 +3,27 @@ package org.task.service.impl;
 import lombok.SneakyThrows;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.util.Strings;
+import org.async.LocalThreadFactory;
+import org.async.runnable.TaskResultOptRunnable;
 import org.commons.common.GsonUtil;
 import org.commons.common.ThreadLocalComp;
 import org.commons.common.random.VerifyCodeGenerator;
 import org.commons.common.uuid.UuidGenerator;
 import org.commons.domain.LoginCommonData;
+import org.commons.domain.constData.MagicMathConstData;
 import org.commons.log.LogComp;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
+import org.database.mysql.domain.TaskUserRef;
 import org.database.mysql.domain.User;
-import org.database.mysql.domain.task.Task;
-import org.database.mysql.domain.task.TaskPoJo;
-import org.database.mysql.domain.task.TaskShell;
-import org.database.mysql.domain.task.TaskState;
+import org.database.mysql.domain.task.*;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
+import org.database.mysql.service.TaskRefMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
+import org.mq.MyQueue;
+import org.mq.QueueFactory;
 import org.springframework.stereotype.Service;
 import org.task.common.net.TaskShellCheckComp;
 import org.task.entity.TaskQueryRequest;
@@ -52,27 +56,39 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     private final ThreadLocalComp threadLocalComp;
 
-    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp) {
+
+    private final QueueFactory queueFactory;
+    private final TaskRefMysqlComp taskRefMysqlComp;
+
+    private final LocalThreadFactory threadFactory;
+
+    public TaskConsumerServiceImpl(UserMysqlComp userMysqlComp, TaskMysqlComp taskMysqlComp, BaseMysqlComp baseMysqlComp, ITaskBaseService taskBaseService, ThreadLocalComp threadLocalComp, TaskShellCheckComp shellCheckComp, QueueFactory queueFactory, TaskRefMysqlComp taskRefMysqlComp, LocalThreadFactory threadFactory) {
         this.userMysqlComp = userMysqlComp;
         this.taskMysqlComp = taskMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.taskBaseService = taskBaseService;
         this.threadLocalComp = threadLocalComp;
         this.shellCheckComp = shellCheckComp;
+        this.queueFactory = queueFactory;
+        this.taskRefMysqlComp = taskRefMysqlComp;
+        this.threadFactory = threadFactory;
     }
 
     @SneakyThrows
     @Override
     public ReBody createTask(TaskPoJo taskPoJo) {
-        if (Strings.isEmpty(taskPoJo.getTaskAuthorId())) {
-            return new ReBody(RepCode.R_ParamNull);
-        }
-
         if (taskPoJo.getTaskType() < 0 || taskPoJo.getTaskType() > 2) {
             return new ReBody(RepCode.R_ParamNull);
         }
 
-        User user = userMysqlComp.findUserByUserId(taskPoJo.getTaskAuthorId());
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+
+        String userId = commonData.getUserId();
+
+        User user = userMysqlComp.findUserByUserId(userId);
         if (user == null) {
             return new ReBody(RepCode.R_UserNotFound);
         }
@@ -91,6 +107,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
         Task task = new Task(taskPoJo);
         String taskId = UuidGenerator.getCustomUuid();
+        task.setTaskAuthorId(user.getUserId());
         task.setTaskId(taskId);
         task.setTaskCreateTime(System.currentTimeMillis());
 
@@ -170,7 +187,8 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
     @Override
     public ReBody updateTaskState(TaskPoJo poJo) {
-        if (Strings.isEmpty(poJo.getTaskId()) || poJo.getTaskState() == null) {
+        Integer taskState = poJo.getTaskState();
+        if (Strings.isEmpty(poJo.getTaskId()) || taskState == null) {
             return new ReBody(RepCode.R_ParamNull);
         }
         Task task = taskMysqlComp.selectTaskByTaskId(poJo.getTaskId());
@@ -182,13 +200,13 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             return new ReBody(RepCode.R_UserNotIsThisTaskAuthor);
         }
         // 如果本来就是直接返回成功
-        if (task.getTaskState().equals(poJo.getTaskState())) {
+        if (task.getTaskState().equals(taskState)) {
             return new ReBody(RepCode.R_Ok);
         }
-        if (poJo.getTaskState() < 0 || poJo.getTaskState() >= TaskState.values().length) {
+        if (taskState < 0 || taskState >= TaskState.values().length) {
             return new ReBody(RepCode.R_ParamError);
         }
-        RepCode code = updateTaskState(TaskState.values()[poJo.getTaskState()], task);
+        RepCode code = updateTaskState(TaskState.values()[taskState], task);
         Task newTask = taskMysqlComp.selectTaskByTaskId(task.getTaskId());
         return new ReBody(code, newTask);
     }
@@ -196,52 +214,124 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
     public RepCode updateTaskState(TaskState state, Task task) {
         Integer taskState = task.getTaskState();
         TaskState nowState = TaskState.values()[taskState];
+        RepCode code = RepCode.R_Ok;
         // 允许状态从大变小的就一种清空 暂停->测试中
         if (state.ordinal() < taskState) {
             if (state != TaskState.TESTING || nowState != TaskState.PAUSE) {
                 return RepCode.R_TaskStateUpdateError;
             }
-            updateTaskStateFromPauseToTesting(task);
+            code = updateTaskStateToTesting(task);
         } else {
             if (nowState == TaskState.TESTING) {
                 switch (state) {
                     case PAUSE:
-                        updateTaskStateFromTestingToPause(task);
+                        code = updateTaskStateToPause(task, false);
                         break;
                     case END:
-                        updateTaskStateFromTestingToEnd(task);
+                        code = updateTaskStateToEnd(task, taskState == TaskState.PAUSE.ordinal());
                         break;
                 }
             } else if (state == TaskState.TESTING) {
-                updateTaskStateFromPauseToTesting(task);
+                code = updateTaskStateToTesting(task);
+            } else if (nowState == TaskState.PLANNING) {
+                //更新数据库
+                Task update = new Task();
+                update.setTaskId(task.getTaskId());
+                update.setTaskState(TaskState.REGISTER.ordinal());
+                boolean success = taskMysqlComp.updateTaskByTaskId(update);
+                if (!success) {
+                    return RepCode.R_UpdateDbFailed;
+                }
+                return RepCode.R_Ok;
             }
         }
-
-        //更新数据库
-        Task update = new Task();
-        update.setTaskId(task.getTaskId());
-        update.setTaskState(state.ordinal());
-        boolean success = taskMysqlComp.updateTaskByTaskId(update);
-        return success ? RepCode.R_Ok : RepCode.R_UpdateDbFailed;
+        return code;
     }
 
     /**
      * 任务状态从暂停到测试中
+     * 1、创建接受测试结果的队列
+     * 2、创建收集并处理结果的线程
+     * 3、修改任务开始时间和状态
      *
      * @param task 任务
      */
-    private void updateTaskStateFromPauseToTesting(Task task) {
-        logger.info("任务状态从暂停到测试中");
+    private RepCode updateTaskStateToTesting(Task task) {
+        logger.info("任务状态到测试中");
+        MyQueue<Object> queue = queueFactory.getOrCreateQueue(getQueueName(task.getTaskId()));
+        if (queue == null) {
+            return RepCode.R_TaskCreateResultQueueFail;
+        }
+        threadFactory.StartIsNullOrCreate(getThreadName(task.getTaskId()), new TaskResultOptRunnable(queue, taskRefMysqlComp));
+
+        //更新数据库
+        Task update = new Task();
+        update.setTaskId(task.getTaskId());
+        update.setTaskState(TaskState.TESTING.ordinal());
+        long time = System.currentTimeMillis();
+        if (task.getTaskType() > 1) {
+            time += MagicMathConstData.TASK_TO_TEST_TIME;
+        }
+        update.setTaskStartTime(time);
+        boolean success = taskMysqlComp.updateTaskByTaskId(update);
+        if (!success) {
+            return RepCode.R_UpdateDbFailed;
+        }
+        return RepCode.R_Ok;
     }
 
     /**
      * 任务状态从测试中到暂停
+     * 1、修改任务结束时间、持续时间、状态
+     * 2、将所有正在测试该任务的用户的状态都改为暂停
+     * 3、将队列中的数据消费完（消费完只的是，测试时间在结束之前的）
+     * 4、关闭队列
+     * 5、关闭线程
      *
      * @param task 任务
      */
-    private void updateTaskStateFromTestingToPause(Task task) {
-
+    private RepCode updateTaskStateToPause(Task task, boolean fromEnd) {
         logger.info("任务状态从测试中到暂停");
+
+        //更新数据库
+        Task update = new Task();
+        update.setTaskId(task.getTaskId());
+        update.setTaskState(fromEnd ? TaskState.END.ordinal() : TaskState.PAUSE.ordinal());
+        long time = System.currentTimeMillis();
+        update.setTaskEndTime(time);
+        Long taskTestTime = task.getTaskTestTime();
+        update.setTaskTestTime(taskTestTime == null ? 0 : taskTestTime + task.getTaskEndTime() - time);
+        boolean success = taskMysqlComp.updateTaskByTaskId(update);
+        if (!success) {
+            return RepCode.R_UpdateDbFailed;
+        }
+
+        //将所有正在测试该任务的用户的状态都改为暂停
+        for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTaskRefByTaskIdAndState(task.getTaskId(), PTaskState.TESTING)) {
+            taskUserRef.setRefState(PTaskState.PAUSE.ordinal());
+            boolean suc = taskRefMysqlComp.updateTaskUserRefByRefId(taskUserRef);
+            if (!suc) {
+                logger.error("update DB Failed!!!");
+            }
+        }
+
+        // 多让他处理十秒，十秒处理不完强制关闭
+        new Thread(() -> {
+            // 关闭队列
+            long startTime = System.currentTimeMillis();
+            while (!queueFactory.removeQueueIfEmpty(getQueueName(task.getTaskId()))) {
+                // 强制关闭
+                if (MagicMathConstData.TASK_MORE_CLOSE_TIME + startTime > System.currentTimeMillis()) {
+                    queueFactory.removeQueue(getQueueName(task.getTaskId()));
+                    break;
+                }
+            }
+
+            //关闭执行线程
+            threadFactory.CloseThread(getThreadName(task.getTaskId()));
+        }, MagicMathConstData.TASK_TEST_RESULT_CLOSE_THREAD_PREFIX + task.getTaskId()
+        ).start();
+        return RepCode.R_Ok;
     }
 
     /**
@@ -249,7 +339,32 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
      *
      * @param task 任务
      */
-    private void updateTaskStateFromTestingToEnd(Task task) {
+    private RepCode updateTaskStateToEnd(Task task, boolean fromPause) {
+        if (fromPause) {
+            RepCode code = updateTaskStateToPause(task, true);
+            if (code != RepCode.R_Ok) {
+                return code;
+            }
+        }
         logger.info("任务状态从测试中到结束");
+        //更新数据库
+        Task update = new Task();
+        update.setTaskId(task.getTaskId());
+        update.setTaskState(TaskState.END.ordinal());
+        // TODO YXL 处理测试结果集
+        boolean success = taskMysqlComp.updateTaskByTaskId(update);
+        if (!success) {
+            return RepCode.R_UpdateDbFailed;
+        }
+        return RepCode.R_Ok;
+    }
+
+
+    private String getQueueName(String taskId) {
+        return MagicMathConstData.TASK_TEST_RESULT_OPT_QUEUE_PREFIX + taskId;
+    }
+
+    private String getThreadName(String taskId) {
+        return MagicMathConstData.TASK_RESULT_OPTION_THREAD_PREFIX + taskId;
     }
 }

@@ -24,7 +24,7 @@ public interface IUserService {
      * @param uuid uid
      * @return 返回
      */
-    ReBody logOff(String uuid);
+    ReBody logOff();
 
     /**
      * 注册
@@ -47,8 +47,18 @@ public interface IUserService {
     /**
      * 获取用户信息
      *
-     * @param uuid uid
      * @return 返回
      */
-    ReBody userInfo(String uuid);
+    ReBody userInfo();
+
+
+    ReBody upRole(User user);
+
+
+    /**
+     * 修改用户信息
+     * @param user 用户
+     * @return 成功否
+     */
+    ReBody updateUserInfo(User user);
 }

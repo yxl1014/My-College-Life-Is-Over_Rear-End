@@ -7,7 +7,6 @@ import org.database.mysql.domain.task.Task;
 import org.database.mysql.domain.task.TaskPoJo;
 import org.database.mysql.entity.ConditionType;
 import org.database.mysql.entity.MysqlBuilder;
-import org.database.mysql.mapper.TaskMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -24,11 +23,8 @@ import java.util.List;
 public class TaskMysqlComp {
     private final BaseMysqlComp baseMysqlComp;
 
-    private final TaskMapper taskMapper;
-
-    public TaskMysqlComp(BaseMysqlComp baseMysqlComp, TaskMapper taskMapper) {
+    public TaskMysqlComp(BaseMysqlComp baseMysqlComp) {
         this.baseMysqlComp = baseMysqlComp;
-        this.taskMapper = taskMapper;
     }
 
     @SneakyThrows
@@ -62,6 +58,15 @@ public class TaskMysqlComp {
         taskMysqlBuilder.setCondition(in);
         taskMysqlBuilder.setQueryType(conditionType);
         return baseMysqlComp.selectPage(taskMysqlBuilder, offset, limit);
+    }
+
+    @SneakyThrows
+    public List<Task> selectBetweenTasks(Task task, Task other, Integer page, Integer pageSize) {
+        MysqlBuilder<Task> taskMysqlBuilder = new MysqlBuilder<>(Task.class);
+        taskMysqlBuilder.setCondition(task);
+        taskMysqlBuilder.setBetween(other);
+        taskMysqlBuilder.setQueryType(ConditionType.BWT);
+        return baseMysqlComp.selectPage(taskMysqlBuilder, page, pageSize);
     }
 
     @SneakyThrows

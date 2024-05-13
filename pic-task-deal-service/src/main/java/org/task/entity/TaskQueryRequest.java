@@ -7,6 +7,7 @@ package org.task.entity;
  **/
 
 import lombok.Data;
+import org.database.mysql.domain.TaskUserRef;
 import org.database.mysql.domain.task.TaskPoJo;
 
 
@@ -15,4 +16,6 @@ public class TaskQueryRequest {
     private Integer page = 1;
     private Integer pageSize = 10;
     private TaskPoJo taskPoJo;
+    private TaskUserRef taskUserRef;
+    private TaskPoJo otherTask;
 }
