@@ -18,6 +18,8 @@ import org.database.mysql.BaseMysqlComp;
 import org.database.mysql.domain.TaskUserRef;
 import org.database.mysql.domain.User;
 import org.database.mysql.domain.task.*;
+import org.database.mysql.domain.task.result.TaskResult;
+import org.database.mysql.domain.task.result.TaskUserResult;
 import org.database.mysql.entity.MysqlBuilder;
 import org.database.mysql.service.TaskMysqlComp;
 import org.database.mysql.service.TaskRefMysqlComp;
@@ -351,12 +353,75 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         Task update = new Task();
         update.setTaskId(task.getTaskId());
         update.setTaskState(TaskState.END.ordinal());
-        // TODO YXL 处理测试结果集
         boolean success = taskMysqlComp.updateTaskByTaskId(update);
         if (!success) {
             return RepCode.R_UpdateDbFailed;
         }
+
+
+        // 等得消费线程十秒或者队列关闭
+        new Thread(() -> {
+            long startTime = System.currentTimeMillis();
+            while (queueFactory.getQueue(getQueueName(task.getTaskId())) != null) {
+                // 强制关闭
+                if (MagicMathConstData.TASK_MORE_CLOSE_TIME + startTime > System.currentTimeMillis()) {
+                    break;
+                }
+            }
+            // 处理结果集
+            AfterTaskEnd(task.getTaskId());
+        }, MagicMathConstData.TASK_TEST_RESULT_CLOSE_THREAD_PREFIX + task.getTaskId()
+        ).start();
         return RepCode.R_Ok;
+    }
+
+
+    /**
+     * 处理任务测试结果集
+     *
+     * @param taskId 任务id
+     */
+    private void AfterTaskEnd(String taskId) {
+        Task task = taskMysqlComp.selectTaskByTaskId(taskId);
+        TaskPoJo taskPoJo = new TaskPoJo();
+        taskPoJo.setTaskId(taskId);
+        long allCount = 0;
+        long allSucCount = 0;
+        long allFailedCount = 0;
+        long allCodeFailedCount = 0;
+        long allTargetFailedCount = 0;
+        ArrayList<TaskUserResult> list = new ArrayList<>();
+        List<TaskUserRef> taskUserRefs = taskRefMysqlComp.selectTasksByTaskId(taskId);
+        for (TaskUserRef ref : taskUserRefs) {
+            allCount += ref.getRefAllReq();
+            allSucCount += ref.getRefSuccessReq();
+            allFailedCount += ref.getRefFailedReq();
+            allCodeFailedCount += ref.getRefFailedCode();
+            allTargetFailedCount += ref.getRefFailedTarget();
+            list.add(new TaskUserResult(ref));
+        }
+
+        // 修改数据库
+        TaskResult result = new TaskResult(task.getTaskTestTime(), allCount, allSucCount, allFailedCount, allCodeFailedCount, allTargetFailedCount, list);
+        taskPoJo.setTaskTestResult(result);
+        task = new Task(taskPoJo);
+        boolean b = taskMysqlComp.updateTaskByTaskId(task);
+        if (!b) {
+            return;
+        }
+
+        // 发钱
+        for (TaskUserRef ref : taskUserRefs) {
+            double v = ((float) ref.getRefAllReq() / allCount * 1.00) * task.getTaskMoney();
+            User user = userMysqlComp.findUserByUserId(ref.getRefUserId());
+            if (user == null) {
+                continue;
+            }
+            User update = new User();
+            update.setUserId(user.getUserId());
+            update.setUserMoney(user.getUserMoney() + v);
+            userMysqlComp.updateUserByUserId(user);
+        }
     }
 
 

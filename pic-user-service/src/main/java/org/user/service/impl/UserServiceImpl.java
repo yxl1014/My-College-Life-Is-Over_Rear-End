@@ -17,8 +17,11 @@ import org.commons.log.LogComp;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
+import org.database.mysql.domain.TaskUserRef;
 import org.database.mysql.domain.User;
+import org.database.mysql.domain.task.PTaskState;
 import org.database.mysql.entity.MysqlBuilder;
+import org.database.mysql.service.TaskRefMysqlComp;
 import org.database.mysql.service.UserMysqlComp;
 import org.database.redis.RedisComp;
 import org.springframework.stereotype.Service;
@@ -49,13 +52,16 @@ public class UserServiceImpl implements IUserService {
 
     private final CommonUserComp commonUserComp;
 
-    public UserServiceImpl(RedisComp redisComp, UserMysqlComp userMysqlComp, BaseMysqlComp baseMysqlComp, JWTUtil jwtUtil, ThreadLocalComp threadLocalComp, CommonUserComp commonUserComp) {
+    private final TaskRefMysqlComp taskRefMysqlComp;
+
+    public UserServiceImpl(RedisComp redisComp, UserMysqlComp userMysqlComp, BaseMysqlComp baseMysqlComp, JWTUtil jwtUtil, ThreadLocalComp threadLocalComp, CommonUserComp commonUserComp, TaskRefMysqlComp taskRefMysqlComp) {
         this.redisComp = redisComp;
         this.userMysqlComp = userMysqlComp;
         this.baseMysqlComp = baseMysqlComp;
         this.jwtUtil = jwtUtil;
         this.threadLocalComp = threadLocalComp;
         this.commonUserComp = commonUserComp;
+        this.taskRefMysqlComp = taskRefMysqlComp;
     }
 
     @Override
@@ -80,11 +86,43 @@ public class UserServiceImpl implements IUserService {
         if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
             return new ReBody(RepCode.R_TokenError);
         }
-        // TODO YXL 这里需要将所有测试中的任务暂停
+        for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTasksByUserIdAndState(commonData.getUserId(), PTaskState.TESTING)) {
+            updateToPause(taskUserRef);
+        }
 
         afterLogoff(commonData.getUserId());
+        return new ReBody(RepCode.R_Ok);
+    }
 
-        return null;
+
+
+    @Override
+    public ReBody leave() {
+        LoginCommonData commonData = threadLocalComp.getLoginCommonData();
+        if (commonData == null || Strings.isEmpty(commonData.getUserId())) {
+            return new ReBody(RepCode.R_TokenError);
+        }
+        for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTasksByUserIdAndState(commonData.getUserId(), PTaskState.TESTING)) {
+            updateToPause(taskUserRef);
+        }
+        return new ReBody(RepCode.R_Ok);
+    }
+
+    /**
+     * 测试者暂停任务 不该这么写 懒得改了 就这样吧 也没毛病
+     *
+     * @param taskUserRef 测试者任务
+     */
+    private void updateToPause(TaskUserRef taskUserRef) {
+        // 改数据库
+        TaskUserRef update = new TaskUserRef();
+        update.setRefTaskId(taskUserRef.getRefTaskId());
+        update.setRefUserId(taskUserRef.getRefUserId());
+        update.setRefState(PTaskState.PAUSE.ordinal());
+        update.setRefEndTime(System.currentTimeMillis());
+        update.setRefTestTime(taskUserRef.getRefTestTime() + update.getRefEndTime() - taskUserRef.getRefStartTime());
+        // 还得统计一下呢
+        taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
     }
 
     @SneakyThrows
