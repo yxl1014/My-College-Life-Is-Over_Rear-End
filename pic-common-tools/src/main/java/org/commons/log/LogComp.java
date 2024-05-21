@@ -44,6 +44,11 @@ public class LogComp {
             return this;
         }
 
+        public LogMessage build(Object value) {
+            logMsg.append(" -- ").append(value);
+            return this;
+        }
+
 
 
         public String log() {

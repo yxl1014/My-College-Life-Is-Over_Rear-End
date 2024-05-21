@@ -22,4 +22,6 @@ public interface ITaskConsumerService{
     ReBody listConsumerTask(TaskQueryRequest queryRequest);
 
     ReBody updateTaskState(TaskPoJo poJo);
+
+    void onServerClose();
 }

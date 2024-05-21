@@ -12,6 +12,7 @@ import org.commons.common.uuid.UuidGenerator;
 import org.commons.domain.LoginCommonData;
 import org.commons.domain.constData.MagicMathConstData;
 import org.commons.log.LogComp;
+import org.commons.log.LogType;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.database.mysql.BaseMysqlComp;
@@ -211,6 +212,20 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         RepCode code = updateTaskState(TaskState.values()[taskState], task);
         Task newTask = taskMysqlComp.selectTaskByTaskId(task.getTaskId());
         return new ReBody(code, newTask);
+    }
+
+    @Override
+    public void onServerClose() {
+        Task in = new Task();
+        in.setTaskState(TaskState.TESTING.ordinal());
+        List<Task> tasks = taskMysqlComp.selectTasks(in);
+        for (Task task : tasks) {
+            updateTaskStateToPause(task, false);
+            LogComp.LogMessage builder = LogComp.buildData(LogType.TASK);
+            builder.build("taskId", task.getTaskId());
+            builder.build("server close update task state");
+            logger.info(builder.log());
+        }
     }
 
     public RepCode updateTaskState(TaskState state, Task task) {

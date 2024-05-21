@@ -25,7 +25,8 @@ public enum LogType {
     ELASTICSEARCH("es"),
     POWER("权限操作"),
     USER("角色操作"),
-    ROLE("角色操作");
+    ROLE("角色操作"),
+    TASK("任务操作");
 
 
     private String name;
