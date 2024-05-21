@@ -1,6 +1,8 @@
 package org.starter.controller.test;
 
 import io.swagger.annotations.*;
+import org.commons.annotation.ControllerLog;
+import org.commons.domain.RoleType;
 import org.commons.response.ReBody;
 import org.commons.response.RepCode;
 import org.commons.test.Add;
@@ -20,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class TestController {
     @GetMapping("/get")
     @ApiOperation("测试 返回hello world!")
+    @ControllerLog(url = "/get",msg = "get",roleType = RoleType.PROVIDER)
     public String get(){
         System.out.println(Add.add());
         return "hello world!";
@@ -27,6 +30,7 @@ public class TestController {
 
     @PostMapping("/post")
     @ApiOperation("测试 表单处理 Post方法")
+    @ControllerLog(url = "/post",msg = " Post方法",roleType = RoleType.PROVIDER)
     public String post(@ApiParam("用户的名字")@RequestParam(name = "username") String username){
         return "获取到表单数据"+username+"hello world!";}
 

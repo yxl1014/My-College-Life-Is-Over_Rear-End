@@ -246,7 +246,9 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
         update.setRefUserId(taskUserRef.getRefUserId());
         update.setRefState(PTaskState.PAUSE.ordinal());
         update.setRefEndTime(System.currentTimeMillis());
-        update.setRefTestTime(taskUserRef.getRefTestTime() + update.getRefEndTime() - taskUserRef.getRefStartTime());
+        long testTime = taskUserRef.getRefTestTime() == null ? 0 : taskUserRef.getRefTestTime();
+        long startTime = taskUserRef.getRefStartTime() == null ? 0 : taskUserRef.getRefStartTime();
+        update.setRefTestTime(testTime + update.getRefEndTime() - startTime);
         // 还得统计一下呢
         boolean b = taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
         if (!b) {
