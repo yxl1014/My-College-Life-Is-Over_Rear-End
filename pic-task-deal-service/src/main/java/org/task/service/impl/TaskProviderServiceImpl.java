@@ -190,13 +190,11 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
             }
             case END: {
                 if (taskUserRef.getRefState() == PTaskState.TESTING.ordinal()) {
-                    code = RepCode.R_TaskRefIsEnd;
+                    code = updateToEnd(taskUserRef, false);
                     break;
                 }
                 if (taskUserRef.getRefState() == TaskState.PAUSE.ordinal()) {
                     code = updateToEnd(taskUserRef, true);
-                } else {
-                    code = updateToEnd(taskUserRef, false);
                 }
                 break;
             }
@@ -264,7 +262,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
      * @return 返回
      */
     private RepCode updateToEnd(TaskUserRef taskUserRef, boolean fromPause) {
-        if (fromPause) {
+        if (!fromPause) {
             RepCode code = updateToPause(taskUserRef);
             if (code != RepCode.R_Ok) {
                 return code;
