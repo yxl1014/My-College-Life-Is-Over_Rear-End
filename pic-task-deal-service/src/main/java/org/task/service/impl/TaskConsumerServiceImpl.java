@@ -325,7 +325,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
 
         //将所有正在测试该任务的用户的状态都改为暂停
         for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTaskRefByTaskIdAndState(task.getTaskId(), PTaskState.TESTING)) {
-            taskUserRef.setRefState(PTaskState.PAUSE.ordinal());
+            taskUserRef.setRefState(fromEnd ? PTaskState.END.ordinal() : PTaskState.PAUSE.ordinal());
             boolean suc = taskRefMysqlComp.updateTaskUserRefByRefId(taskUserRef);
             if (!suc) {
                 logger.error("update DB Failed!!!");
@@ -364,14 +364,6 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             }
         }
         logger.info("任务状态从测试中到结束");
-        //更新数据库
-        Task update = new Task();
-        update.setTaskId(task.getTaskId());
-        update.setTaskState(TaskState.END.ordinal());
-        boolean success = taskMysqlComp.updateTaskByTaskId(update);
-        if (!success) {
-            return RepCode.R_UpdateDbFailed;
-        }
 
 
         // 等得消费线程十秒或者队列关闭
@@ -397,9 +389,9 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
      * @param taskId 任务id
      */
     private void AfterTaskEnd(String taskId) {
-        Task task = taskMysqlComp.selectTaskByTaskId(taskId);
         TaskPoJo taskPoJo = new TaskPoJo();
         taskPoJo.setTaskId(taskId);
+        long allTestTime = 0;
         long allCount = 0;
         long allSucCount = 0;
         long allFailedCount = 0;
@@ -408,6 +400,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         ArrayList<TaskUserResult> list = new ArrayList<>();
         List<TaskUserRef> taskUserRefs = taskRefMysqlComp.selectTasksByTaskId(taskId);
         for (TaskUserRef ref : taskUserRefs) {
+            allTestTime += ref.getRefTestTime();
             allCount += ref.getRefAllReq();
             allSucCount += ref.getRefSuccessReq();
             allFailedCount += ref.getRefFailedReq();
@@ -417,9 +410,9 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         }
 
         // 修改数据库
-        TaskResult result = new TaskResult(task.getTaskTestTime(), allCount, allSucCount, allFailedCount, allCodeFailedCount, allTargetFailedCount, list);
+        TaskResult result = new TaskResult(allTestTime, allCount, allSucCount, allFailedCount, allCodeFailedCount, allTargetFailedCount, list);
         taskPoJo.setTaskTestResult(result);
-        task = new Task(taskPoJo);
+        Task task = new Task(taskPoJo);
         boolean b = taskMysqlComp.updateTaskByTaskId(task);
         if (!b) {
             return;
