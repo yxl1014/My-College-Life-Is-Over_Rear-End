@@ -364,7 +364,14 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             }
         }
         logger.info("任务状态从测试中到结束");
-
+        //更新数据库
+        Task update = new Task();
+        update.setTaskId(task.getTaskId());
+        update.setTaskState(TaskState.END.ordinal());
+        boolean success = taskMysqlComp.updateTaskByTaskId(update);
+        if (!success) {
+            return RepCode.R_UpdateDbFailed;
+        }
 
         // 等得消费线程十秒或者队列关闭
         new Thread(() -> {
