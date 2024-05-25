@@ -245,7 +245,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
                         code = updateTaskStateToPause(task, false);
                         break;
                     case END:
-                        code = updateTaskStateToEnd(task, taskState == TaskState.PAUSE.ordinal());
+                        code = updateTaskStateToEnd(task);
                         break;
                 }
             } else if (state == TaskState.TESTING) {
@@ -324,8 +324,16 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         }
 
         //将所有正在测试该任务的用户的状态都改为暂停
-        for (TaskUserRef taskUserRef : taskRefMysqlComp.selectTaskRefByTaskIdAndState(task.getTaskId(), PTaskState.TESTING)) {
-            taskUserRef.setRefState(fromEnd ? PTaskState.END.ordinal() : PTaskState.PAUSE.ordinal());
+        List<TaskUserRef> taskUserRefs;
+        if(fromEnd){
+            taskUserRefs = taskRefMysqlComp.selectTasksByTaskId(task.getTaskId());
+        } else {
+            taskUserRefs = taskRefMysqlComp.selectTaskRefByTaskIdAndState(task.getTaskId(), PTaskState.TESTING);
+        }
+
+        int state = fromEnd ? PTaskState.END.ordinal() : PTaskState.PAUSE.ordinal();
+        for (TaskUserRef taskUserRef : taskUserRefs) {
+            taskUserRef.setRefState(state);
             boolean suc = taskRefMysqlComp.updateTaskUserRefByRefId(taskUserRef);
             if (!suc) {
                 logger.error("update DB Failed!!!");
@@ -356,22 +364,12 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
      *
      * @param task 任务
      */
-    private RepCode updateTaskStateToEnd(Task task, boolean fromPause) {
-        if (fromPause) {
-            RepCode code = updateTaskStateToPause(task, true);
-            if (code != RepCode.R_Ok) {
-                return code;
-            }
+    private RepCode updateTaskStateToEnd(Task task) {
+        RepCode code = updateTaskStateToPause(task, true);
+        if (code != RepCode.R_Ok) {
+            return code;
         }
         logger.info("任务状态从测试中到结束");
-        //更新数据库
-        Task update = new Task();
-        update.setTaskId(task.getTaskId());
-        update.setTaskState(TaskState.END.ordinal());
-        boolean success = taskMysqlComp.updateTaskByTaskId(update);
-        if (!success) {
-            return RepCode.R_UpdateDbFailed;
-        }
 
         // 等得消费线程十秒或者队列关闭
         new Thread(() -> {
