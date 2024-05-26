@@ -95,7 +95,6 @@ public class UserServiceImpl implements IUserService {
     }
 
 
-
     @Override
     public ReBody leave() {
         LoginCommonData commonData = threadLocalComp.getLoginCommonData();
@@ -120,7 +119,9 @@ public class UserServiceImpl implements IUserService {
         update.setRefUserId(taskUserRef.getRefUserId());
         update.setRefState(PTaskState.PAUSE.ordinal());
         update.setRefEndTime(System.currentTimeMillis());
-        update.setRefTestTime(taskUserRef.getRefTestTime() + update.getRefEndTime() - taskUserRef.getRefStartTime());
+        long l = taskUserRef.getRefTestTime() == null ? 0 : taskUserRef.getRefTestTime();
+        long l1 = taskUserRef.getRefStartTime() == null ? 0 : taskUserRef.getRefStartTime();
+        update.setRefTestTime(l + update.getRefEndTime() - l1);
         // 还得统计一下呢
         taskRefMysqlComp.updateTaskUserRefByTaskIdAndUerId(update);
     }
