@@ -260,6 +260,16 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
                     return RepCode.R_UpdateDbFailed;
                 }
                 return RepCode.R_Ok;
+            } else if (nowState == TaskState.PAUSE){
+                //更新数据库
+                Task update = new Task();
+                update.setTaskId(task.getTaskId());
+                update.setTaskState(TaskState.END.ordinal());
+                boolean success = taskMysqlComp.updateTaskByTaskId(update);
+                if (!success) {
+                    return RepCode.R_UpdateDbFailed;
+                }
+                return RepCode.R_Ok;
             }
         }
         return code;

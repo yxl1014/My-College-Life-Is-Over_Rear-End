@@ -193,7 +193,7 @@ public class TaskProviderServiceImpl implements ITaskProviderService {
                     code = updateToEnd(taskUserRef, false);
                     break;
                 }
-                if (taskUserRef.getRefState() == TaskState.PAUSE.ordinal()) {
+                if (taskUserRef.getRefState() == PTaskState.PAUSE.ordinal()) {
                     code = updateToEnd(taskUserRef, true);
                 }
                 break;
