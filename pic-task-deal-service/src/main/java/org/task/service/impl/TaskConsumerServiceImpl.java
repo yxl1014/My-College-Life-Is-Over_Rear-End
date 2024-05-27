@@ -261,15 +261,7 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
                 }
                 return RepCode.R_Ok;
             } else if (nowState == TaskState.PAUSE){
-                //更新数据库
-                Task update = new Task();
-                update.setTaskId(task.getTaskId());
-                update.setTaskState(TaskState.END.ordinal());
-                boolean success = taskMysqlComp.updateTaskByTaskId(update);
-                if (!success) {
-                    return RepCode.R_UpdateDbFailed;
-                }
-                return RepCode.R_Ok;
+                code = updateTaskStateToEnd(task);
             }
         }
         return code;
@@ -415,12 +407,12 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
         ArrayList<TaskUserResult> list = new ArrayList<>();
         List<TaskUserRef> taskUserRefs = taskRefMysqlComp.selectTasksByTaskId(taskId);
         for (TaskUserRef ref : taskUserRefs) {
-            allTestTime += ref.getRefTestTime();
-            allCount += ref.getRefAllReq();
-            allSucCount += ref.getRefSuccessReq();
-            allFailedCount += ref.getRefFailedReq();
-            allCodeFailedCount += ref.getRefFailedCode();
-            allTargetFailedCount += ref.getRefFailedTarget();
+            allTestTime += ref.getRefTestTime() == null ? 0 : ref.getRefTestTime();
+            allCount += ref.getRefAllReq() == null ? 0 : ref.getRefAllReq();
+            allSucCount += ref.getRefSuccessReq() == null ? 0 : ref.getRefSuccessReq();
+            allFailedCount += ref.getRefFailedReq() == null ? 0 : ref.getRefFailedReq();
+            allCodeFailedCount += ref.getRefFailedCode() == null ? 0 : ref.getRefFailedCode();
+            allTargetFailedCount += ref.getRefFailedTarget() == null ? 0 : ref.getRefFailedTarget();
             list.add(new TaskUserResult(ref));
         }
 
@@ -433,8 +425,17 @@ public class TaskConsumerServiceImpl implements ITaskConsumerService {
             return;
         }
 
+        task = taskMysqlComp.selectTaskByTaskId(taskId);
+        if (task == null){
+            return;
+        }
+
         // 发钱
         for (TaskUserRef ref : taskUserRefs) {
+            if (ref.getRefAllReq() == null)
+            {
+                continue;
+            }
             double v = ((float) ref.getRefAllReq() / allCount * 1.00) * task.getTaskMoney();
             User user = userMysqlComp.findUserByUserId(ref.getRefUserId());
             if (user == null) {
